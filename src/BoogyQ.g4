@@ -1,17 +1,13 @@
 grammar BoogyQ;
 
-program : statement*;
+program : (statement NEWLINE)* statement;
 statement : flow DEL;
 
-flow    : place
-        | pipe;
+flow    : flow (PLACEOPR TYPE? |PIPEOPR)  ID
+        | expr (PLACEOPR TYPE? |PIPEOPR)  ID;
 
-place   : (place|pipe) PLACEOPR TYPE? ID
-        | expr PLACEOPR TYPE? ID;
-pipe    : (place|pipe) PIPEOPR TYPE? ID
-        | expr PIPEOPR TYPE? ID;
 
-expr : ID | NUMBER | '(' expr ')' | '(' (place|pipe) ')';
+expr : ID | NUMBER | '(' expr ')' | '(' flow ')';
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 DEL: '.';
@@ -21,6 +17,7 @@ BRACKETOPEN : '(' ;
 BRACKETCLOSE : ')' ;
 COLON : ':' ;
 TAB: '\t';
+NEWLINE: '\n';
 
 TYPE: ('int'|'bool'|'char') '[]'*;
 PLACEOPR: '->';
