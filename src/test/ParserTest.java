@@ -10,8 +10,7 @@ import java.io.IOException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
-import parser.BoogyQLexer;
-import parser.BoogyQParser;
+import parser.*;
 
 
 @SuppressWarnings("javadoc")
@@ -21,6 +20,17 @@ public class ParserTest {
     public void basictest(){
         parse("a -> b.");
         parse("5 -> int b.");
+        parse("5 -> a -> int b.");
+        parse("5 -> int c -> int b.");
+    }
+
+    @Test
+    public void operatortest(){
+        parse("-5 -> a.");
+        parse("5.");
+        parse("!a.");
+        parse("2*2+(4/1).");
+        parse("(2+2) >= (a^2).");
     }
 
     private void parse(String text) {

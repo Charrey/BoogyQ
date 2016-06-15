@@ -1,6 +1,5 @@
-package parser;
-
 // Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+package parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -35,4 +34,10 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpr(BoogyQParser.ExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BoogyQParser#operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperator(BoogyQParser.OperatorContext ctx);
 }
