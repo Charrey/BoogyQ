@@ -20,6 +20,7 @@ public class ParserTest {
     public void basictest(){
         parse("a -> b.");
         parse("5 -> int b.");
+        parse("int b.");
         parse("5 -> a -> int b.");
         parse("5 -> int c -> int b.");
     }

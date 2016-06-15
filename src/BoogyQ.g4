@@ -10,6 +10,7 @@ flow    : flow (PLACEOPR TYPE? |PIPEOPR)  ID
 
 expr    : ID
         | NUMBER
+        | ARRAY
         | LPAR flow RPAR
         | expr (AND|OR) expr
         | expr HAT expr
@@ -27,8 +28,10 @@ operator : HAT | TIMES | DIVIDE | PLUS | MINUS |
 TYPE: ('int'|'bool'|'char') '[]'*;
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
-DEL: '.';
 NUMBER : [1-9] [0-9]* ;
+BOOL: ('True' | 'False');
+ARRAY   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']';
+DEL: '.';
 IF : 'if' ;
 LPAR   : '(';
 RPAR   : ')';
@@ -37,7 +40,8 @@ TAB: '\t';
 NEWLINE: '\n';
 WS : ' ' -> skip;
 
-
+OPENSCOPE : 'OPENSCOPE';
+CLOSESCOPE : 'CLOSESCOPE';
 
 HAT     : '^';
 TIMES   : '*';
