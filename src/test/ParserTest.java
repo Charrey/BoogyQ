@@ -34,6 +34,13 @@ public class ParserTest {
         parse("(2+2) >= (a^2).");
     }
 
+    @Test
+    public void arraytest(){
+        parse("{0}*4 -> int[] a.");
+        parse("{0}*4*6 -> a.");
+        parse("[1,2,3] -> a.");
+    }
+
     private void parse(String text) {
         // Convert the input text to a character stream
         CharStream stream = new ANTLRInputStream(text);

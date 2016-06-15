@@ -10,7 +10,7 @@ flow    : flow (PLACEOPR TYPE? |PIPEOPR)  ID
 
 expr    : ID
         | NUMBER
-        | ARRAY
+        | array
         | LPAR flow RPAR
         | expr (AND|OR) expr
         | expr HAT expr
@@ -23,14 +23,18 @@ expr    : ID
 operator : HAT | TIMES | DIVIDE | PLUS | MINUS |
            AND | OR | COMP_EQ | COMP_NE | COMP_LE
            | COMP_LT | COMP_GE | COMP_GT;
+array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'
+        | '{'(ID|NUMBER|BOOL)'}' (TIMES NUMBER)+;
 
 
 TYPE: ('int'|'bool'|'char') '[]'*;
 
+
 ID : [a-zA-Z] [a-zA-Z0-9]*;
-NUMBER : [1-9] [0-9]* ;
+NUMBER : '0' | [1-9] [0-9]* ;
 BOOL: ('True' | 'False');
-ARRAY   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']';
+
+
 DEL: '.';
 IF : 'if' ;
 LPAR   : '(';
