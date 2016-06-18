@@ -4,7 +4,7 @@ program : (statement NEWLINE)* statement;
 statement : flow DEL;
 
 flow    : flow (PLACEOPR TYPE? |PIPEOPR)  ID
-        | expr (PLACEOPR TYPE? |PIPEOPR)  ID
+        | TYPE ID
         | expr;
 
 
