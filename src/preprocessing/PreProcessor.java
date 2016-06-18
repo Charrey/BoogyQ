@@ -16,9 +16,13 @@ public final class PreProcessor {
         System.out.println(betterDeclarations(test1));
     }
 
+    public static String process(String input) throws ParseException {
+        return betterDeclarations(removeTabs(fixLoops(input)));
+    }
+
     public static String removeTabs(String input) throws ParseException {
         input = input.replaceAll("\r", "");
-        String[] splitted = input.split("\n");
+        String[] splitted = (input + "\n ").split("\n");
         String result = "";
         int indenting = 0;
         for (int i = 0; i<splitted.length; i++) {
@@ -37,7 +41,35 @@ public final class PreProcessor {
             }
             result+=splitted[i]+"\n";
         }
-        return result.substring(0, result.length()-1);
+        return result.substring(0, result.length()-3);
+    }
+
+    public static String fixLoops(String input) throws ParseException {
+        String[] splitted = input.replaceAll("\r","").split("\n");
+        for (int i = 0; i<splitted.length; i++) {
+            if (splitted[i].matches("\t*<break.")) {
+                splitted[i] = splitted[i].replace("<break.", "break{0}.");
+                continue;
+            }
+            if (splitted[i].matches("\t*<loop.")) {
+                splitted[i] = splitted[i].replace("<loop.", "loop{0}.");
+                continue;
+            }
+            if (splitted[i].matches("\t*<-  \t*break.")) {
+                int jumpback = splitted[i].indexOf("break")-splitted[i].indexOf("<-")-3;
+                splitted[i] = splitted[i].replace("<-  ", "\t").replace("break.", "break{"+jumpback+"}.");
+                continue;
+            }
+            if (splitted[i].matches("\t*<-  \t*loop.")) {
+                int jumpback = splitted[i].indexOf("loop")-splitted[i].indexOf("<-")-3;
+                splitted[i] = splitted[i].replace("<-  ", "\t").replace("loop.", "loop{"+jumpback+"}.");
+            }
+        }
+        String res = "";
+        for (String i : splitted) {
+            res += i+"\n";
+        }
+        return res.substring(0, res.length()-1);
     }
 
     public static String betterDeclarations(String input) throws ParseException {
