@@ -67,4 +67,14 @@ public interface BoogyQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArray(BoogyQParser.ArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BoogyQParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(BoogyQParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BoogyQParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(BoogyQParser.TypeContext ctx);
 }

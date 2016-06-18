@@ -83,6 +83,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArray(BoogyQParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType(BoogyQParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType(BoogyQParser.TypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

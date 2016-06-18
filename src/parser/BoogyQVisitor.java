@@ -46,4 +46,10 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArray(BoogyQParser.ArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BoogyQParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(BoogyQParser.TypeContext ctx);
 }

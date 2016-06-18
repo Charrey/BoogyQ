@@ -1,10 +1,10 @@
 grammar BoogyQ;
 
-program : (statement NEWLINE)* statement;
-statement : flow DEL;
+program : (statement NEWLINE)* statement EOF;
+statement : PRIMITIVE ID DEL
+          | flow DEL;
 
-flow    : flow (PLACEOPR TYPE? |PIPEOPR)  ID
-        | TYPE ID
+flow    : flow (PLACEOPR type? |PIPEOPR)  ID
         | expr;
 
 
@@ -27,8 +27,9 @@ array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'
         | '{'(ID|NUMBER|BOOL)'}' (TIMES NUMBER)+;
 
 
-TYPE: ('int'|'bool'|'char') '[]'*;
+type: PRIMITIVE '[]'*;
 
+PRIMITIVE : 'int'|'bool'|'char';
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 NUMBER : '0' | [1-9] [0-9]* ;

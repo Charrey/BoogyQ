@@ -5,9 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import exceptions.ParseException;
 
-/**
- * Created by poesd_000 on 14/06/2016.
- */
 public final class PreProcessor {
 
 
@@ -67,7 +64,7 @@ public final class PreProcessor {
 
                 if (type != null) {
                     List<String> args = new LinkedList<>();
-                    String copy = new String(splitted[i]).substring(type.length());
+                    String copy = splitted[i].substring(type.length());
                     while (copy.startsWith("[")) {
                         String arg = copy.substring(1, copy.indexOf("]"));
                         args.add(arg);
@@ -77,15 +74,15 @@ public final class PreProcessor {
                     String prepend = null;
                     switch (type) {
                         case "int":
-                            prepend = "[0]";
+                            prepend = "{0}";
                             break;
                         case "char":
-                            prepend = "[\'A\']";
+                            prepend = "{\'A\'}";
                             break;
 
                     }
-                    for (int p = 0; p < args.size(); p++) {
-                        prepend += "*" + args.get(p);
+                    for (String arg : args) {
+                        prepend += "*" + arg;
                     }
                     splitted[i] = prepend + splitted[i];
                 }
