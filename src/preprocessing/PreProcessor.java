@@ -64,6 +64,15 @@ public final class PreProcessor {
                 int jumpback = splitted[i].indexOf("loop")-splitted[i].indexOf("<-")-3;
                 splitted[i] = splitted[i].replace("<-  ", "\t").replace("loop.", "loop{"+jumpback+"}.");
             }
+            if (splitted[i].matches("\t*<-\t\t*break.")) {
+                int jumpback = splitted[i].indexOf("break")-splitted[i].indexOf("<-")-2;
+                splitted[i] = splitted[i].replace("<-\t", "\t").replace("break.", "break{"+jumpback+"}.");
+            }
+
+
+
+
+
         }
         String res = "";
         for (String i : splitted) {

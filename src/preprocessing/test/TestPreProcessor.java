@@ -65,6 +65,41 @@ public class TestPreProcessor {
         System.out.println("becomes");
         System.out.println(PreProcessor.fixLoops(a));
         System.out.println("------------------------");
+
+        System.out.println("Tabs instead of spaces:");
+        System.out.println("------------------------");
+
+
+
+        a = "<-\t\t\t\tbreak.";
+        System.out.println(a);
+        System.out.println("becomes");
+        System.out.println(PreProcessor.fixLoops(a));
+        System.out.println("------------------------");
+
+        a = "\t<-\t\t\tbreak.";
+        System.out.println(a);
+        System.out.println("becomes");
+        System.out.println(PreProcessor.fixLoops(a));
+        System.out.println("------------------------");
+
+        a = "\t\t<-\t\tbreak.";
+        System.out.println(a);
+        System.out.println("becomes");
+        System.out.println(PreProcessor.fixLoops(a));
+        System.out.println("------------------------");
+
+        a = "\t\t\t<-\tbreak.";
+        System.out.println(a);
+        System.out.println("becomes");
+        System.out.println(PreProcessor.fixLoops(a));
+        System.out.println("------------------------");
+
+        a = "\t\t\t\t<loop.";
+        System.out.println(a);
+        System.out.println("becomes");
+        System.out.println(PreProcessor.fixLoops(a));
+        System.out.println("------------------------");
     }
 
     public static void fails(String s) {

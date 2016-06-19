@@ -64,10 +64,17 @@ public class ParserTest {
         System.out.println();
     }
 
+    @Test
+    public void looptest() {
+        System.out.println("----" + new Object(){}.getClass().getEnclosingMethod().getName() + "----");
+        parse("if (4>3):\n\t5 -> int a.");
+        System.out.println();
+    }
+
     private void parse(String text) {
 
         try {
-            text = PreProcessor.betterDeclarations(PreProcessor.removeTabs(text));
+            text = PreProcessor.process(text);
             System.out.println(text);
         } catch (ParseException e) {
             fail();
