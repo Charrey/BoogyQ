@@ -3,6 +3,9 @@ package preprocessing;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import exceptions.ParseException;
 
 public final class PreProcessor {
@@ -12,12 +15,13 @@ public final class PreProcessor {
     static String test1 = "int[3][400] a.\nint b.\nchar c.\nchar[100][30] weirdsudoku.";
 
 
-    public static void main(String[] args) throws ParseException {
-        System.out.println(betterDeclarations(test1));
+      public static String process(String input) throws ParseException {
+        return betterDeclarations(removeTabs(fixLoops(input)));
     }
 
-    public static String process(String input) throws ParseException {
-        return betterDeclarations(removeTabs(fixLoops(input)));
+    public static String removeComments (String input) {
+        //TODO
+        throw new UnsupportedOperationException();
     }
 
     public static String removeTabs(String input) throws ParseException {

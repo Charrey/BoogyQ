@@ -6,7 +6,8 @@ statement : IF LPAR expr RPAR COLON NEWLINE OPENSCOPE NEWLINE (statement NEWLINE
           | LOOP '{' NUMBER '}' DEL
           | BREAK '{' NUMBER '}' DEL;
 
-flow    : flow (PLACEOPR type? |PIPEOPR)  ID
+flow    : flow PLACEOPR type? ID
+        | flow (',' flow)* PIPEOPR ID
         | expr;
 
 

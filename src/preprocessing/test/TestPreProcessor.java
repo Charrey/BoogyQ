@@ -62,6 +62,11 @@ public class TestPreProcessor {
         System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
     }
 
+    @Test
+    public void testComments() {
+        throw new UnsupportedOperationException();
+    }
+
     public static void fails(String s) {
         try {
             PreProcessor.removeTabs(s);
