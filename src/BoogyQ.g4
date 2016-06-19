@@ -1,30 +1,37 @@
 grammar BoogyQ;
 
 program : (statement NEWLINE)* statement EOF;
-statement : IF LPAR expr RPAR COLON NEWLINE OPENSCOPE NEWLINE (statement NEWLINE)* CLOSESCOPE
-          | flow? DEL
-          | LOOP '{' NUMBER '}' DEL
-          | BREAK '{' NUMBER '}' DEL;
+statement : IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
+          | flow? DEL                                                                         #flowstat
+          | LOOP '{' NUMBER '}' DEL                                                           #loopstat
+          | BREAK '{' NUMBER '}' DEL                                                          #breakstat;
 
-flow    : flow PLACEOPR type? ID
-        | flow (',' flow)* PIPEOPR ID
-        | expr;
+openscope : OPENSCOPE;
+
+closescope : CLOSESCOPE;
+
+flow    : flow PLACEOPR ID              #assignstandardflow
+        | flow PLACEOPR type ID         #declstandardflow
+
+        | flow (',' flow)* PIPEOPR ID   #assignfunctionflow
+        | flow (',' flow)* PIPEOPR type ID   #declfunctionflow
+        | expr                          #ignoreme;
 
 
-expr    : PRIMITIVE? ID
-        | NUMBER
-        | array
-        | LPAR flow RPAR
-        | expr (AND|OR) expr
-        | expr HAT expr
-        | expr (TIMES|DIVIDE) expr
-        | expr (PLUS|MINUS) expr
-        | expr operator expr
-        | MINUS expr
-        | NEGATION expr;
+expr    : ID                            #idenexpr
+        | PRIMITIVE ID                  #declexpr
+        | NUMBER                        #numberexpr
+        | array                         #arraydecl
+        | LPAR flow RPAR                #flowexpr
+        | expr (AND|OR) expr            #andorexpr
+        | expr comparator expr          #comparatorexpr
+        | expr HAT expr                 #powerexpr
+        | expr (TIMES|DIVIDE) expr      #timesexpr
+        | expr (PLUS|MINUS) expr        #plusexpr
+        | MINUS expr                    #minusexpr
+        | NEGATION expr                 #notexpr;
 
-operator : HAT | TIMES | DIVIDE | PLUS | MINUS |
-           AND | OR | COMP_EQ | COMP_NE | COMP_LE
+comparator :  COMP_EQ | COMP_NE | COMP_LE
            | COMP_LT | COMP_GE | COMP_GT;
 
 array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'
