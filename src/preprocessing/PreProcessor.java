@@ -63,14 +63,17 @@ public final class PreProcessor {
             if (splitted[i].matches("\t*<-  \t*loop.")) {
                 int jumpback = splitted[i].indexOf("loop")-splitted[i].indexOf("<-")-3;
                 splitted[i] = splitted[i].replace("<-  ", "\t").replace("loop.", "loop{"+jumpback+"}.");
+                continue;
             }
             if (splitted[i].matches("\t*<-\t\t*break.")) {
                 int jumpback = splitted[i].indexOf("break")-splitted[i].indexOf("<-")-2;
                 splitted[i] = splitted[i].replace("<-\t", "\t").replace("break.", "break{"+jumpback+"}.");
+                continue;
             }
-
-
-
+            if (splitted[i].matches("\t*<-\t\t*loop.")) {
+                int jumpback = splitted[i].indexOf("loop")-splitted[i].indexOf("<-")-2;
+                splitted[i] = splitted[i].replace("<-\t", "\t").replace("loop.", "loop{"+jumpback+"}.");
+            }
 
 
         }
