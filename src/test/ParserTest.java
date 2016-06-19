@@ -67,7 +67,7 @@ public class ParserTest {
     @Test
     public void looptest() {
         System.out.println("----" + new Object(){}.getClass().getEnclosingMethod().getName() + "----");
-        parse("if (4>3):\n\t5 -> int a.");
+        parse("if (4>3):\n\t5 -> int a\n\t<loop.");
         System.out.println();
     }
 

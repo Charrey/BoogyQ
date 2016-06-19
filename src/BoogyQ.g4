@@ -2,7 +2,9 @@ grammar BoogyQ;
 
 program : (statement NEWLINE)* statement EOF;
 statement : IF LPAR expr RPAR COLON NEWLINE OPENSCOPE NEWLINE (statement NEWLINE)* CLOSESCOPE
-          | flow? DEL;
+          | flow? DEL
+          | LOOP '{' NUMBER '}' DEL
+          | BREAK '{' NUMBER '}' DEL;
 
 flow    : flow (PLACEOPR type? |PIPEOPR)  ID
         | expr;
@@ -34,6 +36,8 @@ PRIMITIVE : 'int'|'bool'|'char';
 IF : 'if' ;
 OPENSCOPE : 'OPENSCOPE';
 CLOSESCOPE : 'CLOSESCOPE';
+LOOP : 'loop';
+BREAK : 'break';
 
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 NUMBER : '0' | [1-9] [0-9]* ;

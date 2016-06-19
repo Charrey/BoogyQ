@@ -37,69 +37,29 @@ public class TestPreProcessor {
     public void testFixLoops() throws ParseException {
         System.out.println("------------------------");
         String a = "<-  \t\t\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t<-  \t\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t<-  \tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t\t<-  break.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t\t\t<loop.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
 
         System.out.println("Tabs instead of spaces:");
         System.out.println("------------------------");
 
-
-
         a = "<-\t\t\t\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t<-\t\t\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t<-\t\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t\t<-\tbreak.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
-
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
         a = "\t\t\t\t<loop.";
-        System.out.println(a);
-        System.out.println("becomes");
-        System.out.println(PreProcessor.fixLoops(a));
-        System.out.println("------------------------");
+        System.out.println(a + "\nbecomes\n" + PreProcessor.fixLoops(a) + "\n------------------------");
     }
 
     public static void fails(String s) {
