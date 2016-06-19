@@ -2,7 +2,8 @@ grammar BoogyQ;
 
 program : (statement NEWLINE)* statement EOF;
 statement : PRIMITIVE ID DEL
-          | flow DEL;
+          | flow DEL
+          | DEL;
 
 flow    : flow (PLACEOPR type? |PIPEOPR)  ID
         | expr;

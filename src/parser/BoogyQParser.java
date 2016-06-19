@@ -194,7 +194,7 @@ public class BoogyQParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_statement);
 		try {
-			setState(31);
+			setState(32);
 			switch (_input.LA(1)) {
 			case PRIMITIVE:
 				enterOuterAlt(_localctx, 1);
@@ -219,6 +219,13 @@ public class BoogyQParser extends Parser {
 				setState(28);
 				flow(0);
 				setState(29);
+				match(DEL);
+				}
+				break;
+			case DEL:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(31);
 				match(DEL);
 				}
 				break;
@@ -286,11 +293,11 @@ public class BoogyQParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(34);
+			setState(35);
 			expr(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(47);
+			setState(48);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -301,19 +308,19 @@ public class BoogyQParser extends Parser {
 					{
 					_localctx = new FlowContext(_parentctx, _parentState);
 					pushNewRecursionContext(_localctx, _startState, RULE_flow);
-					setState(36);
+					setState(37);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(42);
+					setState(43);
 					switch (_input.LA(1)) {
 					case PLACEOPR:
 						{
-						setState(37);
+						setState(38);
 						match(PLACEOPR);
-						setState(39);
+						setState(40);
 						_la = _input.LA(1);
 						if (_la==PRIMITIVE) {
 							{
-							setState(38);
+							setState(39);
 							type();
 							}
 						}
@@ -322,19 +329,19 @@ public class BoogyQParser extends Parser {
 						break;
 					case PIPEOPR:
 						{
-						setState(41);
+						setState(42);
 						match(PIPEOPR);
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(44);
+					setState(45);
 					match(ID);
 					}
 					} 
 				}
-				setState(49);
+				setState(50);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -414,50 +421,50 @@ public class BoogyQParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62);
+			setState(63);
 			switch (_input.LA(1)) {
 			case MINUS:
 				{
-				setState(51);
-				match(MINUS);
 				setState(52);
+				match(MINUS);
+				setState(53);
 				expr(2);
 				}
 				break;
 			case NEGATION:
 				{
-				setState(53);
-				match(NEGATION);
 				setState(54);
+				match(NEGATION);
+				setState(55);
 				expr(1);
 				}
 				break;
 			case ID:
 				{
-				setState(55);
+				setState(56);
 				match(ID);
 				}
 				break;
 			case NUMBER:
 				{
-				setState(56);
+				setState(57);
 				match(NUMBER);
 				}
 				break;
 			case T__0:
 			case T__3:
 				{
-				setState(57);
+				setState(58);
 				array();
 				}
 				break;
 			case LPAR:
 				{
-				setState(58);
-				match(LPAR);
 				setState(59);
-				flow(0);
+				match(LPAR);
 				setState(60);
+				flow(0);
+				setState(61);
 				match(RPAR);
 				}
 				break;
@@ -465,7 +472,7 @@ public class BoogyQParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(82);
+			setState(83);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -473,22 +480,22 @@ public class BoogyQParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(80);
+					setState(81);
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(64);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(65);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(66);
 						_la = _input.LA(1);
 						if ( !(_la==AND || _la==OR) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(66);
+						setState(67);
 						expr(8);
 						}
 						break;
@@ -496,11 +503,11 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(67);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(68);
-						match(HAT);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(69);
+						match(HAT);
+						setState(70);
 						expr(7);
 						}
 						break;
@@ -508,16 +515,16 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(70);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(71);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(72);
 						_la = _input.LA(1);
 						if ( !(_la==TIMES || _la==DIVIDE) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(72);
+						setState(73);
 						expr(6);
 						}
 						break;
@@ -525,16 +532,16 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(73);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(74);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(75);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(75);
+						setState(76);
 						expr(5);
 						}
 						break;
@@ -542,18 +549,18 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new ExprContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(76);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(77);
-						operator();
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(78);
+						operator();
+						setState(79);
 						expr(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(84);
+				setState(85);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
@@ -610,7 +617,7 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(85);
+			setState(86);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << HAT) | (1L << TIMES) | (1L << DIVIDE) | (1L << PLUS) | (1L << MINUS) | (1L << AND) | (1L << OR) | (1L << COMP_EQ) | (1L << COMP_NE) | (1L << COMP_LE) | (1L << COMP_LT) | (1L << COMP_GE) | (1L << COMP_GT))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -672,30 +679,30 @@ public class BoogyQParser extends Parser {
 		int _la;
 		try {
 			int _alt;
-			setState(116);
+			setState(117);
 			switch (_input.LA(1)) {
 			case T__0:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(87);
+				setState(88);
 				match(T__0);
-				setState(92);
+				setState(93);
 				switch (_input.LA(1)) {
 				case ID:
 					{
-					setState(88);
+					setState(89);
 					match(ID);
 					}
 					break;
 				case NUMBER:
 					{
-					setState(89);
+					setState(90);
 					match(NUMBER);
 					}
 					break;
 				case BOOL:
 					{
-					setState(90);
+					setState(91);
 					match(BOOL);
 					}
 					break;
@@ -707,31 +714,31 @@ public class BoogyQParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(103);
+				setState(104);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__1) {
 					{
 					{
-					setState(94);
+					setState(95);
 					match(T__1);
-					setState(99);
+					setState(100);
 					switch (_input.LA(1)) {
 					case ID:
 						{
-						setState(95);
+						setState(96);
 						match(ID);
 						}
 						break;
 					case NUMBER:
 						{
-						setState(96);
+						setState(97);
 						match(NUMBER);
 						}
 						break;
 					case BOOL:
 						{
-						setState(97);
+						setState(98);
 						match(BOOL);
 						}
 						break;
@@ -745,29 +752,29 @@ public class BoogyQParser extends Parser {
 					}
 					}
 					}
-					setState(105);
+					setState(106);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(106);
+				setState(107);
 				match(T__2);
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(107);
-				match(T__3);
 				setState(108);
+				match(T__3);
+				setState(109);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << NUMBER) | (1L << BOOL))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				} else {
 					consume();
 				}
-				setState(109);
+				setState(110);
 				match(T__4);
-				setState(112); 
+				setState(113); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -775,9 +782,9 @@ public class BoogyQParser extends Parser {
 					case 1:
 						{
 						{
-						setState(110);
-						match(TIMES);
 						setState(111);
+						match(TIMES);
+						setState(112);
 						match(NUMBER);
 						}
 						}
@@ -785,7 +792,7 @@ public class BoogyQParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(114); 
+					setState(115); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -834,19 +841,19 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(119);
 			match(PRIMITIVE);
-			setState(122);
+			setState(123);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__5) {
 				{
 				{
-				setState(119);
+				setState(120);
 				match(T__5);
 				}
 				}
-				setState(124);
+				setState(125);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -896,39 +903,40 @@ public class BoogyQParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&\u0080\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&\u0081\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\7\2\24\n\2"+
-		"\f\2\16\2\27\13\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\4\3"+
-		"\4\3\4\3\4\3\4\3\4\5\4*\n\4\3\4\5\4-\n\4\3\4\7\4\60\n\4\f\4\16\4\63\13"+
-		"\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5A\n\5\3\5\3\5\3"+
-		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5S\n\5\f\5\16"+
-		"\5V\13\5\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7_\n\7\3\7\3\7\3\7\3\7\3\7\5\7"+
-		"f\n\7\7\7h\n\7\f\7\16\7k\13\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7s\n\7\r\7\16"+
-		"\7t\5\7w\n\7\3\b\3\b\7\b{\n\b\f\b\16\b~\13\b\3\b\2\4\6\b\t\2\4\6\b\n\f"+
-		"\16\2\7\3\2\34\35\3\2\30\31\3\2\32\33\3\2\27#\3\2\n\f\u0091\2\25\3\2\2"+
-		"\2\4!\3\2\2\2\6#\3\2\2\2\b@\3\2\2\2\nW\3\2\2\2\fv\3\2\2\2\16x\3\2\2\2"+
-		"\20\21\5\4\3\2\21\22\7\23\2\2\22\24\3\2\2\2\23\20\3\2\2\2\24\27\3\2\2"+
-		"\2\25\23\3\2\2\2\25\26\3\2\2\2\26\30\3\2\2\2\27\25\3\2\2\2\30\31\5\4\3"+
-		"\2\31\32\7\2\2\3\32\3\3\2\2\2\33\34\7\t\2\2\34\35\7\n\2\2\35\"\7\r\2\2"+
-		"\36\37\5\6\4\2\37 \7\r\2\2 \"\3\2\2\2!\33\3\2\2\2!\36\3\2\2\2\"\5\3\2"+
-		"\2\2#$\b\4\1\2$%\5\b\5\2%\61\3\2\2\2&,\f\4\2\2\')\7%\2\2(*\5\16\b\2)("+
-		"\3\2\2\2)*\3\2\2\2*-\3\2\2\2+-\7&\2\2,\'\3\2\2\2,+\3\2\2\2-.\3\2\2\2."+
-		"\60\7\n\2\2/&\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\7\3\2"+
-		"\2\2\63\61\3\2\2\2\64\65\b\5\1\2\65\66\7\33\2\2\66A\5\b\5\4\678\7$\2\2"+
-		"8A\5\b\5\39A\7\n\2\2:A\7\13\2\2;A\5\f\7\2<=\7\17\2\2=>\5\6\4\2>?\7\20"+
-		"\2\2?A\3\2\2\2@\64\3\2\2\2@\67\3\2\2\2@9\3\2\2\2@:\3\2\2\2@;\3\2\2\2@"+
-		"<\3\2\2\2AT\3\2\2\2BC\f\t\2\2CD\t\2\2\2DS\5\b\5\nEF\f\b\2\2FG\7\27\2\2"+
-		"GS\5\b\5\tHI\f\7\2\2IJ\t\3\2\2JS\5\b\5\bKL\f\6\2\2LM\t\4\2\2MS\5\b\5\7"+
-		"NO\f\5\2\2OP\5\n\6\2PQ\5\b\5\6QS\3\2\2\2RB\3\2\2\2RE\3\2\2\2RH\3\2\2\2"+
-		"RK\3\2\2\2RN\3\2\2\2SV\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\t\3\2\2\2VT\3\2\2"+
-		"\2WX\t\5\2\2X\13\3\2\2\2Y^\7\3\2\2Z_\7\n\2\2[_\7\13\2\2\\_\7\f\2\2]_\3"+
-		"\2\2\2^Z\3\2\2\2^[\3\2\2\2^\\\3\2\2\2^]\3\2\2\2_i\3\2\2\2`e\7\4\2\2af"+
-		"\7\n\2\2bf\7\13\2\2cf\7\f\2\2df\3\2\2\2ea\3\2\2\2eb\3\2\2\2ec\3\2\2\2"+
-		"ed\3\2\2\2fh\3\2\2\2g`\3\2\2\2hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2jl\3\2\2\2"+
-		"ki\3\2\2\2lw\7\5\2\2mn\7\6\2\2no\t\6\2\2or\7\7\2\2pq\7\30\2\2qs\7\13\2"+
-		"\2rp\3\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uw\3\2\2\2vY\3\2\2\2vm\3\2\2"+
-		"\2w\r\3\2\2\2x|\7\t\2\2y{\7\b\2\2zy\3\2\2\2{~\3\2\2\2|z\3\2\2\2|}\3\2"+
-		"\2\2}\17\3\2\2\2~|\3\2\2\2\20\25!),\61@RT^eitv|";
+		"\f\2\16\2\27\13\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3#\n\3\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\5\4+\n\4\3\4\5\4.\n\4\3\4\7\4\61\n\4\f\4\16\4\64"+
+		"\13\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5B\n\5\3\5\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\7\5T\n\5\f\5"+
+		"\16\5W\13\5\3\6\3\6\3\7\3\7\3\7\3\7\3\7\5\7`\n\7\3\7\3\7\3\7\3\7\3\7\5"+
+		"\7g\n\7\7\7i\n\7\f\7\16\7l\13\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7t\n\7\r\7\16"+
+		"\7u\5\7x\n\7\3\b\3\b\7\b|\n\b\f\b\16\b\177\13\b\3\b\2\4\6\b\t\2\4\6\b"+
+		"\n\f\16\2\7\3\2\34\35\3\2\30\31\3\2\32\33\3\2\27#\3\2\n\f\u0093\2\25\3"+
+		"\2\2\2\4\"\3\2\2\2\6$\3\2\2\2\bA\3\2\2\2\nX\3\2\2\2\fw\3\2\2\2\16y\3\2"+
+		"\2\2\20\21\5\4\3\2\21\22\7\23\2\2\22\24\3\2\2\2\23\20\3\2\2\2\24\27\3"+
+		"\2\2\2\25\23\3\2\2\2\25\26\3\2\2\2\26\30\3\2\2\2\27\25\3\2\2\2\30\31\5"+
+		"\4\3\2\31\32\7\2\2\3\32\3\3\2\2\2\33\34\7\t\2\2\34\35\7\n\2\2\35#\7\r"+
+		"\2\2\36\37\5\6\4\2\37 \7\r\2\2 #\3\2\2\2!#\7\r\2\2\"\33\3\2\2\2\"\36\3"+
+		"\2\2\2\"!\3\2\2\2#\5\3\2\2\2$%\b\4\1\2%&\5\b\5\2&\62\3\2\2\2\'-\f\4\2"+
+		"\2(*\7%\2\2)+\5\16\b\2*)\3\2\2\2*+\3\2\2\2+.\3\2\2\2,.\7&\2\2-(\3\2\2"+
+		"\2-,\3\2\2\2./\3\2\2\2/\61\7\n\2\2\60\'\3\2\2\2\61\64\3\2\2\2\62\60\3"+
+		"\2\2\2\62\63\3\2\2\2\63\7\3\2\2\2\64\62\3\2\2\2\65\66\b\5\1\2\66\67\7"+
+		"\33\2\2\67B\5\b\5\489\7$\2\29B\5\b\5\3:B\7\n\2\2;B\7\13\2\2<B\5\f\7\2"+
+		"=>\7\17\2\2>?\5\6\4\2?@\7\20\2\2@B\3\2\2\2A\65\3\2\2\2A8\3\2\2\2A:\3\2"+
+		"\2\2A;\3\2\2\2A<\3\2\2\2A=\3\2\2\2BU\3\2\2\2CD\f\t\2\2DE\t\2\2\2ET\5\b"+
+		"\5\nFG\f\b\2\2GH\7\27\2\2HT\5\b\5\tIJ\f\7\2\2JK\t\3\2\2KT\5\b\5\bLM\f"+
+		"\6\2\2MN\t\4\2\2NT\5\b\5\7OP\f\5\2\2PQ\5\n\6\2QR\5\b\5\6RT\3\2\2\2SC\3"+
+		"\2\2\2SF\3\2\2\2SI\3\2\2\2SL\3\2\2\2SO\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3"+
+		"\2\2\2V\t\3\2\2\2WU\3\2\2\2XY\t\5\2\2Y\13\3\2\2\2Z_\7\3\2\2[`\7\n\2\2"+
+		"\\`\7\13\2\2]`\7\f\2\2^`\3\2\2\2_[\3\2\2\2_\\\3\2\2\2_]\3\2\2\2_^\3\2"+
+		"\2\2`j\3\2\2\2af\7\4\2\2bg\7\n\2\2cg\7\13\2\2dg\7\f\2\2eg\3\2\2\2fb\3"+
+		"\2\2\2fc\3\2\2\2fd\3\2\2\2fe\3\2\2\2gi\3\2\2\2ha\3\2\2\2il\3\2\2\2jh\3"+
+		"\2\2\2jk\3\2\2\2km\3\2\2\2lj\3\2\2\2mx\7\5\2\2no\7\6\2\2op\t\6\2\2ps\7"+
+		"\7\2\2qr\7\30\2\2rt\7\13\2\2sq\3\2\2\2tu\3\2\2\2us\3\2\2\2uv\3\2\2\2v"+
+		"x\3\2\2\2wZ\3\2\2\2wn\3\2\2\2x\r\3\2\2\2y}\7\t\2\2z|\7\b\2\2{z\3\2\2\2"+
+		"|\177\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\17\3\2\2\2\177}\3\2\2\2\20\25\"*-\62"+
+		"ASU_fjuw}";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
