@@ -56,6 +56,13 @@ public class DeclChecker extends BoogyQBaseListener {
     }
 
     @Override
+    public void enterDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) {
+        if (!decls.add(ctx.ID().getText(), 0)) {
+            errors.add("Duplicate declaration of \"" + ctx.ID().getText() + "\"");
+        }
+    }
+
+    @Override
     public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {
         decls.openScope();
     }
