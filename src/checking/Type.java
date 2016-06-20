@@ -9,8 +9,9 @@ abstract public class Type {
 	public static final Type INT = new Int();
 	/** The singleton instance of the {@link Char} type. */
 	public static final Type CHAR = new Char();
-	private static final Type BSTRING = new BString();
 	/** The singleton instance of the {@link String} type. */
+	private static final Type BQSTRING = new BQString();
+
 
 	private final TypeKind kind;
 
@@ -74,8 +75,8 @@ abstract public class Type {
 
 	/** Representation of the BoogyQ Char type. */
 
-	static public class BString extends Type {
-		private BString() {
+	static public class BQString extends Type {
+		private BQString() {
 			super(TypeKind.STRING);
 		}
 
@@ -88,7 +89,7 @@ abstract public class Type {
 			public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + Type.BSTRING.hashCode();
+			result = prime * result + Type.BQSTRING.hashCode();
 			return result;
 		}
 
@@ -97,7 +98,7 @@ abstract public class Type {
 			if (this == obj) {
 				return true;
 			}
-			if (!(obj instanceof BString)) {
+			if (!(obj instanceof BQString)) {
 				return false;
 			}
 			return true;
