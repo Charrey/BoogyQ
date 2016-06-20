@@ -185,7 +185,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override
     public void exitMinusexpr(BoogyQParser.MinusexprContext ctx) {
         if (!types.get(ctx.getChild(1)).equals(INT)) {
-            errors.add("Operation ! not compatible with type " + types.get(ctx.getChild(1)));
+            errors.add("Operation - not compatible with type " + types.get(ctx.getChild(1)));
         }
         types.put(ctx, INT);
     }

@@ -35,6 +35,9 @@ public class TypeCheckerTest {
         System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n(=> square) -> char a.")));
         System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n\nfunction (int a -> int b) square:\n\ta -> b.")));
         System.out.println(checker.check(parse("function (char a -> int b) square:\n\ta -> b.\n5 => square -> char a.")));
+        System.out.println(checker.check(parse("!!!!!1 -> char a.")));
+        System.out.println(checker.check(parse("-True -> char a.")));
+
 
     }
     private ParseTree parse(String text) {
