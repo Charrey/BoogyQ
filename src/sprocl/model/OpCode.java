@@ -38,8 +38,9 @@ public enum OpCode {
 	computeRSHIFT(4, Operation.RSHIFT, REG, REG, REG),
 
 	//The load functions
-	ldConst(2, NUM, REG),
-	loadAddr(2, NUM, REG),
+	loadCONST(2, NUM, REG),
+	loadADDR(2, NUM, REG),
+	loadDEF(2, REG, REG),
 	//TODO: Load (Defer p) toReg
 
 	//The jump statements
