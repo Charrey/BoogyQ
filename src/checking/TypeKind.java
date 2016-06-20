@@ -6,6 +6,10 @@ public enum TypeKind {
 	INT,
 	/** Boolean base type. */
 	BOOL,
+	/** Char base type. */
+	CHAR,
+	/** String base type. */
+	STRING,
 	/** Array compound type. */
 	ARRAY;
 }
