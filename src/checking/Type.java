@@ -10,7 +10,6 @@ abstract public class Type {
 	/** The singleton instance of the {@link Char} type. */
 	public static final Type CHAR = new Char();
 	/** The singleton instance of the {@link String} type. */
-	//public static final Type STRING = new String();
 
 	private final TypeKind kind;
 
@@ -75,6 +74,72 @@ abstract public class Type {
 		@Override
 		public java.lang.String toString() {
 			return "Char";
+		}
+	}
+
+	/** Representation of the BoogyQ Char type. */
+	static public class BString extends Type {
+		private final int lower;
+		private final int upper;
+
+		private BString(int lower, int upper) {
+			super(TypeKind.STRING);
+			assert upper >= lower;
+			this.lower = lower;
+			this.upper = upper;
+		}
+
+		/** Returns the lower bound of this String type. */
+		public int getLower() {
+			return this.lower;
+		}
+
+		/** Returns the upper bound of this String type. */
+		public int getUpper() {
+			return this.upper;
+		}
+
+		/** Returns the element bound of this array type. */
+		public Type getElemType() {
+			return Type.CHAR;
+		}
+
+		@Override
+		public int size() {
+			return (getUpper() - getLower() + 1) * Type.CHAR.size();
+		}
+
+		@Override
+		public String toString() {
+			return "String [" + this.lower + ".." + this.upper + "]";
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + Type.CHAR.hashCode();
+			result = prime * result + this.lower;
+			result = prime * result + this.upper;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (!(obj instanceof BString)) {
+				return false;
+			}
+			BString other = (BString) obj;
+			if (this.lower != other.lower) {
+				return false;
+			}
+			if (this.upper != other.upper) {
+				return false;
+			}
+			return true;
 		}
 	}
 
