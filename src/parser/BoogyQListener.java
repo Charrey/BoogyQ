@@ -30,6 +30,18 @@ public interface BoogyQListener extends ParseTreeListener {
 	 */
 	void exitIfstat(BoogyQParser.IfstatContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code functiondecl}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctiondecl(BoogyQParser.FunctiondeclContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code functiondecl}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code loopstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
@@ -41,6 +53,18 @@ public interface BoogyQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLoopstat(BoogyQParser.LoopstatContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code concurrentstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterConcurrentstat(BoogyQParser.ConcurrentstatContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code concurrentstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code flowstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
@@ -109,6 +133,16 @@ public interface BoogyQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClosescope(BoogyQParser.ClosescopeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BoogyQParser#functionvars}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionvars(BoogyQParser.FunctionvarsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BoogyQParser#functionvars}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionvars(BoogyQParser.FunctionvarsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code assignfunctionflow}
 	 * labeled alternative in {@link BoogyQParser#flow}.

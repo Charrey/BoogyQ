@@ -24,12 +24,26 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfstat(BoogyQParser.IfstatContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code functiondecl}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctiondecl(BoogyQParser.FunctiondeclContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code loopstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLoopstat(BoogyQParser.LoopstatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code concurrentstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code flowstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
@@ -70,6 +84,12 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClosescope(BoogyQParser.ClosescopeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BoogyQParser#functionvars}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionvars(BoogyQParser.FunctionvarsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code assignfunctionflow}
 	 * labeled alternative in {@link BoogyQParser#flow}.

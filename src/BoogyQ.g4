@@ -4,13 +4,16 @@ program : (statement NEWLINE)* statement EOF;
 statement : statement NEWLINE                                                                 #emptystat
           | statement comment                                                                 #commentstat
           | IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
+          | FUNCTION LPAR functionvars RPAR ID COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #functiondecl
+          | CONCURRENT COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope        #concurrentstat
           | flow? DEL                                                                         #flowstat
           | LOOP '{' NUMBER '}' DEL                                                           #loopstat
           | BREAK '{' NUMBER '}' DEL                                                          #breakstat;
 
-openscope : OPENSCOPE;
 
+openscope : OPENSCOPE;
 closescope : CLOSESCOPE;
+functionvars : ((type ID) (',' type ID)*)? PLACEOPR type ID  ;
 
 flow    : flow PLACEOPR ID              #assignstandardflow
         | flow PLACEOPR type ID         #declstandardflow
@@ -47,6 +50,8 @@ type: PRIMITIVE '[]'*;
 
 PRIMITIVE : 'int'|'bool'|'char';
 IF : 'if' ;
+CONCURRENT: 'concurrent';
+FUNCTION: 'function';
 OPENSCOPE : 'OPENSCOPE';
 CLOSESCOPE : 'CLOSESCOPE';
 LOOP : 'loop';
@@ -64,7 +69,6 @@ COLON : ':' ;
 TAB: '\t';
 NEWLINE: '\n';
 WS : ' ' -> skip;
-
 
 
 HAT     : '^';

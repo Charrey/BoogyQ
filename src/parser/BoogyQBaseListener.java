@@ -40,6 +40,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFunctiondecl(BoogyQParser.FunctiondeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLoopstat(BoogyQParser.LoopstatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -47,6 +59,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLoopstat(BoogyQParser.LoopstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -119,6 +143,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitClosescope(BoogyQParser.ClosescopeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionvars(BoogyQParser.FunctionvarsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionvars(BoogyQParser.FunctionvarsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
