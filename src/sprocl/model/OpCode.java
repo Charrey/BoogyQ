@@ -53,24 +53,25 @@ public enum OpCode {
 	branchIND(2, REG, REG),
 
 	//The store statements
-	//TODO:Store fromReg (DirAddr a)
-	//TODO:Store fromReg (IndAddr p)
+	storeDIRA(2,REG,REG),
+	storeINDA(2,REG,REG),
 
 	//The stack operations
 	push(1, REG),
 	pop(1, REG),
 
 	//I DONT KNOW WHAT THIS DOES. TODO: Figure this out
-	receive(1,REG);
+	receive(1,REG),
 
-	//Read (DirAddr a)                |   -           |   -           |
-	//Read (IndAddr p)
+	//All the read functions
+	readDIRA(1,REG),
+	readINDA(1,REG),
 
-	//TestAndSet (DirAddr a)
-	//TestAndSet (IndAddr p)
+	testAndSetDIRA(1,REG),
+	testAndSetINDA(1,REG),
 
-	//Write fromReg (DirAddr a)
-	//Write fromReg (IndrAddr p)
+	writeDIRA(2,REG,REG),
+	writeINDA(2,REG,REG);
 
 	/** The class that this opcode falls into. */
 	private final OpClaz claz;
