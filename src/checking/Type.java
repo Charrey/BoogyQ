@@ -10,7 +10,7 @@ abstract public class Type {
 	/** The singleton instance of the {@link Char} type. */
 	public static final Type CHAR = new Char();
 	/** The singleton instance of the {@link String} type. */
-	private static final Type BQSTRING = new BQString();
+	public static final Type BQSTRING = new BQString();
 
 
 	private final TypeKind kind;
@@ -110,9 +110,8 @@ abstract public class Type {
 	static public class Array extends Type {
 		private final Type elemType;
 
-		private Array(int lower, int upper, Type elemType) {
+		public Array(Type elemType) {
 			super(TypeKind.ARRAY);
-			assert upper >= lower;
 			this.elemType = elemType;
 		}
 		/** Returns the element bound of this array type. */

@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/poesd_000/IdeaProjects/second/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -119,20 +119,6 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code declfunctionflow}
-	 * labeled alternative in {@link BoogyQParser#flow}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code declgeneratorflow}
-	 * labeled alternative in {@link BoogyQParser#flow}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code assigngeneratorflow}
 	 * labeled alternative in {@link BoogyQParser#flow}.
 	 * @param ctx the parse tree
@@ -153,6 +139,20 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNotexpr(BoogyQParser.NotexprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code declexpr}
+	 * labeled alternative in {@link BoogyQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeclexpr(BoogyQParser.DeclexprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code boolexpr}
+	 * labeled alternative in {@link BoogyQParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolexpr(BoogyQParser.BoolexprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code andorexpr}
 	 * labeled alternative in {@link BoogyQParser#expr}.
@@ -175,12 +175,12 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPowerexpr(BoogyQParser.PowerexprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code declexpr}
+	 * Visit a parse tree produced by the {@code charexpr}
 	 * labeled alternative in {@link BoogyQParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclexpr(BoogyQParser.DeclexprContext ctx);
+	T visitCharexpr(BoogyQParser.CharexprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code comparatorexpr}
 	 * labeled alternative in {@link BoogyQParser#expr}.
@@ -224,17 +224,31 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFlowexpr(BoogyQParser.FlowexprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoogyQParser#comparator}.
+	 * Visit a parse tree produced by {@link BoogyQParser#equality}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitComparator(BoogyQParser.ComparatorContext ctx);
+	T visitEquality(BoogyQParser.EqualityContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link BoogyQParser#array}.
+	 * Visit a parse tree produced by {@link BoogyQParser#inequality}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArray(BoogyQParser.ArrayContext ctx);
+	T visitInequality(BoogyQParser.InequalityContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code presetarray}
+	 * labeled alternative in {@link BoogyQParser#array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPresetarray(BoogyQParser.PresetarrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code multiarray}
+	 * labeled alternative in {@link BoogyQParser#array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiarray(BoogyQParser.MultiarrayContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link BoogyQParser#comment}.
 	 * @param ctx the parse tree

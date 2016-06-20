@@ -19,18 +19,21 @@ public final class PreProcessor {
         return betterDeclarations(removeTabs(fixLoops(input)));
     }
 
-    public static String removeComments (String input) {
-        //TODO
-        throw new UnsupportedOperationException();
-    }
-
     public static String removeTabs(String input) throws ParseException {
         input = input.replaceAll("\r", "");
         String[] splitted = (input + "\n ").split("\n");
         String result = "";
         int indenting = 0;
+        Pattern pat = Pattern.compile("\t*//.*");
         for (int i = 0; i<splitted.length; i++) {
             int localindenting = 0;
+
+            Matcher mat = pat.matcher(splitted[i]);
+            if (mat.matches()) {
+                result += splitted[i].substring(splitted[i].indexOf('/')) + "\n";
+                continue;
+            }
+
             while(splitted[i].startsWith("\t")) {
                 localindenting++;
                 splitted[i] = splitted[i].substring(1);

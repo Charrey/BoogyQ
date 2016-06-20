@@ -63,8 +63,10 @@ public class TestPreProcessor {
     }
 
     @Test
-    public void testComments() {
-        throw new UnsupportedOperationException();
+    public void testComments() throws ParseException {
+        String test = "if(4>3):\n\t5->a.\n\t\t\t//Good day there!\n\t6->b.";
+        System.out.println(test + "\n");
+        System.out.println(PreProcessor.removeTabs(test));
     }
 
     public static void fails(String s) {

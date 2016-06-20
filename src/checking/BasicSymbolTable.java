@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-/**
- * Created by hans on 16-5-2016.
- */
-public class BasicSymbolTable<R> implements SymbolTable {
+class BasicSymbolTable<R> implements SymbolTable {
 
     Stack<Map<String, R>> stack = new Stack<>();
     Map<String, R> currentScope = new HashMap<>();
@@ -52,6 +49,22 @@ public class BasicSymbolTable<R> implements SymbolTable {
                 }
             }
             return false;
+        }
+    }
+
+    @Override
+    public Object get(String id) {
+        Stack<Map<String, R>> stackcopy = (Stack<Map<String, R>>) stack.clone();
+        if(currentScope.containsKey(id)){
+            return currentScope.get(id);
+        } else {
+            while (!stackcopy.empty()){
+                Map<String, R> get = stackcopy.pop();
+                if(get.containsKey(id)){
+                    return get.get(id);
+                }
+            }
+            return null;
         }
     }
 }

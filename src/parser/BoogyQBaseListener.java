@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/poesd_000/IdeaProjects/second/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -208,30 +208,6 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -263,6 +239,30 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNotexpr(BoogyQParser.NotexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDeclexpr(BoogyQParser.DeclexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclexpr(BoogyQParser.DeclexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBoolexpr(BoogyQParser.BoolexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoolexpr(BoogyQParser.BoolexprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -304,13 +304,13 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDeclexpr(BoogyQParser.DeclexprContext ctx) { }
+	@Override public void enterCharexpr(BoogyQParser.CharexprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDeclexpr(BoogyQParser.DeclexprContext ctx) { }
+	@Override public void exitCharexpr(BoogyQParser.CharexprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -388,25 +388,49 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComparator(BoogyQParser.ComparatorContext ctx) { }
+	@Override public void enterEquality(BoogyQParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComparator(BoogyQParser.ComparatorContext ctx) { }
+	@Override public void exitEquality(BoogyQParser.EqualityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArray(BoogyQParser.ArrayContext ctx) { }
+	@Override public void enterInequality(BoogyQParser.InequalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArray(BoogyQParser.ArrayContext ctx) { }
+	@Override public void exitInequality(BoogyQParser.InequalityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPresetarray(BoogyQParser.PresetarrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPresetarray(BoogyQParser.PresetarrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiarray(BoogyQParser.MultiarrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiarray(BoogyQParser.MultiarrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

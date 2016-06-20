@@ -10,11 +10,11 @@ import java.util.List;
 
 public class DeclChecker extends BoogyQBaseListener {
 
-    private SymbolTable<Integer> decls = new BasicSymbolTable<Integer>();
+    private BasicSymbolTable<Integer> decls = new BasicSymbolTable<>();
     private List<String> errors;
 
     public List<String> check(ParseTree input) {
-        decls = new BasicSymbolTable<Integer>();
+        decls = new BasicSymbolTable<>();
         errors = new LinkedList<>();
         new ParseTreeWalker().walk(this, input);
         return errors;
@@ -35,13 +35,6 @@ public class DeclChecker extends BoogyQBaseListener {
     }
 
     @Override
-    public void enterDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx) {
-        if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add("Duplicate declaration of \"" + ctx.ID().getText() + "\"");
-        }
-    }
-
-    @Override
     public void enterAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
             errors.add("Unknown variable " + ctx.ID().getText());
@@ -52,13 +45,6 @@ public class DeclChecker extends BoogyQBaseListener {
     public void enterAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
             errors.add("Unknown variable " + ctx.ID().getText());
-        }
-    }
-
-    @Override
-    public void enterDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) {
-        if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add("Duplicate declaration of \"" + ctx.ID().getText() + "\"");
         }
     }
 

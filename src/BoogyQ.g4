@@ -19,30 +19,30 @@ flow    : flow PLACEOPR ID              #assignstandardflow
         | flow PLACEOPR type ID         #declstandardflow
 
         | PIPEOPR ID                    #assigngeneratorflow // Voor functies zonder argumenten
-        | PIPEOPR type ID               #declgeneratorflow  // Voor functies zonder argumenten
         | flow (',' flow)* PIPEOPR ID   #assignfunctionflow
-        | flow (',' flow)* PIPEOPR type ID   #declfunctionflow
         | expr                          #ignoreme;
 
 
-expr    : ID                            #idenexpr
+expr    : BOOL                          #boolexpr
+        | ID                            #idenexpr
         | PRIMITIVE ID                  #declexpr
+        | CHAR                          #charexpr
         | NUMBER                        #numberexpr
         | array                         #arraydecl
         | LPAR flow RPAR                #flowexpr
         | expr (AND|OR) expr            #andorexpr
-        | expr comparator expr          #comparatorexpr
+        | expr (equality | inequality) expr      #comparatorexpr
         | expr HAT expr                 #powerexpr
         | expr (TIMES|DIVIDE) expr      #timesexpr
         | expr (PLUS|MINUS) expr        #plusexpr
         | MINUS expr                    #minusexpr
         | NEGATION expr                 #notexpr;
 
-comparator :  COMP_EQ | COMP_NE | COMP_LE
-           | COMP_LT | COMP_GE | COMP_GT;
+equality : COMP_EQ | COMP_NE;
+inequality : COMP_LE | COMP_LT | COMP_GE | COMP_GT;
 
-array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'
-        | '{'(ID|NUMBER|BOOL)'}' (TIMES NUMBER)+;
+array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'   #presetarray
+        | '{'(ID|NUMBER|BOOL|CHAR)'}' (TIMES NUMBER)+               #multiarray;
 
 comment : '//' (~'\n')*;
 
@@ -57,10 +57,10 @@ CLOSESCOPE : 'CLOSESCOPE';
 LOOP : 'loop';
 BREAK : 'break';
 
+BOOL: ('True' | 'False');
 ID : [a-zA-Z] [a-zA-Z0-9]*;
 NUMBER : '0' | [1-9] [0-9]* ;
-BOOL: ('True' | 'False');
-
+CHAR : '\'' . '\'';
 
 DEL: '.';
 LPAR   : '(';
