@@ -1,4 +1,4 @@
-// Generated from C:/Users/Administrator/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -30,6 +30,18 @@ public interface BoogyQListener extends ParseTreeListener {
 	 */
 	void exitIfstat(BoogyQParser.IfstatContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code loopstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterLoopstat(BoogyQParser.LoopstatContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code loopstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitLoopstat(BoogyQParser.LoopstatContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code flowstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
@@ -42,17 +54,29 @@ public interface BoogyQListener extends ParseTreeListener {
 	 */
 	void exitFlowstat(BoogyQParser.FlowstatContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code loopstat}
+	 * Enter a parse tree produced by the {@code emptystat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterLoopstat(BoogyQParser.LoopstatContext ctx);
+	void enterEmptystat(BoogyQParser.EmptystatContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code loopstat}
+	 * Exit a parse tree produced by the {@code emptystat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitLoopstat(BoogyQParser.LoopstatContext ctx);
+	void exitEmptystat(BoogyQParser.EmptystatContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code commentstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommentstat(BoogyQParser.CommentstatContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code commentstat}
+	 * labeled alternative in {@link BoogyQParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommentstat(BoogyQParser.CommentstatContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code breakstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
@@ -145,6 +169,30 @@ public interface BoogyQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code declgeneratorflow}
+	 * labeled alternative in {@link BoogyQParser#flow}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code declgeneratorflow}
+	 * labeled alternative in {@link BoogyQParser#flow}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code assigngeneratorflow}
+	 * labeled alternative in {@link BoogyQParser#flow}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code assigngeneratorflow}
+	 * labeled alternative in {@link BoogyQParser#flow}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code plusexpr}
 	 * labeled alternative in {@link BoogyQParser#expr}.
@@ -309,6 +357,16 @@ public interface BoogyQListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArray(BoogyQParser.ArrayContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BoogyQParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void enterComment(BoogyQParser.CommentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BoogyQParser#comment}.
+	 * @param ctx the parse tree
+	 */
+	void exitComment(BoogyQParser.CommentContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BoogyQParser#type}.
 	 * @param ctx the parse tree

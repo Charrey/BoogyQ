@@ -1,7 +1,9 @@
 grammar BoogyQ;
 
 program : (statement NEWLINE)* statement EOF;
-statement : IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
+statement : statement NEWLINE                                                                 #emptystat
+          | statement comment                                                                 #commentstat
+          | IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
           | flow? DEL                                                                         #flowstat
           | LOOP '{' NUMBER '}' DEL                                                           #loopstat
           | BREAK '{' NUMBER '}' DEL                                                          #breakstat;
@@ -13,6 +15,8 @@ closescope : CLOSESCOPE;
 flow    : flow PLACEOPR ID              #assignstandardflow
         | flow PLACEOPR type ID         #declstandardflow
 
+        | PIPEOPR ID                    #assigngeneratorflow // Voor functies zonder argumenten
+        | PIPEOPR type ID               #declgeneratorflow  // Voor functies zonder argumenten
         | flow (',' flow)* PIPEOPR ID   #assignfunctionflow
         | flow (',' flow)* PIPEOPR type ID   #declfunctionflow
         | expr                          #ignoreme;
@@ -37,6 +41,7 @@ comparator :  COMP_EQ | COMP_NE | COMP_LE
 array   : '[' (ID|NUMBER|BOOL|) (',' (ID|NUMBER|BOOL|))* ']'
         | '{'(ID|NUMBER|BOOL)'}' (TIMES NUMBER)+;
 
+comment : '//' (~'\n')*;
 
 type: PRIMITIVE '[]'*;
 

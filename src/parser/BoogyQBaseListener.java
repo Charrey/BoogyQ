@@ -1,4 +1,4 @@
-// Generated from C:/Users/Administrator/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -40,6 +40,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLoopstat(BoogyQParser.LoopstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLoopstat(BoogyQParser.LoopstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFlowstat(BoogyQParser.FlowstatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -52,13 +64,25 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLoopstat(BoogyQParser.LoopstatContext ctx) { }
+	@Override public void enterEmptystat(BoogyQParser.EmptystatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLoopstat(BoogyQParser.LoopstatContext ctx) { }
+	@Override public void exitEmptystat(BoogyQParser.EmptystatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCommentstat(BoogyQParser.CommentstatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCommentstat(BoogyQParser.CommentstatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -155,6 +179,30 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDeclfunctionflow(BoogyQParser.DeclfunctionflowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclgeneratorflow(BoogyQParser.DeclgeneratorflowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -323,6 +371,18 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArray(BoogyQParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComment(BoogyQParser.CommentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComment(BoogyQParser.CommentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
