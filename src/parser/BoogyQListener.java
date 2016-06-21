@@ -1,4 +1,4 @@
-// Generated from C:/Users/poesd_000/IdeaProjects/second/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
+// Generated from C:/Users/poesd_000/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

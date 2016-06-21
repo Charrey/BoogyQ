@@ -30,13 +30,18 @@ expr    : BOOL                          #boolexpr
         | NUMBER                        #numberexpr
         | array                         #arraydecl
         | LPAR flow RPAR                #flowexpr
-        | expr (AND|OR) expr            #andorexpr
-        | expr (equality | inequality) expr      #comparatorexpr
+
+        | NEGATION expr                 #notexpr
+        | MINUS expr                    #minusexpr
         | expr HAT expr                 #powerexpr
         | expr (TIMES|DIVIDE) expr      #timesexpr
         | expr (PLUS|MINUS) expr        #plusexpr
-        | MINUS expr                    #minusexpr
-        | NEGATION expr                 #notexpr;
+
+        | expr (equality | inequality) expr      #comparatorexpr
+        | expr (AND|OR) expr            #andorexpr;
+
+
+
 
 equality : COMP_EQ | COMP_NE;
 inequality : COMP_LE | COMP_LT | COMP_GE | COMP_GT;

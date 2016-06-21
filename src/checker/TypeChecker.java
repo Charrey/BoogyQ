@@ -58,7 +58,7 @@ public class TypeChecker extends BoogyQBaseListener {
 
     @Override
     public void exitAndorexpr(BoogyQParser.AndorexprContext ctx) {
-        if (types.get(ctx.getChild(0)).equals(BOOL) || types.get(ctx.getChild(2)).equals(BOOL)) {
+        if (!types.get(ctx.getChild(0)).equals(BOOL) || !types.get(ctx.getChild(2)).equals(BOOL)) {
             errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
         }
         types.put(ctx, BOOL);
@@ -202,7 +202,7 @@ public class TypeChecker extends BoogyQBaseListener {
     public void exitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
         if (ctx.getChild(1) instanceof BoogyQParser.EqualityContext) {
             if (!types.get(ctx.getChild(0)).equals(types.get(ctx.getChild(2)))) {
-                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(1)) + " and " + types.get(ctx.expr(0)));
+                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)));
             }
         } else if (ctx.getChild(1) instanceof BoogyQParser.InequalityContext) {
             if (types.get(ctx.getChild(0)).equals(INT) && types.get(ctx.getChild(2)).equals(INT)) {
@@ -210,7 +210,7 @@ public class TypeChecker extends BoogyQBaseListener {
             } else if (types.get(ctx.getChild(0)).equals(CHAR) && types.get(ctx.getChild(2)).equals(CHAR)) {
                 types.put(ctx, BOOL);
             } else {
-                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(1)) + " and " + types.get(ctx.expr(0)));
+                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)));
             }
         }
         types.put(ctx, BOOL);

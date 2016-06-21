@@ -1,4 +1,4 @@
-// Generated from C:/Users/poesd_000/IdeaProjects/second/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
+// Generated from C:/Users/poesd_000/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -1466,26 +1466,26 @@ public class BoogyQParser extends Parser {
 				match(RPAR);
 				}
 				break;
-			case MINUS:
-				{
-				_localctx = new MinusexprContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(176);
-				match(MINUS);
-				setState(177);
-				expr(2);
-				}
-				break;
 			case NEGATION:
 				{
 				_localctx = new NotexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(178);
+				setState(176);
 				match(NEGATION);
+				setState(177);
+				expr(7);
+				}
+				break;
+			case MINUS:
+				{
+				_localctx = new MinusexprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(178);
+				match(MINUS);
 				setState(179);
-				expr(1);
+				expr(6);
 				}
 				break;
 			default:
@@ -1505,33 +1505,62 @@ public class BoogyQParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 					case 1:
 						{
-						_localctx = new AndorexprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new PowerexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(182);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(183);
-						_la = _input.LA(1);
-						if ( !(_la==AND || _la==OR) ) {
-						_errHandler.recoverInline(this);
-						} else {
-							consume();
-						}
+						match(HAT);
 						setState(184);
-						expr(8);
+						expr(6);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ComparatorexprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new TimesexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(185);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(186);
+						_la = _input.LA(1);
+						if ( !(_la==TIMES || _la==DIVIDE) ) {
+						_errHandler.recoverInline(this);
+						} else {
+							consume();
+						}
+						setState(187);
+						expr(5);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new PlusexprContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(188);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(189);
+						_la = _input.LA(1);
+						if ( !(_la==PLUS || _la==MINUS) ) {
+						_errHandler.recoverInline(this);
+						} else {
+							consume();
+						}
+						setState(190);
+						expr(4);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new ComparatorexprContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(191);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(194);
 						switch (_input.LA(1)) {
 						case COMP_EQ:
 						case COMP_NE:
 							{
-							setState(186);
+							setState(192);
 							equality();
 							}
 							break;
@@ -1540,61 +1569,32 @@ public class BoogyQParser extends Parser {
 						case COMP_GE:
 						case COMP_GT:
 							{
-							setState(187);
+							setState(193);
 							inequality();
 							}
 							break;
 						default:
 							throw new NoViableAltException(this);
 						}
-						setState(190);
-						expr(7);
-						}
-						break;
-					case 3:
-						{
-						_localctx = new PowerexprContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(192);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(193);
-						match(HAT);
-						setState(194);
-						expr(6);
-						}
-						break;
-					case 4:
-						{
-						_localctx = new TimesexprContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(195);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(196);
-						_la = _input.LA(1);
-						if ( !(_la==TIMES || _la==DIVIDE) ) {
-						_errHandler.recoverInline(this);
-						} else {
-							consume();
-						}
-						setState(197);
-						expr(5);
+						expr(3);
 						}
 						break;
 					case 5:
 						{
-						_localctx = new PlusexprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new AndorexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(198);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(199);
 						_la = _input.LA(1);
-						if ( !(_la==PLUS || _la==MINUS) ) {
+						if ( !(_la==AND || _la==OR) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
 						setState(200);
-						expr(4);
+						expr(2);
 						}
 						break;
 					}
@@ -2081,15 +2081,15 @@ public class BoogyQParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 5:
-			return precpred(_ctx, 7);
-		case 6:
-			return precpred(_ctx, 6);
-		case 7:
 			return precpred(_ctx, 5);
-		case 8:
+		case 6:
 			return precpred(_ctx, 4);
-		case 9:
+		case 7:
 			return precpred(_ctx, 3);
+		case 8:
+			return precpred(_ctx, 2);
+		case 9:
+			return precpred(_ctx, 1);
 		}
 		return true;
 	}
@@ -2107,14 +2107,14 @@ public class BoogyQParser extends Parser {
 		"\n\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\5\7\u008e\n\7\3\7\3\7\3\7\3\7\3\7"+
 		"\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u009b\n\7\f\7\16\7\u009e\13\7\3\7\3\7\7\7"+
 		"\u00a2\n\7\f\7\16\7\u00a5\13\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
-		"\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00b7\n\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00bf"+
-		"\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\b\u00cc\n\b\f\b\16"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00b7\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\5\b\u00c5\n\b\3\b\3\b\3\b\3\b\3\b\7\b\u00cc\n\b\f\b\16"+
 		"\b\u00cf\13\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\13\3\13\5\13\u00da\n\13"+
 		"\3\13\3\13\3\13\3\13\3\13\5\13\u00e1\n\13\7\13\u00e3\n\13\f\13\16\13\u00e6"+
 		"\13\13\3\13\3\13\3\13\3\13\3\13\3\13\6\13\u00ee\n\13\r\13\16\13\u00ef"+
 		"\5\13\u00f2\n\13\3\f\3\f\7\f\u00f6\n\f\f\f\16\f\u00f9\13\f\3\r\3\r\7\r"+
 		"\u00fd\n\r\f\r\16\r\u0100\13\r\3\r\2\5\4\f\16\16\2\4\6\b\n\f\16\20\22"+
-		"\24\26\30\2\t\3\2\"#\3\2\36\37\3\2 !\3\2$%\3\2&)\3\2\22\25\3\2\33\33\u0121"+
+		"\24\26\30\2\t\3\2\36\37\3\2 !\3\2\"#\3\2$%\3\2&)\3\2\22\25\3\2\33\33\u0121"+
 		"\2\37\3\2\2\2\4h\3\2\2\2\6s\3\2\2\2\bu\3\2\2\2\n\u0083\3\2\2\2\f\u008d"+
 		"\3\2\2\2\16\u00b6\3\2\2\2\20\u00d0\3\2\2\2\22\u00d2\3\2\2\2\24\u00f1\3"+
 		"\2\2\2\26\u00f3\3\2\2\2\30\u00fa\3\2\2\2\32\33\5\4\3\2\33\34\7\33\2\2"+
@@ -2152,17 +2152,17 @@ public class BoogyQParser extends Parser {
 		"\7\23\2\2\u00a9\u00aa\7\n\2\2\u00aa\u00b7\7\23\2\2\u00ab\u00b7\7\25\2"+
 		"\2\u00ac\u00b7\7\24\2\2\u00ad\u00b7\5\24\13\2\u00ae\u00af\7\27\2\2\u00af"+
 		"\u00b0\5\f\7\2\u00b0\u00b1\7\30\2\2\u00b1\u00b7\3\2\2\2\u00b2\u00b3\7"+
-		"!\2\2\u00b3\u00b7\5\16\b\4\u00b4\u00b5\7*\2\2\u00b5\u00b7\5\16\b\3\u00b6"+
+		"*\2\2\u00b3\u00b7\5\16\b\t\u00b4\u00b5\7!\2\2\u00b5\u00b7\5\16\b\b\u00b6"+
 		"\u00a6\3\2\2\2\u00b6\u00a8\3\2\2\2\u00b6\u00a9\3\2\2\2\u00b6\u00ab\3\2"+
 		"\2\2\u00b6\u00ac\3\2\2\2\u00b6\u00ad\3\2\2\2\u00b6\u00ae\3\2\2\2\u00b6"+
-		"\u00b2\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00cd\3\2\2\2\u00b8\u00b9\f\t"+
-		"\2\2\u00b9\u00ba\t\2\2\2\u00ba\u00cc\5\16\b\n\u00bb\u00be\f\b\2\2\u00bc"+
-		"\u00bf\5\20\t\2\u00bd\u00bf\5\22\n\2\u00be\u00bc\3\2\2\2\u00be\u00bd\3"+
-		"\2\2\2\u00bf\u00c0\3\2\2\2\u00c0\u00c1\5\16\b\t\u00c1\u00cc\3\2\2\2\u00c2"+
-		"\u00c3\f\7\2\2\u00c3\u00c4\7\35\2\2\u00c4\u00cc\5\16\b\b\u00c5\u00c6\f"+
-		"\6\2\2\u00c6\u00c7\t\3\2\2\u00c7\u00cc\5\16\b\7\u00c8\u00c9\f\5\2\2\u00c9"+
-		"\u00ca\t\4\2\2\u00ca\u00cc\5\16\b\6\u00cb\u00b8\3\2\2\2\u00cb\u00bb\3"+
-		"\2\2\2\u00cb\u00c2\3\2\2\2\u00cb\u00c5\3\2\2\2\u00cb\u00c8\3\2\2\2\u00cc"+
+		"\u00b2\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00cd\3\2\2\2\u00b8\u00b9\f\7"+
+		"\2\2\u00b9\u00ba\7\35\2\2\u00ba\u00cc\5\16\b\b\u00bb\u00bc\f\6\2\2\u00bc"+
+		"\u00bd\t\2\2\2\u00bd\u00cc\5\16\b\7\u00be\u00bf\f\5\2\2\u00bf\u00c0\t"+
+		"\3\2\2\u00c0\u00cc\5\16\b\6\u00c1\u00c4\f\4\2\2\u00c2\u00c5\5\20\t\2\u00c3"+
+		"\u00c5\5\22\n\2\u00c4\u00c2\3\2\2\2\u00c4\u00c3\3\2\2\2\u00c5\u00c6\3"+
+		"\2\2\2\u00c6\u00c7\5\16\b\5\u00c7\u00cc\3\2\2\2\u00c8\u00c9\f\3\2\2\u00c9"+
+		"\u00ca\t\4\2\2\u00ca\u00cc\5\16\b\4\u00cb\u00b8\3\2\2\2\u00cb\u00bb\3"+
+		"\2\2\2\u00cb\u00be\3\2\2\2\u00cb\u00c1\3\2\2\2\u00cb\u00c8\3\2\2\2\u00cc"+
 		"\u00cf\3\2\2\2\u00cd\u00cb\3\2\2\2\u00cd\u00ce\3\2\2\2\u00ce\17\3\2\2"+
 		"\2\u00cf\u00cd\3\2\2\2\u00d0\u00d1\t\5\2\2\u00d1\21\3\2\2\2\u00d2\u00d3"+
 		"\t\6\2\2\u00d3\23\3\2\2\2\u00d4\u00d9\7\6\2\2\u00d5\u00da\7\23\2\2\u00d6"+
@@ -2181,7 +2181,7 @@ public class BoogyQParser extends Parser {
 		"\3\2\2\2\u00f7\u00f8\3\2\2\2\u00f8\27\3\2\2\2\u00f9\u00f7\3\2\2\2\u00fa"+
 		"\u00fe\7\n\2\2\u00fb\u00fd\7\t\2\2\u00fc\u00fb\3\2\2\2\u00fd\u0100\3\2"+
 		"\2\2\u00fe\u00fc\3\2\2\2\u00fe\u00ff\3\2\2\2\u00ff\31\3\2\2\2\u0100\u00fe"+
-		"\3\2\2\2\33\37\63FU[hnp\u0080\u0083\u008d\u009c\u00a1\u00a3\u00b6\u00be"+
+		"\3\2\2\2\33\37\63FU[hnp\u0080\u0083\u008d\u009c\u00a1\u00a3\u00b6\u00c4"+
 		"\u00cb\u00cd\u00d9\u00e0\u00e4\u00ef\u00f1\u00f7\u00fe";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

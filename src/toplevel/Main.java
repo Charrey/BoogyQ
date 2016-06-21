@@ -33,9 +33,11 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static List<String> parseerrors = new LinkedList<>();
 
+    private static BoogyQParser parser;
+
     public static void main(String[] args) {
         System.out.println("Reading files...");
-        File dir = new File(".");
+        File dir = new File("src/toplevel/.");
         File [] files = dir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -83,6 +85,8 @@ public class Main {
                     System.out.println("----------------------------");
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
+                    System.out.println(parsed.toStringTree(parser));
+
                     boolean haserrors = false;
 
                     if (!parseerrors.isEmpty()) {
@@ -167,7 +171,7 @@ public class Main {
         CharStream stream = new ANTLRInputStream(text);
         Lexer lexer = new BoogyQLexer(stream);
         TokenStream tokens = new CommonTokenStream(lexer);
-        BoogyQParser parser = new BoogyQParser(tokens);
+        parser = new BoogyQParser(tokens);
         parser.removeErrorListeners();
         parser.addErrorListener(new ANTLRErrorListener() {
             @Override

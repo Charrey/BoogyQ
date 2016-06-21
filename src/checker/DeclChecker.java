@@ -6,6 +6,7 @@ import parser.BoogyQBaseListener;
 import parser.BoogyQParser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,15 @@ public class DeclChecker extends BoogyQBaseListener {
         errors = new LinkedList<>();
         new ParseTreeWalker().walk(this, input);
         return errors;
+    }
+
+    @Override
+    public void exitNumberexpr(BoogyQParser.NumberexprContext ctx) {
+        BigInteger get = new BigInteger(ctx.NUMBER().getText());
+        BigInteger intmax = new BigInteger(String.valueOf(Integer.MAX_VALUE));
+        if (get.compareTo(intmax)==1) {
+            errors.add(ctx.getStart().getLine() - junklines + "-Integer overflow");
+        }
     }
 
     @Override
