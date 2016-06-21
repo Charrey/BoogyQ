@@ -141,26 +141,19 @@ public class Op extends Instr {
 		int arrowSize = 4;
 		if (getClaz() == COMMENT) {
 			result.append(toCommentString());
-		//}
-		//if (getOpCode() == OpCode.out) {
-			//int size = sourceSize + targetSize + arrowSize;
-			//result.append(String.format("%-8s", getOpCode().name()));
-			////result.append(String.format("%-" + size + "s ", toSourceString()));
-			//result.append(toCommentString());
-		} else {
-			result.append(String.format("%-8s", getOpCode().name()));
-			if (sourceSize > 0) {
-				result.append(String.format("%-" + sourceSize + "s",
-						toSourceString()));
-			}
-			result.append(String
-					.format("%-" + arrowSize + "s"));//, toArrowString()));
-			if (targetSize > 0) {
-				result.append(String.format("%-" + targetSize + "s ",
-						toTargetString()));
-			}
-			result.append(toCommentString());
 		}
+		result.append(String.format("%-8s", getOpCode().name() + " "));
+		if (sourceSize > 0) {
+			result.append(String.format("%-" + sourceSize + "s",
+					toSourceString()));
+		}
+		result.append(String
+				.format("%-" + arrowSize + "s", toArrowString()));
+		if (targetSize > 0) {
+			result.append(String.format("%-" + targetSize + "s ",
+					toTargetString()));
+		}
+		result.append(toCommentString());
 		result.append('\n');
 		return result.toString();
 	}
@@ -177,7 +170,6 @@ public class Op extends Instr {
 			}
 			if (getOpCode().getTargetCount() > 0) {
 				result.append(' ');
-				//result.append(getClaz().getArrow());
 				result.append(' ');
 				result.append(toTargetString());
 			}
@@ -189,7 +181,6 @@ public class Op extends Instr {
 
 
 	/** Returns the string representation of the arrow symbol. */
-	/*
 	String toArrowString() {
 		if (getOpCode().getTargetCount() > 0 && getClaz() != COMMENT) {
 			return ' ' + getClaz().getArrow() + ' ';
@@ -197,7 +188,7 @@ public class Op extends Instr {
 			return "";
 		}
 	}
-	*/
+
 
 	/** Returns the string representation of the optional comment. */
 	String toCommentString() {

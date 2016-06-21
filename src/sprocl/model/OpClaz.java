@@ -6,9 +6,20 @@ package sprocl.model;
  */
 public enum OpClaz {
 	/** A normal (non-control) operation. */
-	NORMAL,
+	NORMAL("=>"),
 	/** A control operation, i.e., one that changes the PC. */
-	CONTROL,
+	CONTROL("->"),
 	/** Special operation type holding a comment. */
-	COMMENT;
+	COMMENT("");
+
+	private final String arrow;
+
+	private OpClaz(String arrow) {
+		this.arrow = arrow;
+	}
+
+	/** Returns the arrow symbol used for this operation type. */
+	public String getArrow() {
+		return this.arrow;
+	}
 }

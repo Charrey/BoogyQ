@@ -251,15 +251,16 @@ public class Program {
 		int targetSize = 0;
 		for (Instr i : getInstr()) {
 			labelSize = Math.max(labelSize, i.toLabelString().length());
-			//if (i instanceof Op && ((Op) i).getOpCode() != OpCode.out) {
-				//Op op = (Op) i;
-				//sourceSize = Math.max(sourceSize, op.toSourceString().length());
-				//targetSize = Math.max(targetSize, op.toTargetString().length());
-			//}
+			if (i instanceof Op) {
+			Op op = (Op) i;
+			sourceSize = Math.max(sourceSize, op.toSourceString().length());
+			targetSize = Math.max(targetSize, op.toTargetString().length());
+			}
 		}
 		for (Instr i : getInstr()) {
 			result.append(i.prettyPrint(labelSize, sourceSize, targetSize));
 		}
 		return result.toString();
 	}
+
 }

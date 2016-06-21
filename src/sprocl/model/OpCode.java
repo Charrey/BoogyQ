@@ -21,48 +21,48 @@ import java.util.Map;
 public enum OpCode {
 
 	//All the compute operations. They all need 2 registers.
-	computeINCR(4, Operation.INCR, REG, REG, REG),
-	computeDECR(4, Operation.DECR, REG, NUM, REG),
-	computeADD(4, Operation.ADD, REG, NUM, REG),
-	computeSUB(4, Operation.SUB, REG, REG, REG),
-	computeMUL(4, Operation.MUL, REG, REG, REG),
-	computeEQUAL(4, Operation.EQUAL, REG, REG, REG),
-	computeNEQ(4, Operation.NEQ, REG, REG, REG),
-	computeGT(4, Operation.GT, REG, REG, REG),
-	computeGTE(4, Operation.GTE, REG, REG, REG),
-	computeLT(4, Operation.LT, REG, REG, REG),
-	computeLTE(4, Operation.LTE, REG, REG, REG),
-	computeAND(4, Operation.AND, REG, REG, REG),
-	computeOR(4, Operation.OR, REG, REG, REG),
-	computeLSHIFT(4, Operation.LSHIFT, REG, REG, REG),
-	computeRSHIFT(4, Operation.RSHIFT, REG, REG, REG),
+	computeINCR(2, REG, REG, REG),
+	computeDECR(2, REG, NUM, REG),
+	computeADD(2, REG, NUM, REG),
+	computeSUB(2, REG, REG, REG),
+	computeMUL(2, REG, REG, REG),
+	computeEQUAL(2, REG, REG, REG),
+	computeNEQ(2,  REG, REG, REG),
+	computeGT(2, REG, REG, REG),
+	computeGTE(2, REG, REG, REG),
+	computeLT(2, REG, REG, REG),
+	computeLTE(2, REG, REG, REG),
+	computeAND(2, REG, REG, REG),
+	computeOR(2, REG, REG, REG),
+	computeLSHIFT(2, REG, REG, REG),
+	computeRSHIFT(2, REG, REG, REG),
 
 	//The load functions
-	loadCONST(2, NUM, REG),
-	loadADDR(2, NUM, REG),
-	loadDEF(2, REG, REG),
+	loadCONST(1, NUM, REG),
+	loadADDR(1, NUM, REG),
+	loadDEF(1, REG, REG),
 	//TODO: Load (Defer p) toReg
 
 	//The jump statements
-	jumpABS(1,NUM),
-	jumpREL(1,NUM),
-	jumpIND(1,REG),
+	jumpABS(CONTROL, 0, NUM),
+	jumpREL(CONTROL, 0, NUM),
+	jumpIND(CONTROL, 0, REG),
 
 	//The branch statements
-	branchABS(2, REG, NUM),
-	branchREL(2, REG, NUM),
-	branchIND(2, REG, REG),
+	branchABS(CONTROL, 0, REG, NUM),
+	branchREL(CONTROL, 0, REG, NUM),
+	branchIND(CONTROL, 0, REG, REG),
 
 	//The store statements
-	storeDIRA(2,REG,REG),
-	storeINDA(2,REG,REG),
+	storeDIRA(1,REG,REG),
+	storeINDA(1,REG,REG),
 
 	//The stack operations
 	push(1, REG),
-	pop(1, REG),
+	pop(0, REG),
 
 	//I DONT KNOW WHAT THIS DOES. TODO: Figure this out
-	receive(1,REG),
+	receive(0,REG),
 
 	//All the read functions
 	readDIRA(1,REG),
@@ -77,9 +77,6 @@ public enum OpCode {
 	/** The class that this opcode falls into. */
 	private final OpClaz claz;
 
-	/** The function that this opcode uses. */
-	private final Operation opr;
-
 	/** The source operand types. */
 	private final List<Operand.Type> sourceSig;
 
@@ -91,16 +88,11 @@ public enum OpCode {
 
 
 	private OpCode(int sourceCount, Operand.Type... sig) {
-		this(CONTROL, sourceCount, null, sig);
+		this(NORMAL, sourceCount, sig);
 	}
 
-	private OpCode(int sourceCount, Operation opr, Operand.Type... sig) {
-		this(NORMAL, sourceCount, opr, sig);
-	}
-
-	private OpCode(OpClaz claz, int sourceCount, Operation opr, Operand.Type... sig) {
+	private OpCode(OpClaz claz, int sourceCount, Operand.Type... sig) {
 		this.claz = claz;
-		this.opr = opr;
 		this.sourceSig = new ArrayList<>(sourceCount);
 		for (int i = 0; i < sourceCount; i++) {
 			this.sourceSig.add(sig[i]);
