@@ -1,7 +1,6 @@
-package checking.test;
+package checker.test;
 
-import checking.JumpChecker;
-import checking.TypeChecker;
+import checker.TypeChecker;
 import exceptions.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -9,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import parser.BoogyQLexer;
 import parser.BoogyQParser;
-import preprocessing.PreProcessor;
+import preprocessor.PreProcessor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

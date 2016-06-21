@@ -3,10 +3,6 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.util.BitSet;
 
 import exceptions.ParseException;
@@ -16,7 +12,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import parser.*;
-import preprocessing.PreProcessor;
+import preprocessor.PreProcessor;
 
 
 @SuppressWarnings("javadoc")

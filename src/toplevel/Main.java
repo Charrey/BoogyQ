@@ -1,17 +1,16 @@
 package toplevel;
 
-import checking.DeclChecker;
-import checking.JumpChecker;
-import checking.TypeChecker;
+import checker.DeclChecker;
+import checker.JumpChecker;
+import checker.TypeChecker;
 import exceptions.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.IntervalSet;
 import org.antlr.v4.runtime.tree.ParseTree;
 import parser.BoogyQLexer;
 import parser.BoogyQParser;
-import preprocessing.PreProcessor;
+import preprocessor.PreProcessor;
 
 import java.io.File;
 import java.io.FilenameFilter;

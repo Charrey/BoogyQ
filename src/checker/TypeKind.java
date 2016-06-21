@@ -1,4 +1,4 @@
-package checking;
+package checker;
 
 /** Pascal data type kind. */
 public enum TypeKind {

@@ -1,4 +1,4 @@
-package checking;
+package checker;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import static checking.TypeChecker.fromString;
 
 public class DeclChecker extends BoogyQBaseListener {
 

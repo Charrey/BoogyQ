@@ -1,4 +1,4 @@
-package checking;
+package checker;
 
 
 import javafx.util.Pair;

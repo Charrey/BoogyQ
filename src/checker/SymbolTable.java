@@ -1,4 +1,4 @@
-package checking;
+package checker;
 
 /** Store and tests for nested scopes of variable declarations.
  * A newly constructed {@link SymbolTable} should consist of a single

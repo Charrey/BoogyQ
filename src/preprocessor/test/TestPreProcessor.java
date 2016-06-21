@@ -1,8 +1,8 @@
-package preprocessing.test;
+package preprocessor.test;
 
 import exceptions.ParseException;
 import org.junit.Test;
-import preprocessing.PreProcessor;
+import preprocessor.PreProcessor;
 import static org.junit.Assert.*;
 
 public class TestPreProcessor {

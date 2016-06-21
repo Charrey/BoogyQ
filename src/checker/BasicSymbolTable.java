@@ -1,4 +1,4 @@
-package checking;
+package checker;
 
 import java.util.HashMap;
 import java.util.Map;
