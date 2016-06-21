@@ -12,9 +12,12 @@ public class DeclChecker extends BoogyQBaseListener {
 
     private BasicSymbolTable<Integer> decls = new BasicSymbolTable<>();
     private List<String> errors;
+    private int junklines;
+    
 
     public List<String> check(ParseTree input) {
         decls = new BasicSymbolTable<>();
+        junklines = 0;
         errors = new LinkedList<>();
         new ParseTreeWalker().walk(this, input);
         return errors;
@@ -23,38 +26,40 @@ public class DeclChecker extends BoogyQBaseListener {
     @Override
     public void enterDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add("Duplicate declaration of \"" + ctx.ID().getText() + "\"");
+            errors.add(ctx.getStart().getLine() - junklines + "-Duplicate declaration of \"" + ctx.ID().getText() + "\"");
         }
     }
 
     @Override
     public void enterDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add("Duplicate declaration of \"" + ctx.ID().getText() + "\"");
+            errors.add(ctx.getStart().getLine() - junklines + "-Duplicate declaration of \"" + ctx.ID().getText() + "\"");
         }
     }
 
     @Override
     public void enterAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
-            errors.add("Unknown variable " + ctx.ID().getText());
+            errors.add(ctx.getStart().getLine() - junklines + "-Unknown variable " + ctx.ID().getText());
         }
     }
 
     @Override
     public void enterAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
-            errors.add("Unknown variable " + ctx.ID().getText());
+            errors.add(ctx.getStart().getLine()-junklines + "Unknown variable " + ctx.ID().getText());
         }
     }
 
     @Override
     public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {
         decls.openScope();
+        junklines++;
     }
 
     @Override
     public void enterClosescope(BoogyQParser.ClosescopeContext ctx) {
         decls.closeScope();
+        junklines++;
     }
 }

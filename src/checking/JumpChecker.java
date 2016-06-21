@@ -12,10 +12,12 @@ public class JumpChecker extends BoogyQBaseListener {
 
     private int depth;
     private LinkedList<String> errors;
+    private int junklines;
 
     public List<String> check(ParseTree input) {
         depth = 0;
         errors = new LinkedList<>();
+        junklines = 0;
         new ParseTreeWalker().walk(this, input);
         return errors;
     }
@@ -23,18 +25,20 @@ public class JumpChecker extends BoogyQBaseListener {
     @Override
     public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {
         depth++;
+        junklines++;
     }
 
     @Override
     public void enterClosescope(BoogyQParser.ClosescopeContext ctx) {
         depth--;
+        junklines++;
     }
 
     @Override
     public void enterLoopstat(BoogyQParser.LoopstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {
-            errors.add("Invalid loop statement!");
+            errors.add(ctx.getStart().getLine() - junklines + "-Invalid loop statement!");
         }
     }
 
@@ -42,7 +46,7 @@ public class JumpChecker extends BoogyQBaseListener {
     public void enterBreakstat(BoogyQParser.BreakstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {
-            errors.add("Invalid break statement!");
+            errors.add(ctx.getStart().getLine() - junklines + "-Invalid break statement!");
         }
     }
 }
