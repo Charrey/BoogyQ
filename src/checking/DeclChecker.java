@@ -4,13 +4,20 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.BoogyQBaseListener;
 import parser.BoogyQParser;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import static checking.TypeChecker.fromString;
 
 public class DeclChecker extends BoogyQBaseListener {
 
     private BasicSymbolTable<Integer> decls = new BasicSymbolTable<>();
+    private Set<String> functions = new HashSet<>();
+
     private List<String> errors;
     private int junklines;
     
@@ -31,7 +38,7 @@ public class DeclChecker extends BoogyQBaseListener {
     }
 
     @Override
-    public void enterDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
+    public void exitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
             errors.add(ctx.getStart().getLine() - junklines + "-Duplicate declaration of \"" + ctx.ID().getText() + "\"");
         }
@@ -39,17 +46,47 @@ public class DeclChecker extends BoogyQBaseListener {
 
     @Override
     public void enterAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
-        if (!decls.contains(ctx.ID().getText())) {
-            errors.add(ctx.getStart().getLine() - junklines + "-Unknown variable " + ctx.ID().getText());
+        if (!functions.contains(ctx.ID().getText())) {
+            errors.add(ctx.getStart().getLine() - junklines + "-Unknown function " + ctx.ID().getText());
         }
     }
 
     @Override
-    public void enterAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
+    public void enterIdenexpr(BoogyQParser.IdenexprContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
-            errors.add(ctx.getStart().getLine()-junklines + "Unknown variable " + ctx.ID().getText());
+            errors.add(ctx.getStart().getLine()-junklines + "-Unknown variable " + ctx.ID().getText());
         }
     }
+
+    @Override
+    public void exitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
+        if (!decls.contains(ctx.ID().getText())) {
+            errors.add(ctx.getStart().getLine()-junklines + "-Unknown variable " + ctx.ID().getText());
+        }
+    }
+
+    @Override
+    public void enterFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
+        decls.openScope();
+        int size = functions.size();
+        functions.add(ctx.ID().getText());
+        if (functions.size() == size) {
+            errors.add("Duplicate function "+ ctx.ID().getText());
+        }
+    }
+
+    @Override
+    public void enterFunctionvars(BoogyQParser.FunctionvarsContext ctx) {
+        for (TerminalNode i : ctx.ID()) {
+            decls.add(i.getText(), 0);
+        }
+    }
+
+    @Override
+    public void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
+        decls.closeScope();
+    }
+
 
     @Override
     public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {

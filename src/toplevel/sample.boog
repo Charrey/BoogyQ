@@ -1,0 +1,11 @@
+function (int a, int b -> int c) square:
+	if (b>0):
+		0 -> a.
+
+
+5 -> int a.
+6 -> int b.
+if (b>a):
+	6->a.
+<-	loop.
+<-	loop.

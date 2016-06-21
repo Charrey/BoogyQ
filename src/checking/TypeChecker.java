@@ -202,7 +202,7 @@ public class TypeChecker extends BoogyQBaseListener {
     public void exitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
         if (ctx.getChild(1) instanceof BoogyQParser.EqualityContext) {
             if (!types.get(ctx.getChild(0)).equals(types.get(ctx.getChild(2)))) {
-                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with type " + types.get(ctx.getChild(2)));
+                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(1)) + " and " + types.get(ctx.expr(0)));
             }
         } else if (ctx.getChild(1) instanceof BoogyQParser.InequalityContext) {
             if (types.get(ctx.getChild(0)).equals(INT) && types.get(ctx.getChild(2)).equals(INT)) {
@@ -210,7 +210,7 @@ public class TypeChecker extends BoogyQBaseListener {
             } else if (types.get(ctx.getChild(0)).equals(CHAR) && types.get(ctx.getChild(2)).equals(CHAR)) {
                 types.put(ctx, BOOL);
             } else {
-                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with type " + types.get(ctx.getChild(2)));
+                errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(1)) + " and " + types.get(ctx.expr(0)));
             }
         }
         types.put(ctx, BOOL);
@@ -306,6 +306,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override
     public void exitAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         Pair<Type, List<Type>> res = functions.get(ctx.ID().getText());
+
         if (res==null) {
             errors.add(ctx.getStart().getLine() - junklines + "-Undefined function " + ctx.ID().getText());
             types.put(ctx, types.get(ctx.flow().get(0)));
@@ -314,7 +315,7 @@ public class TypeChecker extends BoogyQBaseListener {
                 errors.add(ctx.getStart().getLine() - junklines + "-Wrong number of arguments given to function " + ctx.ID().getText());
             } else {
                 for (int i = 0; i<ctx.flow().size(); i++) {
-                    if (!types.get(ctx.getChild(i)).equals(res.getValue().get(i))) {
+                    if (!types.get(ctx.flow(i)).equals(res.getValue().get(i))) {
                         errors.add(ctx.getStart().getLine() - junklines + "-" + ctx.ID().getText() + " requires for argument " + i + " something of type " + res.getValue().get(i) + " but something was given of type " + types.get(ctx.getChild(i)));
                     }
                 }
@@ -333,7 +334,7 @@ public class TypeChecker extends BoogyQBaseListener {
 
     @Override
     public void exitIfstat(BoogyQParser.IfstatContext ctx) {
-        if (!ctx.expr().equals(BOOL)) {
+        if (!types.get(ctx.expr()).equals(BOOL)) {
             errors.add(ctx.getStart().getLine() - junklines + "-If-statement requires boolean condition.");
         }
     }
