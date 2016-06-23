@@ -38,19 +38,19 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitTimesexpr(BoogyQParser.TimesexprContext ctx) {
-        regcount.put(ctx, Math.max(visit(ctx.expr(0)), visit(ctx.expr(1))));
+        regcount.put(ctx, Math.max(2,Math.max(visit(ctx.expr(0)), visit(ctx.expr(1)))));
         return regcount.get(ctx);
     }
 
     @Override
     public Integer visitPowerexpr(BoogyQParser.PowerexprContext ctx) {
-        regcount.put(ctx, Math.max(visit(ctx.expr(0)), visit(ctx.expr(1))));
+        regcount.put(ctx, Math.max(2,Math.max(visit(ctx.expr(0)), visit(ctx.expr(1)))));
         return regcount.get(ctx);
     }
 
     @Override
     public Integer visitPlusexpr(BoogyQParser.PlusexprContext ctx) {
-        regcount.put(ctx, Math.max(visit(ctx.expr(0)), visit(ctx.expr(1))));
+        regcount.put(ctx, Math.max(2,Math.max(visit(ctx.expr(0)), visit(ctx.expr(1)))));
         return regcount.get(ctx);
     }
 
@@ -104,7 +104,7 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
-        regcount.put(ctx, Math.max(visit(ctx.expr(0)), visit(ctx.expr(1))));
+        regcount.put(ctx, Math.max(2,Math.max(visit(ctx.expr(0)), visit(ctx.expr(1)))));
         return regcount.get(ctx);
     }
 
@@ -219,7 +219,7 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitAndorexpr(BoogyQParser.AndorexprContext ctx) {
-        regcount.put(ctx, Math.max(visit(ctx.expr(0)), visit(ctx.expr(1))));
+        regcount.put(ctx, Math.max(2,Math.max(visit(ctx.expr(0)), visit(ctx.expr(1)))));
         return regcount.get(ctx);
     }
 }
