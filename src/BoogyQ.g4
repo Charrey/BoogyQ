@@ -1,8 +1,7 @@
 grammar BoogyQ;
 
-program : (statement NEWLINE)* statement EOF;
-statement : statement NEWLINE                                                                 #emptystat
-          | statement comment                                                                 #commentstat
+program : NEWLINE* (statement NEWLINE+)* statement NEWLINE* EOF;
+statement : statement comment                                                                 #commentstat
           | IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
           | FUNCTION LPAR functionvars RPAR ID COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #functiondecl
           | CONCURRENT COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope        #concurrentstat

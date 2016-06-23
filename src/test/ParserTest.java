@@ -5,7 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.util.BitSet;
 
-import exceptions.ParseException;
+import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;

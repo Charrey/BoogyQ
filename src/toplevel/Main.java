@@ -3,7 +3,7 @@ package toplevel;
 import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.TypeChecker;
-import exceptions.ParseException;
+import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;

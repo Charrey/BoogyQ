@@ -1,7 +1,7 @@
 package checker.test;
 
 import checker.JumpChecker;
-import exceptions.ParseException;
+import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Before;

@@ -4,7 +4,7 @@ import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.RegisterCounter;
 import checker.TypeChecker;
-import exceptions.ParseException;
+import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Before;
