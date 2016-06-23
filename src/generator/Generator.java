@@ -1,9 +1,6 @@
 package generator;
 
-import checker.RegisterCounter;
-import checker.Type;
-import checker.BasicSymbolTable;
-import checker.SymbolTable;
+import checker.*;
 import exceptions.generator.RegisterException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -24,6 +21,13 @@ import java.util.*;
  */
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
+    private static Generator ourInstance = new Generator();
+
+    public static Generator getInstance() {
+        return ourInstance;
+    }
+
+
     /** The base register. */
     private Reg arp = new Reg("r_arp");
     /** Association of statement nodes to labels. */
@@ -36,7 +40,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     private ParseTreeProperty<Integer> regCount;
 
 
-    private SymbolTable<Integer> symbolTable = new BasicSymbolTable();
+    private OffsetSymbolTable symbolTable = new OffsetSymbolTable();
+    private final Map<String, Num> defaultValues; //The default values for all types.
+                                                  //Atm we only have int, char and bool
+                                                    // int = 0; char = A; bool = False;
 
     private Reg r_standard0 = new Reg("r_standard0"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
     private Reg r_arp = new Reg("r_arp");
@@ -46,6 +53,13 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
     ParseTreeProperty<String> label;
+
+    private Generator(){
+        defaultValues = new HashMap<>();
+        defaultValues.put("int", new Num(0));
+        defaultValues.put("bool", new Num(0));
+        defaultValues.put("char",new Num(65));
+    }
 
     public Program generate(ParseTree tree) throws RegisterException {
         prog = new Program();
@@ -266,12 +280,30 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Reg> flowRegList = regsList.get(ctx);
         regsList.put(ctx.flow(), flowRegList);
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
+
         List<Op> operations = visit(ctx.flow());
         int offset = symbolTable.get(ctx.ID().getText());
+
         operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
         operations.add(new Op(OpCode.storeDIRA, r_load, r_res));
+
         return operations;
     }
 
+    @Override
+    public List<Op> visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
+        List<Op> operations = new ArrayList<>();
+        String id = ctx.ID().getText();
+        String type = ctx.PRIMITIVE().getText();
+
+        symbolTable.add(id);
+        operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
+        operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
+        operations.add(new Op(OpCode.storeDIRA, r_load, r_standard0));
+        operations.add(new Op(OpCode.push, r_standard0));
+        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
+
+        return operations;
+    }
 
 }
