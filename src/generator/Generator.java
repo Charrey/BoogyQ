@@ -2,6 +2,8 @@ package generator;
 
 import checker.RegisterCounter;
 import checker.Type;
+import checker.BasicSymbolTable;
+import checker.SymbolTable;
 import exceptions.generator.RegisterException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -32,6 +34,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     /** Association of expression and target nodes to registers. */
     private ParseTreeProperty<List<Reg>> regsList;
     private ParseTreeProperty<Integer> regCount;
+
+
+    private SymbolTable<Integer> symbolTable = new BasicSymbolTable();
 
     private Reg r_standard0 = new Reg("r_standard0"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
     private Reg r_arp = new Reg("r_arp");
@@ -139,7 +144,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     //TODO: Fix exceptions
-    public List<Op> visitNumberexpr(BoogyQParser.NumberexprContext ctx) throws Exception {
+    public List<Op> visitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         List<Op> operations = new ArrayList<>();
         int number = Integer.getInteger(ctx.NUMBER().getText());
         operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
@@ -255,4 +260,18 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         //operations.addAll(expOps);
         return null;
     }
+
+    @Override
+    public List<Op> visitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
+        List<Reg> flowRegList = regsList.get(ctx);
+        regsList.put(ctx.flow(), flowRegList);
+        Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
+        List<Op> operations = visit(ctx.flow());
+        int offset = symbolTable.get(ctx.ID().getText());
+        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+        operations.add(new Op(OpCode.storeDIRA, r_load, r_res));
+        return operations;
+    }
+
+
 }

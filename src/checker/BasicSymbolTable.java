@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-class BasicSymbolTable<R> implements SymbolTable {
+public class BasicSymbolTable<R> implements SymbolTable {
 
     Stack<Map<String, R>> stack = new Stack<>();
     Map<String, R> currentScope = new HashMap<>();

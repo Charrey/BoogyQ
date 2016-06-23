@@ -4,7 +4,7 @@ package checker;
  * A newly constructed {@link SymbolTable} should consist of a single
  * (outer) scope. 
  */
-interface SymbolTable<R> {
+public interface SymbolTable<R> {
 	/** Adds a next deeper scope level. */
 	void openScope();
 
