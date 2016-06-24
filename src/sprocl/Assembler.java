@@ -36,64 +36,73 @@ public class Assembler {
 				"import Simulation\n" +
 				"prog :: [Instruction]\n" +
 				"prog = [");
-
 		for(Instr instr: program.getInstr()) {
-			System.out.println(instr.toString());
-			Op operation = (Op) instr;
-			OpCode opCode = operation.getOpCode();
-			List<String> args = new ArrayList<>();
-			for (Operand arg: operation.getArgs()){
-				args.add(arg.toString());
-			}
 			sproclCode.append("\n\t\t, ");
-			switch (opCode){
-				//All the compute operations
-				case computeADD:
-					sproclCode.append("Compute Add " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				case computeSUB:
-					sproclCode.append("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				case computeMUL:
-					sproclCode.append("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				case computeEQUAL:
-					sproclCode.append("Compute Equal " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				case computeAND:
-					sproclCode.append("Compute And " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				case computeOR:
-					sproclCode.append("Compute Or " + args.get(0) + " " + args.get(1) + " " + args.get(2));
-					break;
-				//All the load operations
-				case loadCONST:
-					sproclCode.append("Load " + "NUM(" + args.get(0)+ ") " + args.get(1));
-					break;
-
-				//All the store operations
-				case storeDIRA:
-					sproclCode.append("Store " + args.get(0) + " (DirAddr "+ args.get(1) + ")");
-					break;
-
-				//All the stack operations
-				case push:
-					sproclCode.append("Push " + args.get(0));
-					break;
-				case pop:
-					sproclCode.append("Pop " + args.get(0));
-					break;
-
-				default:
-					sproclCode.append("???TBD???"); //TODO: Throw an error.
-					break;
-			}
+			sproclCode.append(convertToSprocl((Op) instr));
 		}
 		sproclCode.append("\n]");
 		return sproclCode.toString();
 	}
 
-	public static String convertToSprocl(OpCode opCode, List<Operation> args){
-		return null;
+
+	public static String convertToSprocl(Op operation){
+		OpCode opCode = operation.getOpCode();
+		List<String> args = new ArrayList<>();
+		for (Operand arg: operation.getArgs()){
+			args.add(arg.toString());
+		}
+		String sproclCode;
+		switch (opCode){
+			//All the compute operations
+			case computeADD:
+				sproclCode = ("Compute Add " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeSUB:
+				sproclCode = ("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeMUL:
+				sproclCode = ("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeEQUAL:
+				sproclCode = ("Compute Equal " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeNEQ:
+				sproclCode = ("Compute NEq " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeGT:
+				sproclCode = ("Compute Gt " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeGTE:
+				sproclCode = ("Compute GtE " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeAND:
+				sproclCode = ("Compute And " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeOR:
+				sproclCode = ("Compute Or " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			//All the load operations
+			case loadCONST:
+				sproclCode = ("Load " + "Num(" + args.get(0)+ ") " + args.get(1));
+				break;
+
+			//All the store operations
+			case storeDIRA:
+				sproclCode = ("Store " + args.get(0) + " (DirAddr "+ args.get(1) + ")");
+				break;
+
+			//All the stack operations
+			case push:
+				sproclCode = ("Push " + args.get(0));
+				break;
+			case pop:
+				sproclCode = ("Pop " + args.get(0));
+				break;
+
+			default:
+				sproclCode = ("???TBD???"); //TODO: Throw an error.
+				break;
+		}
+		return sproclCode;
 	}
 }
