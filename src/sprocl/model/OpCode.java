@@ -40,8 +40,8 @@ public enum OpCode {
 
 	//The load functions
 	loadCONST(1, NUM, REG),
-	loadADDR(1, REG, REG),
-	loadDEF(1, REG, REG),
+	loadDIRA(1, REG, REG),
+	loadINDA(1, REG, REG),
 	//TODO: Load (Defer p) toReg
 
 	//The jump statements
@@ -55,6 +55,7 @@ public enum OpCode {
 	branchIND(CONTROL, 0, REG, REG),
 
 	//The store statements
+	storeCONST(1, NUM, REG),
 	storeDIRA(1,REG,REG),
 	storeINDA(1,REG,REG),
 

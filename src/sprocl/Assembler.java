@@ -1,24 +1,8 @@
 package sprocl;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import sprocl.model.*;
 
 
@@ -102,7 +86,7 @@ public class Assembler {
 			case loadCONST:
 				sproclCode = ("Load " + "(ImmValue " + args.get(0)+ ") " + args.get(1));
 				break;
-			case loadADDR:
+			case loadDIRA:
 				sproclCode = ("Load " + "(IndAddr " + args.get(0)+ ") " + args.get(1));
 				break;
 

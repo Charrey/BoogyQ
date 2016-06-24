@@ -2,7 +2,6 @@ package generator;
 
 import checker.*;
 import exceptions.generator.RegisterException;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -14,7 +13,6 @@ import sprocl.model.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -329,7 +327,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
 
         operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.loadADDR, r_load, r_load));
+        operations.add(new Op(OpCode.loadDIRA, r_load, r_load));
         operations.add(new Op(OpCode.push, r_load));
         return operations;
     }
