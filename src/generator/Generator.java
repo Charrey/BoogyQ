@@ -161,7 +161,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     //TODO: Fix exceptions
     public List<Op> visitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         List<Op> operations = new ArrayList<>();
-        int number = Integer.getInteger(ctx.NUMBER().getText());
+        int number = Integer.parseInt(ctx.NUMBER().getText());
         operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
         operations.add(new Op(OpCode.push, r_standard0));
         operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
@@ -347,7 +347,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Reg> flowRegList = regsList.get(ctx);
         regsList.put(ctx.expr(), flowRegList);
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
-        List<Op> operations = new ArrayList<>();
+        List<Op> operations = visit(ctx.expr());
 
         operations.add(new Op(OpCode.pop, r_res));
         return operations;

@@ -22,8 +22,8 @@ public enum OpCode {
 
 	//All the compute operations. They all need 2 registers.
 	computeINCR(2, REG, REG, REG),
-	computeDECR(2, REG, NUM, REG),
-	computeADD(2, REG, NUM, REG),
+	computeDECR(2, REG, REG, REG),
+	computeADD(2, REG, REG, REG),
 	computeSUB(2, REG, REG, REG),
 	computeMUL(2, REG, REG, REG),
 	computeEQUAL(2, REG, REG, REG),
