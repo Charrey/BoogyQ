@@ -46,6 +46,7 @@ public class Assembler {
 			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
+		sproclCode.append("\n" + s8 + ", EndProg");
 		sproclCode.append("\n" + s8 + "]");
 		return sproclCode.toString();
 	}
@@ -92,6 +93,10 @@ public class Assembler {
 				break;
 			case computeOR:
 				sproclCode = ("Compute Or " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			//TODO: The bitshifts
+			case computeXOR:
+				sproclCode = ("Compute Xor " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
 			//All the load operations
 			case loadCONST:
