@@ -99,9 +99,11 @@ public final class PreProcessor {
 
                 if (splitted[i].startsWith("int ")) {
                     splitted[i] = "0 -> " + splitted[i];
+                    continue;
                 }
                 if (splitted[i].startsWith("char ")) {
                     splitted[i] = "\'A\' -> " + splitted[i];
+                    continue;
                 }
 
                 String type = null;

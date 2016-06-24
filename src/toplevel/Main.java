@@ -55,18 +55,10 @@ public class Main {
                 res += ", " + files[i].getName();
             }
             System.out.println(res);
-            System.out.println("Which of these would you like to compile?");
-            String get = scanner.nextLine();
-            int index = arrayContainsString(get, files);
-            while(index==-1) {
-                System.out.println("Could not find \"" + get + "\". Try again.");
-                get = scanner.nextLine();
-                index = arrayContainsString(get, files);
-            }
             boolean exit = false;
-            while (!exit) {
-                File the_file = files[index];
 
+            File the_file = getFile(files);
+            while (!exit) {
                 byte[] encoded = new byte[0];
                 try {
                     encoded = Files.readAllBytes(Paths.get(the_file.getAbsolutePath()));
@@ -80,56 +72,22 @@ public class Main {
                         e.printStackTrace();
                     }
                     System.out.println(program);
-                    System.out.println("----------------------------");
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
-                    System.out.println(parsed.toStringTree(parser));
 
-                    boolean haserrors = false;
+                    List<String> errors = getErrors(parsed);
 
-                    if (!parseerrors.isEmpty()) {
-                        haserrors = true;
-                        for (String error : parseerrors) {
-                            System.out.println(error);
+                    if (errors.size()>0) {
+                        for (String err : errors) {
+                            System.out.println(err);
                         }
-                    }
-
-                    List<String> errors = null;
-                    if (!haserrors) {
-                        errors = new DeclChecker().check(parsed);
-                        if (!errors.isEmpty()) {
-                            haserrors = true;
-                            for (String error : errors) {
-                                System.out.println(error);
-                            }
-                        }
-                    }
-
-                    if (!haserrors) {
-                        errors = new JumpChecker().check(parsed);
-                        if (!errors.isEmpty()) {
-                            haserrors = true;
-                            for (String error : errors) {
-                                System.out.println(error);
-                            }
-                        }
-                    }
-
-                    if (!haserrors) {
-                        errors = new TypeChecker().check(parsed);
-                        if (!errors.isEmpty()) {
-                            haserrors = true;
-                            for (String error : errors) {
-                                System.out.println(error);
-                            }
-                        }
-                    }
-                    if (haserrors) {
                         System.out.println("Could not compile, program had errors.");
                     } else {
                         System.out.println("Program has no errors.");
                         Program prog = Generator.getInstance().generate(parsed);
+                        System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
+                        System.out.println("----------------------------");
                     }
 
                 } catch (IOException e) {
@@ -153,6 +111,30 @@ public class Main {
         }
     }
 
+    private static File getFile(File[] files) {
+        System.out.println("Which of these would you like to compile?");
+        while (true) {
+            String get = scanner.nextLine();
+            File available = null;
+            for (File file : files) {
+                if (file.getName().startsWith(get)) {
+                    if (available == null) {
+                        available = file;
+                    } else {
+                        System.out.println("Ambiguity in query: " + file.getName() + ", " + available.getName());
+                        available = null;
+                        break;
+                    }
+                }
+            }
+            if (available == null) {
+                System.out.println("Could not find the file specified. Try again.");
+            } else {
+                return available;
+            }
+        }
+    }
+
 
     private static int arrayContainsString(String input, File[] files) {
         for (int i = 0; i<files.length; i++) {
@@ -161,6 +143,23 @@ public class Main {
             }
         }
         return -1;
+    }
+
+    public static List<String> getErrors(ParseTree tree) {
+        if (!parseerrors.isEmpty()) {
+            return parseerrors;
+        }
+        List<String> errors = null;
+        errors = new DeclChecker().check(tree);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        errors = new JumpChecker().check(tree);
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+        errors = new TypeChecker().check(tree);
+        return errors;
     }
 
 

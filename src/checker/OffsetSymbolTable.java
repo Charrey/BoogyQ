@@ -8,7 +8,7 @@ import java.util.Stack;
 public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
     Stack<Integer> offsets = new Stack<>();
-    int currentoffset = 0;
+    int currentoffset = 1;
 
     @Override
     public void openScope() {
@@ -35,7 +35,7 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
     public boolean add(String id) {
         boolean res = super.add(id, currentoffset);
         if(res) {
-            currentoffset += 4;
+            currentoffset += 1;
         } else {
             throw new IllegalArgumentException("WTF HAPPENED???");
         }
