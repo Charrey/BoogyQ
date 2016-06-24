@@ -25,6 +25,9 @@ import sprocl.model.*;
 /** Assembler for the ILOC language. */
 public class Assembler {
 
+	public static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
+	public static String s8 = s4+s4;
+
 	public static String assemble(Program program, String progname){
 		StringBuilder sproclCode = new StringBuilder();
 		sproclCode.append("module "+progname+" where\n" +
@@ -37,13 +40,13 @@ public class Assembler {
 				"prog :: [Instruction]\n" +
 				"prog = [");
 		for(Instr instr: program.getInstr()) {
-			sproclCode.append("\n\t\t");
+			sproclCode.append("\n" + s8);
 			if (instr.getLine() != 0) {
 				sproclCode.append(", ");
 			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
-		sproclCode.append("\n\t\t]");
+		sproclCode.append("\n" + s8 + "]");
 		return sproclCode.toString();
 	}
 
