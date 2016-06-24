@@ -245,7 +245,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     @Override
     public List<Op> visitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
         BoogyQParser.ExprContext leftexpr = ctx.expr(0);
-        BoogyQParser.ExprContext rightexpr = ctx.expr(2);
+        BoogyQParser.ExprContext rightexpr = ctx.expr(1);
 
         List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
         Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
@@ -256,6 +256,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         exprRegList = regsList.get(ctx).subList(0, regCount.get(rightexpr));
         regsList.put(rightexpr, exprRegList);
         operations.addAll(visit(rightexpr));
+
+        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_1));
 
         String comparator = ctx.getChild(1).getText();
         switch (comparator){
@@ -278,6 +281,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
                 operations.add(new Op(OpCode.computeGTE, r_1, r_standard0, r_1));
                 break;
         }
+        operations.add(new Op(OpCode.push, r_1));
         return operations;
     }
 
