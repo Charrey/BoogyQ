@@ -43,7 +43,7 @@ public class Assembler {
 			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
-		sproclCode.append("\n]");
+		sproclCode.append("\n\t\t]");
 		return sproclCode.toString();
 	}
 
@@ -78,6 +78,12 @@ public class Assembler {
 			case computeGTE:
 				sproclCode = ("Compute GtE " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
+			case computeLT:
+				sproclCode = ("Compute Lt " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
+			case computeLTE:
+				sproclCode = ("Compute LtE " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				break;
 			case computeAND:
 				sproclCode = ("Compute And " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
@@ -86,7 +92,7 @@ public class Assembler {
 				break;
 			//All the load operations
 			case loadCONST:
-				sproclCode = ("Load " + "Num(" + args.get(0)+ ") " + args.get(1));
+				sproclCode = ("Load " + "(Num " + args.get(0)+ ") " + args.get(1));
 				break;
 
 			//All the store operations
