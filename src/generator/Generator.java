@@ -287,7 +287,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         int offset = symbolTable.get(ctx.ID().getText());
 
         operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.storeDIRA, r_res, r_load));
+        operations.add(new Op(OpCode.storeINDA, r_res, r_load));
 
         return operations;
     }
@@ -301,7 +301,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         symbolTable.add(id);
         operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
         operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
-        operations.add(new Op(OpCode.storeDIRA, r_standard0, r_load));
+        operations.add(new Op(OpCode.storeINDA, r_standard0, r_load));
         operations.add(new Op(OpCode.push, r_standard0));
 
         return operations;
@@ -319,7 +319,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         int offset = symbolTable.get(id);
 
         operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.storeDIRA, r_res, r_load));
+        operations.add(new Op(OpCode.storeINDA, r_res, r_load));
 
         return operations;
     }

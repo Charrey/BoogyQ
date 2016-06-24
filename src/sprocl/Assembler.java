@@ -107,6 +107,9 @@ public class Assembler {
 			case storeDIRA:
 				sproclCode = ("Store " + args.get(0) + " (DirAddr "+ args.get(1) + ")");
 				break;
+			case storeINDA:
+				sproclCode = ("Store " + args.get(0) + " (IndAddr "+ args.get(1) + ")");
+				break;
 
 			//All the stack operations
 			case push:
