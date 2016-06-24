@@ -52,7 +52,7 @@ public class Assembler {
 				sproclCode = ("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
 			case computeMUL:
-				sproclCode = ("Compute Sub " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+				sproclCode = ("Compute Mul " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
 			case computeEQUAL:
 				sproclCode = ("Compute Equal " + args.get(0) + " " + args.get(1) + " " + args.get(2));
