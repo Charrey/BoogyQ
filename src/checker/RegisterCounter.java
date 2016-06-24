@@ -74,8 +74,8 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitMinusexpr(BoogyQParser.MinusexprContext ctx) {
-        regcount.put(ctx, 0);
-        return 0;
+        regcount.put(ctx, visit(ctx.expr()));
+        return regcount.get(ctx);
     }
 
     @Override

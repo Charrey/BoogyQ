@@ -177,6 +177,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
             operations.add(new Op(OpCode.push, r_standard0));
                     } else {
+            operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
             operations.add(new Op(OpCode.push, r_standard0));
         }
         return operations;
@@ -427,16 +428,17 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitMinusexpr(BoogyQParser.MinusexprContext ctx) {
         BoogyQParser.ExprContext leftexpr = ctx.expr();
 
+
         List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
-        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+        //Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
 
         regsList.put(leftexpr, exprRegList);
         List<Op> operations = visit(leftexpr);
 
-        operations.add(new Op(OpCode.pop, r_1));
+        operations.add(new Op(OpCode.pop, r_load));
         operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.computeSUB, r_standard0, r_1, r_1));
-        operations.add(new Op(OpCode.push, r_1));
+        operations.add(new Op(OpCode.computeSUB, r_standard0, r_load, r_load));
+        operations.add(new Op(OpCode.push, r_load));
         return operations;
     }
 
