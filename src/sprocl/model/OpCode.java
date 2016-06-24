@@ -36,6 +36,7 @@ public enum OpCode {
 	computeOR(2, REG, REG, REG),
 	computeLSHIFT(2, REG, REG, REG),
 	computeRSHIFT(2, REG, REG, REG),
+	computeXOR(2, REG, REG, REG),
 
 	//The load functions
 	loadCONST(1, NUM, REG),

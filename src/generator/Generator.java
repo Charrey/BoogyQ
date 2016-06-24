@@ -195,7 +195,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     @Override
     public List<Op> visitAndorexpr(BoogyQParser.AndorexprContext ctx) {
         BoogyQParser.ExprContext leftexpr = ctx.expr(0);
-        BoogyQParser.ExprContext rightexpr = ctx.expr(2);
+        BoogyQParser.ExprContext rightexpr = ctx.expr(1);
 
         List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
         Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
@@ -237,22 +237,22 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         String comparator = ctx.getChild(1).getText();
         switch (comparator){
             case "==":
-                operations.add(new Op(OpCode.computeEQUAL,r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeEQUAL,r_1, r_standard0, r_1));
                 break;
             case "!=":
-                operations.add(new Op(OpCode.computeNEQ, r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeNEQ, r_1, r_standard0, r_1));
                 break;
             case "<":
-                operations.add(new Op(OpCode.computeLT, r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeLT, r_1, r_standard0, r_1));
                 break;
             case "<=":
-                operations.add(new Op(OpCode.computeLTE, r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeLTE, r_1, r_standard0, r_1));
                 break;
             case ">":
-                operations.add(new Op(OpCode.computeGT, r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeGT, r_1, r_standard0, r_1));
                 break;
             case ">=":
-                operations.add(new Op(OpCode.computeGTE, r_standard0, r_1, r_1));
+                operations.add(new Op(OpCode.computeGTE, r_1, r_standard0, r_1));
                 break;
         }
         return operations;
@@ -306,4 +306,127 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         return operations;
     }
 
+    @Override
+    public List<Op> visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
+        List<Reg> flowRegList = regsList.get(ctx);
+        regsList.put(ctx.flow(), flowRegList);
+        Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
+
+        List<Op> operations = visit(ctx.flow());
+        String id = ctx.ID().getText();
+        symbolTable.add(id);
+        int offset = symbolTable.get(id);
+
+        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+        operations.add(new Op(OpCode.storeDIRA, r_load, r_res));
+
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
+        String id = ctx.ID().getText();
+        int offset = symbolTable.get(id);
+        List<Op> operations = new ArrayList<>();
+
+        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+        operations.add(new Op(OpCode.loadADDR, r_load, r_load));
+        operations.add(new Op(OpCode.push, r_load));
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
+        List<Reg> flowRegList = regsList.get(ctx);
+        regsList.put(ctx.expr(), flowRegList);
+        Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
+        List<Op> operations = new ArrayList<>();
+
+        operations.add(new Op(OpCode.pop, r_res));
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitTimesexpr(BoogyQParser.TimesexprContext ctx) {
+        BoogyQParser.ExprContext leftexpr = ctx.expr(0);
+        BoogyQParser.ExprContext rightexpr = ctx.expr(1);
+
+        List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
+        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+
+        regsList.put(leftexpr, exprRegList);
+        List<Op> operations = visit(leftexpr);
+
+        exprRegList = regsList.get(ctx).subList(0, regCount.get(rightexpr));
+        regsList.put(rightexpr, exprRegList);
+        operations.addAll(visit(rightexpr));
+
+        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_1));
+        operations.add(new Op(OpCode.computeMUL, r_1, r_standard0, r_1));
+        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
+        operations.add(new Op(OpCode.push, r_1));
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitPlusexpr(BoogyQParser.PlusexprContext ctx) {
+        BoogyQParser.ExprContext leftexpr = ctx.expr(0);
+        BoogyQParser.ExprContext rightexpr = ctx.expr(1);
+
+        List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
+        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+
+        regsList.put(leftexpr, exprRegList);
+        List<Op> operations = visit(leftexpr);
+
+        exprRegList = regsList.get(ctx).subList(0, regCount.get(rightexpr));
+        regsList.put(rightexpr, exprRegList);
+        operations.addAll(visit(rightexpr));
+
+        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_1));
+        if (ctx.getChild(1).getText().equals("+")) {
+            operations.add(new Op(OpCode.computeADD, r_1, r_standard0, r_1));
+        } else {
+            operations.add(new Op(OpCode.computeSUB, r_1, r_standard0, r_1));
+        }
+        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
+        operations.add(new Op(OpCode.push, r_1));
+        return operations;
+        }
+
+    @Override
+    public List<Op> visitMinusexpr(BoogyQParser.MinusexprContext ctx) {
+        BoogyQParser.ExprContext leftexpr = ctx.expr();
+
+        List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
+        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+
+        regsList.put(leftexpr, exprRegList);
+        List<Op> operations = visit(leftexpr);
+
+        operations.add(new Op(OpCode.pop, r_1));
+        operations.add(new Op(OpCode.computeSUB, r_standard0, r_1, r_1));
+        operations.add(new Op(OpCode.push, r_1));
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitNotexpr(BoogyQParser.NotexprContext ctx) {
+        BoogyQParser.ExprContext leftexpr = ctx.expr();
+
+        List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
+        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+
+        regsList.put(leftexpr, exprRegList);
+        List<Op> operations = visit(leftexpr);
+
+        operations.add(new Op(OpCode.pop, r_1));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
+        operations.add(new Op(OpCode.computeXOR, r_standard0, r_1, r_1));
+        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
+        operations.add(new Op(OpCode.push, r_1));
+        return operations;
+    }
 }
