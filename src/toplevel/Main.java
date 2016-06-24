@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import parser.BoogyQLexer;
 import parser.BoogyQParser;
 import preprocessor.PreProcessor;
+import sprocl.Assembler;
 import sprocl.model.Program;
 
 import java.io.File;
@@ -88,6 +89,11 @@ public class Main {
                         Program prog = Generator.getInstance().generate(parsed);
                         System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
+                        System.out.println("----------------------------");
+                        System.out.println("\n\n");
+                        String sproclcode = Assembler.assemble(prog, the_file.getName().replace(".boog",""));
+                        System.out.println("-----Sprocl Code:---------------");
+                        System.out.println(sproclcode);
                         System.out.println("----------------------------");
                     }
 
