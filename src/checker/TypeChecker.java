@@ -83,7 +83,7 @@ public class TypeChecker extends BoogyQBaseListener {
 
     @Override
     public void exitTimesexpr(BoogyQParser.TimesexprContext ctx) {
-        if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
+        if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
             errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
         }
         types.put(ctx, INT);
@@ -91,7 +91,7 @@ public class TypeChecker extends BoogyQBaseListener {
 
     @Override
     public void exitPowerexpr(BoogyQParser.PowerexprContext ctx) {
-        if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
+        if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
             errors.add(ctx.getStart().getLine() - junklines + "-Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
         }
         types.put(ctx, INT);
@@ -160,7 +160,7 @@ public class TypeChecker extends BoogyQBaseListener {
             }
 
         } else {
-            if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
+            if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
                 errors.add(ctx.getStart().getLine() - junklines + "-Operation - not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
             }
             types.put(ctx, types.get(ctx.getChild(0)));
@@ -324,13 +324,13 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    /*@Override
     public void enterTimesexpr(BoogyQParser.TimesexprContext ctx) {
         if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
             errors.add(ctx.getStart().getLine() - junklines + "-Operation * not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
         }
         types.put(ctx, types.get(ctx.getChild(0)));
-    }
+    }*/
 
     @Override
     public void exitIfstat(BoogyQParser.IfstatContext ctx) {
