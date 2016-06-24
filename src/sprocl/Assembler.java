@@ -44,6 +44,7 @@ public class Assembler {
 		}
 		String sproclCode;
 		switch (opCode){
+
 			//All the compute operations
 			case computeADD:
 				sproclCode = ("Compute Add " + args.get(0) + " " + args.get(1) + " " + args.get(2));
@@ -82,21 +83,43 @@ public class Assembler {
 			case computeXOR:
 				sproclCode = ("Compute Xor " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
+
+
 			//All the load operations
 			case loadCONST:
 				sproclCode = ("Load " + "(ImmValue " + args.get(0)+ ") " + args.get(1));
 				break;
 			case loadDIRA:
+				sproclCode = ("Load " + "(DirAddr " + args.get(0)+ ") " + args.get(1));
+				break;
+			case loadINDA:
 				sproclCode = ("Load " + "(IndAddr " + args.get(0)+ ") " + args.get(1));
 				break;
 
+
 			//All the store operations
+			case storeCONST:
+				sproclCode = ("Store " + args.get(0) + " (ImmValue "+ args.get(1) + ")");
+				break;
 			case storeDIRA:
 				sproclCode = ("Store " + args.get(0) + " (DirAddr "+ args.get(1) + ")");
 				break;
 			case storeINDA:
 				sproclCode = ("Store " + args.get(0) + " (IndAddr "+ args.get(1) + ")");
 				break;
+
+
+			//All the branch statements
+			case branchABS:
+				sproclCode = ("Branch" + args.get(0) + "(Abs " + args.get(1)+ ")");
+				break;
+			case branchREL:
+				sproclCode = ("Branch" + args.get(0) + "(Rel " + args.get(1)+ ")");
+				break;
+			case branchIND:
+				sproclCode = ("Branch" + args.get(0) + "(Ind " + args.get(1)+ ")");
+				break;
+
 
 			//All the stack operations
 			case push:
@@ -106,9 +129,9 @@ public class Assembler {
 				sproclCode = ("Pop " + args.get(0));
 				break;
 
+
 			default:
-				sproclCode = ("???TBD???"); //TODO: Throw an error.
-				break;
+				throw new UnsupportedOperationException(operation.toString());
 		}
 		return sproclCode;
 	}

@@ -123,6 +123,34 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         return operations;
     }
 
+    @Override
+    public List<Op> visitIfstat(BoogyQParser.IfstatContext ctx) {
+        List<Op> operations = new ArrayList<>();
+        List<Reg> ifRegList = regsList.get(ctx);
+
+        List<Reg> exprRegList = ifRegList.subList(0, regCount.get(ctx.expr()));
+        regsList.put(ctx.expr(), exprRegList);
+        operations.addAll(visit(ctx.expr()));
+
+        List<Reg> statementRegList;
+        List<Op> statementoperations = new ArrayList<>();
+
+        symbolTable.openScope();
+        for(BoogyQParser.StatementContext context : ctx.statement()){
+            statementRegList = ifRegList.subList(0, regCount.get(context));
+            regsList.put(context, statementRegList);
+            statementoperations.addAll(visit(context));
+        }
+        symbolTable.closeScope();
+
+        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_load));
+        operations.add(new Op(OpCode.computeXOR, r_standard0, r_load, r_standard0));
+        operations.add(new Op(OpCode.branchREL, r_standard0, new Num(statementoperations.size())));
+        operations.addAll(statementoperations);
+        return operations;
+    }
+
     //EVERYTHING CONERCING STATEMENTS
     @Override
     public List<Op> visitCommentstat(BoogyQParser.CommentstatContext ctx) {
