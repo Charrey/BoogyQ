@@ -92,7 +92,7 @@ public class Assembler {
 				break;
 			//All the load operations
 			case loadCONST:
-				sproclCode = ("Load " + "(Num " + args.get(0)+ ") " + args.get(1));
+				sproclCode = ("Load " + "(ImmValue " + args.get(0)+ ") " + args.get(1));
 				break;
 
 			//All the store operations
