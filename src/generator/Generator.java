@@ -2,6 +2,7 @@ package generator;
 
 import checker.*;
 import exceptions.generator.RegisterException;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -261,17 +262,23 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitPowerexpr(BoogyQParser.PowerexprContext ctx) {
-       // List<Op> operations = new ArrayList<>();
-        //Reg target = regs.get(ctx);
+        int leftwants = regCount.get(ctx.expr(0));
+        int rightwants = regCount.get(ctx.expr(1));
 
-        //regs.put(ctx.getChild(0),target);
-        //List<Op> baseOps = visit(ctx.getChild(0));
-        //operations.addAll(baseOps);
+        List<Reg> wehave = regsList.get(ctx);
+        List<Reg> leftmayhave = wehave.subList(0, leftwants);
+        List<Reg> rightmayhave = wehave.subList(0, rightwants);
 
-        //Reg expReg = new Reg(String.valueOf(regCount++));
-        //r//egs.put(ctx.getChild(2), expReg);
-        //List<Op> expOps = visit(ctx.getChild(2));
-        //operations.addAll(expOps);
+        regsList.put(ctx.expr(0), leftmayhave);
+        regsList.put(ctx.expr(1), rightmayhave);
+
+        List<Op> left = visit(ctx.expr(0));
+
+        left.add(new Op(OpCode.push, leftmayhave.get(leftmayhave.size()-1)));
+
+        List<Op> right = visit(ctx.expr(1));
+
+
         return null;
     }
 

@@ -3,7 +3,9 @@ package toplevel;
 import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.TypeChecker;
+import exceptions.generator.RegisterException;
 import exceptions.parser.ParseException;
+import generator.Generator;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,6 +13,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import parser.BoogyQLexer;
 import parser.BoogyQParser;
 import preprocessor.PreProcessor;
+import sprocl.model.Program;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -60,13 +63,8 @@ public class Main {
                 get = scanner.nextLine();
                 index = arrayContainsString(get, files);
             }
-
             boolean exit = false;
-
-
             while (!exit) {
-
-
                 File the_file = files[index];
 
                 byte[] encoded = new byte[0];
@@ -130,11 +128,14 @@ public class Main {
                         System.out.println("Could not compile, program had errors.");
                     } else {
                         System.out.println("Program has no errors.");
+                        Program prog = Generator.getInstance().generate(parsed);
+                        System.out.println(prog.prettyPrint());
                     }
-
 
                 } catch (IOException e) {
                     System.out.println("Error while reading file.");
+                } catch (RegisterException e) {
+                    System.out.println(e.getMessage());
                 }
 
                 while (true) {
@@ -149,10 +150,7 @@ public class Main {
                     }
                 }
             }
-
         }
-
-
     }
 
 

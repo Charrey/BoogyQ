@@ -1,5 +1,6 @@
 package test;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -10,24 +11,7 @@ import java.util.Arrays;
  */
 public class kloten {
 
-    public static void main(String[] args) {
-        Charset set = Charset.forName("UTF-32");
-        char[] arr = {'6'};
-        ByteBuffer result = set.encode(CharBuffer.wrap(arr));
-        System.out.println(result.getInt());
-    }
-
-    int ipow(int base, int exp)
-    {
-        int result = 1;
-        while (exp!=0)
-        {
-            if ((exp & 1) !=0)
-                result *= base;
-            exp >>= 1;
-            base *= base;
-        }
-
-        return result;
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        System.out.println(ByteBuffer.wrap("A".getBytes("UTF-32")).getInt());
     }
 }

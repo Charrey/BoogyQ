@@ -86,7 +86,7 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
-        regcount.put(ctx, visit(ctx.expr()));
+        regcount.put(ctx, Math.max(1, visit(ctx.expr())));
         return regcount.get(ctx);
     }
 
