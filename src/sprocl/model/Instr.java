@@ -38,49 +38,11 @@ public abstract class Instr implements Iterable<Op> {
 		this.line = line;
 	}
 
-	/** Indicates if this instruction has a (non-<code>null</code>) label. */
-	public boolean hasLabel() {
-		return getLabel() != null;
-	}
-
-	/** Returns the optional label of this instruction. */
-	public Label getLabel() {
-		return this.label;
-	}
-
-	/** Sets the optional label of this instruction.
-	 */
-	public void setLabel(Label label) {
-		if (label == null) {
-			throw new IllegalArgumentException("Label may not be null");
-		}
-		if (!(this.label == null || this.label.equals(label))) {
-			throw new IllegalArgumentException("Conflicting labels '"
-					+ this.label + "' and '" + label + "'");
-		}
-		assert label != null && this.label == null || label.equals(this.label);
-		if (this.label == null) {
-		this.label = label;
-		if (this.prog != null) {
-			this.prog.registerLabel(this);
-		}
-		}
-	}
-
 	/** Sets the program in which this instruction occurs.
 	 */
 	void setProgram(Program prog) {
 		assert this.prog == null & prog != null;
 		this.prog = prog;
-	}
-
-	/** Returns the string representation of the optional label. */
-	String toLabelString() {
-		if (hasLabel()) {
-			return getLabel() + LABEL_SEP;
-		} else {
-			return "";
-		}
 	}
 
 	/** Returns a string of the form

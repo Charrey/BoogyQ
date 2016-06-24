@@ -111,13 +111,13 @@ public class Assembler {
 
 			//All the branch statements
 			case branchABS:
-				sproclCode = ("Branch " + args.get(0) + "(Abs " + args.get(1)+ ")");
+				sproclCode = ("Branch " + args.get(0) + " (Abs " + args.get(1)+ ")");
 				break;
 			case branchREL:
-				sproclCode = ("Branch " + args.get(0) + "(Rel " + args.get(1)+ ")");
+				sproclCode = ("Branch " + args.get(0) + " (Rel " + args.get(1)+ ")");
 				break;
 			case branchIND:
-				sproclCode = ("Branch " + args.get(0) + "(Ind " + args.get(1)+ ")");
+				sproclCode = ("Branch " + args.get(0) + " (Ind " + args.get(1)+ ")");
 				break;
 
 

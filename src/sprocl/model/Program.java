@@ -45,24 +45,10 @@ public class Program {
 	public void addInstr(Instr instr) {
 		instr.setProgram(this);
 		instr.setLine(this.opList.size());
-		if (instr.hasLabel()) {
-			registerLabel(instr);
-		}
 		this.instrList.add(instr);
 		for (Op op : instr) {
 			this.opList.add(op);
 		}
-	}
-
-	/** Registers the label of a given instruction. */
-	void registerLabel(Instr instr) {
-		Label label = instr.getLabel();
-		Integer loc = this.labelMap.get(label);
-		if (loc != null) {
-			throw new IllegalArgumentException(String.format(
-					"Label %s already occurred at location %d", label, loc));
-		}
-		this.labelMap.put(label, instr.getLine());
 	}
 
 	/** Returns the current list of instructions of this program. */
@@ -250,7 +236,7 @@ public class Program {
 		int sourceSize = 0;
 		int targetSize = 0;
 		for (Instr i : getInstr()) {
-			labelSize = Math.max(labelSize, i.toLabelString().length());
+			labelSize = 0;
 			if (i instanceof Op) {
 			Op op = (Op) i;
 			sourceSize = Math.max(sourceSize, op.toSourceString().length());

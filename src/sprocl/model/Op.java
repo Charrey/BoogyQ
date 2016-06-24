@@ -27,30 +27,20 @@ public class Op extends Instr {
 	/** The optional comment for this operation. */
 	private String comment;
 
+	private String label;
+
+
 	/** Constructs an unlabelled operation with a given opcode and arguments. */
 	public Op(OpCode opCode, Operand... args) {
-		this(null, opCode, args);
-	}
-
-	/** Constructs an unlabelled operation with a given opcode and arguments. */
-	public Op(OpCode opCode, List<Operand> args) {
-		this(null, opCode, args);
-	}
-
-	/** Constructs a labelled operation with a given opcode and arguments. */
-	public Op(Label label, OpCode opCode, Operand... args) {
-		this(label, opCode, Arrays.asList(args));
+		this(opCode, Arrays.asList(args));
 	}
 
 	/** Constructs a labelled operation with a given opcode and arguments.
 	 * @throws IllegalArgumentException if one of the arguments
 	 * is not of the expected type 
 	 */
-	public Op(Label label, OpCode opCode, List<Operand> args)
+	public Op(OpCode opCode, List<Operand> args)
 			throws IllegalArgumentException {
-		if (label != null) {
-			super.setLabel(label);
-		}
 		this.opCode = opCode;
 		int argsCount = opCode.getSigSize();
 		if (args.size() != argsCount) {
@@ -134,10 +124,6 @@ public class Op extends Instr {
 	@Override
 	public String prettyPrint(int labelSize, int sourceSize, int targetSize) {
 		StringBuilder result = new StringBuilder();
-		if (labelSize > 0) {
-			result.append(String
-					.format("%-" + labelSize + "s", toLabelString()));
-		}
 		int arrowSize = 4;
 		if (getClaz() == COMMENT) {
 			result.append(toCommentString());
@@ -161,7 +147,6 @@ public class Op extends Instr {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(toLabelString());
 		if (getClaz() != COMMENT) {
 			result.append(getOpCode());
 			if (getOpCode().getSourceCount() > 0) {
@@ -267,5 +252,13 @@ public class Op extends Instr {
 			return false;
 		}
 		return true;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 }

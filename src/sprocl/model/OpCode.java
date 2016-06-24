@@ -48,6 +48,7 @@ public enum OpCode {
 	jumpABS(CONTROL, 0, NUM),
 	jumpREL(CONTROL, 0, NUM),
 	jumpIND(CONTROL, 0, REG),
+	jumpLABEL(CONTROL, 0, STR),
 
 	//The branch statements
 	branchABS(CONTROL, 0, REG, NUM),
@@ -75,6 +76,8 @@ public enum OpCode {
 
 	writeDIRA(2,REG,REG),
 	writeINDA(2,REG,REG);
+
+
 
 	/** The class that this opcode falls into. */
 	private final OpClaz claz;

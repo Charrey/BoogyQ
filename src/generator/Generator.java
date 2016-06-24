@@ -46,7 +46,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     private Reg r_standard0 = new Reg("1"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
     //private Reg r_arp = new Reg("r_arp");
     private Reg r_load = new Reg("2");
-    private int label_counter;
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
