@@ -96,14 +96,15 @@ public final class PreProcessor {
         for (int i = 0; i<splitted.length; i++) {
 
             try {
-
                 if (splitted[i].startsWith("int ")) {
-                    splitted[i] = "0 -> " + splitted[i];
+                    res += splitted[i] + "\n";
                     continue;
+                    //splitted[i] = "0 -> " + splitted[i];
                 }
                 if (splitted[i].startsWith("char ")) {
-                    splitted[i] = "\'A\' -> " + splitted[i];
+                    res += splitted[i] + "\n";
                     continue;
+                    //splitted[i] = "\'A\' -> " + splitted[i];
                 }
 
                 String type = null;
@@ -112,7 +113,6 @@ public final class PreProcessor {
                 } else if (splitted[i].startsWith("char")) {
                     type = "char";
                 }
-
 
                 if (type != null) {
                     List<String> args = new LinkedList<>();
