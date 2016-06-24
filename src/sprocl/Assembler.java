@@ -33,17 +33,48 @@ public class Assembler {
 				"import HardwareTypes\n" +
 				"import Sprockell\n" +
 				"import System\n" +
-				"import Simulation");
-		for(Instr instr: program.getInstr()){
+				"import Simulation\n" +
+				"prog :: [Instruction]\n" +
+				"prog = [");
+		for(Instr instr: program.getInstr()) {
 			System.out.println(instr.toString());
 			Op operation = (Op) instr;
 			OpCode opCode = operation.getOpCode();
-
+			List<String> args = new ArrayList<>();
+			for (Operand arg: operation.getArgs()){
+				args.add(arg.toString());
+			}
+			sproclCode.append("\n\t\t");
 			switch (opCode){
+				//All the compute operations
 				case computeADD:
+					sproclCode.append("Compute Add " + args.get(0) + " " + args.get(1) + " " + args.get(2));
+					break;
 
+				//All the load operations
+				case loadCONST:
+					sproclCode.append("Load " + "NUM(" + args.get(0)+ ") " + args.get(1));
+					break;
+
+				//All the store operations
+				case storeDIRA:
+					sproclCode.append("Store " + args.get(0) + " (DirAddr "+ args.get(1) + ")");
+					break;
+
+				//All the stack operations
+				case push:
+					sproclCode.append("Push " + args.get(0));
+					break;
+				case pop:
+					sproclCode.append("Pop " + args.get(0));
+					break;
+
+				default:
+					sproclCode.append("???TBD???"); //TODO: Throw an error.
+					break;
 			}
 		}
+		sproclCode.append("\n]");
 		return sproclCode.toString();
 	}
 }
