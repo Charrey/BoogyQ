@@ -96,21 +96,10 @@ public final class PreProcessor {
         for (int i = 0; i<splitted.length; i++) {
 
             try {
-                if (splitted[i].startsWith("int ")) {
-                    res += splitted[i] + "\n";
-                    continue;
-                    //splitted[i] = "0 -> " + splitted[i];
-                }
-                if (splitted[i].startsWith("char ")) {
-                    res += splitted[i] + "\n";
-                    continue;
-                    //splitted[i] = "\'A\' -> " + splitted[i];
-                }
-
                 String type = null;
-                if (splitted[i].startsWith("int")) {
+                if (splitted[i].startsWith("int[")) {
                     type = "int";
-                } else if (splitted[i].startsWith("char")) {
+                } else if (splitted[i].startsWith("char[")) {
                     type = "char";
                 }
 

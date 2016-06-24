@@ -29,8 +29,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     }
 
 
-    /** The base register. */
-    private Reg arp = new Reg("r_arp");
+
     /** Association of statement nodes to labels. */
     private ParseTreeProperty<Label> labels;
     /** The program being built. */
@@ -46,9 +45,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
                                                   //Atm we only have int, char and bool
                                                     // int = 0; char = A; bool = False;
 
-    private Reg r_standard0 = new Reg("r_standard0"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
-    private Reg r_arp = new Reg("r_arp");
-    private Reg r_load = new Reg("r_load");
+    private Reg r_standard0 = new Reg("0"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
+    //private Reg r_arp = new Reg("r_arp");
+    private Reg r_load = new Reg("1");
     private int label_counter;
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
@@ -73,8 +72,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         }
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
-        for (int i = 1; i < regCount.get(tree) -2 ; i++){
-            regsListForTopNode.add(new Reg("r_"+i));
+        for (int i = 2; i < regCount.get(tree) - 1 ; i++){
+            regsListForTopNode.add(new Reg(String.valueOf(i)));
         }
         regsList.put(tree,regsListForTopNode);
         labels = new ParseTreeProperty<>();
@@ -150,8 +149,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         if(ctx.BOOL().getText().equals("True")){
             operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
             operations.add(new Op(OpCode.push, r_standard0));
-            operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        } else {
+                    } else {
             operations.add(new Op(OpCode.push, r_standard0));
         }
         return operations;
@@ -164,8 +162,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         int number = Integer.parseInt(ctx.NUMBER().getText());
         operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
         operations.add(new Op(OpCode.push, r_standard0));
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        return operations;
+                return operations;
     }
 
     @Override
@@ -176,8 +173,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             int charValue = ByteBuffer.wrap(character.getBytes("UTF-32")).getInt();
             operations.add(new Op(OpCode.loadCONST, new Num(charValue), r_standard0));
             operations.add(new Op(OpCode.push, r_standard0));
-            operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-            return operations;
+                        return operations;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             throw new IllegalStateException();
@@ -215,8 +211,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         } else {
             operations.add(new Op(OpCode.computeOR, r_standard0, r_1, r_1));
         }
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.push, r_1));
+                operations.add(new Op(OpCode.push, r_1));
         return operations;
     }
 
@@ -308,7 +303,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
         operations.add(new Op(OpCode.storeDIRA, r_load, r_standard0));
         operations.add(new Op(OpCode.push, r_standard0));
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
 
         return operations;
     }
@@ -371,8 +365,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         operations.add(new Op(OpCode.pop, r_standard0));
         operations.add(new Op(OpCode.pop, r_1));
         operations.add(new Op(OpCode.computeMUL, r_1, r_standard0, r_1));
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.push, r_1));
+                operations.add(new Op(OpCode.push, r_1));
         return operations;
     }
 
@@ -398,8 +391,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         } else {
             operations.add(new Op(OpCode.computeSUB, r_1, r_standard0, r_1));
         }
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.push, r_1));
+                operations.add(new Op(OpCode.push, r_1));
         return operations;
         }
 
@@ -414,6 +406,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = visit(leftexpr);
 
         operations.add(new Op(OpCode.pop, r_1));
+        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
         operations.add(new Op(OpCode.computeSUB, r_standard0, r_1, r_1));
         operations.add(new Op(OpCode.push, r_1));
         return operations;
@@ -432,8 +425,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         operations.add(new Op(OpCode.pop, r_1));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
         operations.add(new Op(OpCode.computeXOR, r_standard0, r_1, r_1));
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.push, r_1));
+                operations.add(new Op(OpCode.push, r_1));
         return operations;
     }
 }
