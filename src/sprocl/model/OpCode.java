@@ -40,7 +40,7 @@ public enum OpCode {
 
 	//The load functions
 	loadCONST(1, NUM, REG),
-	loadADDR(1, NUM, REG),
+	loadADDR(1, REG, REG),
 	loadDEF(1, REG, REG),
 	//TODO: Load (Defer p) toReg
 

@@ -40,14 +40,14 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     private ParseTreeProperty<Integer> regCount;
 
 
-    private OffsetSymbolTable symbolTable = new OffsetSymbolTable();
+    private OffsetSymbolTable symbolTable;
     private final Map<String, Num> defaultValues; //The default values for all types.
                                                   //Atm we only have int, char and bool
                                                     // int = 0; char = A; bool = False;
 
-    private Reg r_standard0 = new Reg("0"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
+    private Reg r_standard0 = new Reg("1"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
     //private Reg r_arp = new Reg("r_arp");
-    private Reg r_load = new Reg("1");
+    private Reg r_load = new Reg("2");
     private int label_counter;
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
@@ -62,6 +62,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     }
 
     public Program generate(ParseTree tree) throws RegisterException {
+        symbolTable = new OffsetSymbolTable();
         prog = new Program();
         regsList = new ParseTreeProperty<List<Reg>>();
         label = new ParseTreeProperty<>();
@@ -72,7 +73,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         }
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
-        for (int i = 2; i < regCount.get(tree) - 1 ; i++){
+        for (int i = 3; i < regCount.get(tree) ; i++){
             regsListForTopNode.add(new Reg(String.valueOf(i)));
         }
         regsList.put(tree,regsListForTopNode);
@@ -268,9 +269,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(ctx.expr(1), rightmayhave);
 
         List<Op> left = visit(ctx.expr(0));
-
-        left.add(new Op(OpCode.push, leftmayhave.get(leftmayhave.size()-1)));
-
         List<Op> right = visit(ctx.expr(1));
 
 

@@ -89,13 +89,16 @@ public class Main {
                         Program prog = Generator.getInstance().generate(parsed);
                         System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
-                        System.out.println("----------------------------");
-                        System.out.println("\n\n");
-                        String sproclcode = Assembler.assemble(prog, the_file.getName().replace(".boog",""));
-                        writeToFile(sproclcode,the_file.getName().replace(".boog",".hs"));
+
+                        String withoutextension = the_file.getName().replace(".boog", "");
+                        String bettername = withoutextension.substring(0, 1).toUpperCase() + withoutextension.substring(1);
+
+                        String sproclcode = Assembler.assemble(prog, bettername);
                         System.out.println("-----Sprocl Code:---------------");
                         System.out.println(sproclcode);
                         System.out.println("----------------------------");
+                        writeToFile(sproclcode,bettername + ".hs");
+                        System.out.println(bettername + ".hs");
                     }
 
                 } catch (IOException e) {
