@@ -37,7 +37,10 @@ public class Assembler {
 				"prog :: [Instruction]\n" +
 				"prog = [");
 		for(Instr instr: program.getInstr()) {
-			sproclCode.append("\n\t\t, ");
+			sproclCode.append("\n\t\t");
+			if (instr.getLine() != 0) {
+				sproclCode.append(", ");
+			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
 		sproclCode.append("\n]");
