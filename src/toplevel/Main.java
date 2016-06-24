@@ -18,6 +18,7 @@ import sprocl.model.Program;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -160,6 +161,20 @@ public class Main {
         }
         errors = new TypeChecker().check(tree);
         return errors;
+    }
+
+    public static void writeToFile(String input, String filename) throws IOException {
+        PrintWriter out = null;
+        try {
+            new File(filename).createNewFile();
+            out = new PrintWriter(filename);
+            out.write(input);
+        }
+        finally {
+            if (out!=null) {
+                out.close();
+            }
+        }
     }
 
 
