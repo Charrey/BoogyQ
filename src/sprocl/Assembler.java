@@ -102,6 +102,9 @@ public class Assembler {
 			case loadCONST:
 				sproclCode = ("Load " + "(ImmValue " + args.get(0)+ ") " + args.get(1));
 				break;
+			case loadADDR:
+				sproclCode = ("Load " + "(IndAddr " + args.get(0)+ ") " + args.get(1));
+				break;
 
 			//All the store operations
 			case storeDIRA:
