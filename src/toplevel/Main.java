@@ -92,6 +92,7 @@ public class Main {
                         System.out.println("----------------------------");
                         System.out.println("\n\n");
                         String sproclcode = Assembler.assemble(prog, the_file.getName().replace(".boog",""));
+                        writeToFile(sproclcode,the_file.getName().replace(".boog",".hs"));
                         System.out.println("-----Sprocl Code:---------------");
                         System.out.println(sproclcode);
                         System.out.println("----------------------------");

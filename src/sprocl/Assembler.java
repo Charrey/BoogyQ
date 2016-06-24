@@ -36,6 +36,7 @@ public class Assembler {
 				"import Simulation\n" +
 				"prog :: [Instruction]\n" +
 				"prog = [");
+
 		for(Instr instr: program.getInstr()) {
 			System.out.println(instr.toString());
 			Op operation = (Op) instr;
@@ -90,5 +91,9 @@ public class Assembler {
 		}
 		sproclCode.append("\n]");
 		return sproclCode.toString();
+	}
+
+	public static String convertToSprocl(OpCode opCode, List<Operation> args){
+		return null;
 	}
 }
