@@ -6,8 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import parser.BoogyQBaseListener;
-import parser.BoogyQParser;
+import parser.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;

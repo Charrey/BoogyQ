@@ -2,8 +2,7 @@ package checker;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import parser.BoogyQBaseListener;
-import parser.BoogyQParser;
+import parser.*;
 
 import java.util.LinkedList;
 import java.util.List;

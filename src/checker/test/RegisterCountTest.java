@@ -9,8 +9,7 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Before;
 import org.junit.Test;
-import parser.BoogyQLexer;
-import parser.BoogyQParser;
+import parser.*;
 import preprocessor.PreProcessor;
 
 import java.util.List;

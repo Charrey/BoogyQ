@@ -1,4 +1,4 @@
-// Generated from C:/Users/poesd_000/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
+// Generated from C:/Users/jij/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -59,7 +59,7 @@ public class BoogyQBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEmptystat(BoogyQParser.EmptystatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBarecomment(BoogyQParser.BarecommentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

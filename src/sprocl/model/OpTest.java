@@ -1,6 +1,7 @@
 package sprocl.model;
 
-import org.testng.annotations.Test;
+
+import org.junit.Test;
 
 /**
  * Created by Hans on 21-6-2016.

@@ -6,8 +6,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import parser.BoogyQBaseVisitor;
-import parser.BoogyQParser;
+import parser.*;
 import sprocl.model.*;
 
 import java.io.UnsupportedEncodingException;
@@ -155,6 +154,11 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitCommentstat(BoogyQParser.CommentstatContext ctx) {
         regsList.put(ctx.statement(), regsList.get(ctx));
         return visit(ctx.statement());
+    }
+
+    @Override
+    public List<Op> visitBarecomment(BoogyQParser.BarecommentContext ctx) {
+        return new LinkedList<>();
     }
 
     // EVERYTHING CONCERNING FLOWS
@@ -339,6 +343,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         List<Reg> flowRegList = regsList.get(ctx);
         regsList.put(ctx.flow(), flowRegList);
+
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
 
         List<Op> operations = visit(ctx.flow());
@@ -359,7 +364,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
 
         operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.loadDIRA, r_load, r_load));
+        operations.add(new Op(OpCode.loadINDA, r_load, r_load));
         operations.add(new Op(OpCode.push, r_load));
         return operations;
     }

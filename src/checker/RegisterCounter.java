@@ -2,13 +2,12 @@ package checker;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import parser.BoogyQBaseVisitor;
-import parser.BoogyQParser;
+import parser.*;
 
 /**
  * Created by poesd_000 on 21/06/2016.
  */
-public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
+public class RegisterCounter extends BoogyQBaseVisitor<Integer> {
 
     public int check(ParseTree input) {
         return input.accept(this);
@@ -32,6 +31,12 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
 
     @Override
     public Integer visitBoolexpr(BoogyQParser.BoolexprContext ctx) {
+        regcount.put(ctx, 0);
+        return 0;
+    }
+
+    @Override
+    public Integer visitBarecomment(BoogyQParser.BarecommentContext ctx) {
         regcount.put(ctx, 0);
         return 0;
     }
@@ -142,17 +147,19 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer>{
         return regcount.get(ctx);
     }
 
-    @Override
-    public Integer visitEmptystat(BoogyQParser.EmptystatContext ctx) {
-        regcount.put(ctx, 0);
-        return 0;
-    }
+//    @Override
+//    public Integer visitEmptystat(BoogyQParser.EmptystatContext ctx) {
+//        regcount.put(ctx, 0);
+//        return 0;
+//    }
 
     @Override
     public Integer visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         regcount.put(ctx, visit(ctx.flow()));
         return regcount.get(ctx);
     }
+
+
 
     @Override
     public Integer visitDeclexpr(BoogyQParser.DeclexprContext ctx) {

@@ -2,9 +2,8 @@ package checker;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import parser.BoogyQBaseListener;
-import parser.BoogyQParser;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import parser.*;
 
 import java.math.BigInteger;
 import java.util.HashSet;

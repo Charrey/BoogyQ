@@ -1,4 +1,4 @@
-// Generated from C:/Users/poesd_000/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
+// Generated from C:/Users/jij/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -78,17 +78,17 @@ public interface BoogyQListener extends ParseTreeListener {
 	 */
 	void exitFlowstat(BoogyQParser.FlowstatContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code emptystat}
+	 * Enter a parse tree produced by the {@code barecomment}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterEmptystat(BoogyQParser.EmptystatContext ctx);
+	void enterBarecomment(BoogyQParser.BarecommentContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code emptystat}
+	 * Exit a parse tree produced by the {@code barecomment}
 	 * labeled alternative in {@link BoogyQParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitEmptystat(BoogyQParser.EmptystatContext ctx);
+	void exitBarecomment(BoogyQParser.BarecommentContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code commentstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.

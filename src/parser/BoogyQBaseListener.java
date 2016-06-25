@@ -1,4 +1,4 @@
-// Generated from C:/Users/poesd_000/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.3
+// Generated from C:/Users/jij/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -88,13 +88,13 @@ public class BoogyQBaseListener implements BoogyQListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEmptystat(BoogyQParser.EmptystatContext ctx) { }
+	@Override public void enterBarecomment(BoogyQParser.BarecommentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEmptystat(BoogyQParser.EmptystatContext ctx) { }
+	@Override public void exitBarecomment(BoogyQParser.BarecommentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
