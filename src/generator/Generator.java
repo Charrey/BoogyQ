@@ -61,7 +61,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     public Program generate(ParseTree tree) throws RegisterException {
         if_statements = new Stack<>();
-        if_statement_counter = 0;
+        if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
         prog = new Program();
         regsList = new ParseTreeProperty<List<Reg>>();
@@ -131,14 +131,16 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         List<Reg> ifRegList = regsList.get(ctx);
 
-        if_statements.push(if_statement_counter);
+        int myvalue = if_statement_counter;
+        if_statements.push(myvalue);
 
 
         List<Reg> exprRegList = ifRegList.subList(0, regCount.get(ctx.expr()));
         regsList.put(ctx.expr(), exprRegList);
         operations.addAll(visit(ctx.expr()));
 
-        operations.get(0).setLabel(if_statement_counter++);
+        operations.get(0).setIfStartLabel(String.valueOf(myvalue));
+        if_statement_counter++;
 
         List<Reg> statementRegList;
         List<Op> statementoperations = new ArrayList<>();
@@ -157,8 +159,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         operations.add(new Op(OpCode.branchREL, r_standard0, new Num(statementoperations.size()+1)));
         operations.addAll(statementoperations);
 
-
-
+        if_statements.pop();
+        operations.get(operations.size()-1).addIfendlabel(String.valueOf(myvalue));
 
         return operations;
     }
@@ -188,7 +190,15 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitBreakstat(BoogyQParser.BreakstatContext ctx) {
-        return null;
+        List<Op> operations = new ArrayList<>();
+        Stack<Integer> stackcopy = (Stack<Integer>) if_statements.clone();
+        int back = Integer.parseInt(ctx.NUMBER().getText());
+        while (back>0) {
+            stackcopy.pop();
+            back--;
+        }
+        operations.add(new Op(OpCode.jumpBREAK, new Num(stackcopy.pop())));
+        return operations;
     }
 
     @Override

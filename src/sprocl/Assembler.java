@@ -123,7 +123,6 @@ public class Assembler {
 				sproclCode = ("Jump (Rel (" + args.get(0)+ "))");
 				break;
 
-
 			//All the stack operations
 			case push:
 				sproclCode = ("Push " + args.get(0));

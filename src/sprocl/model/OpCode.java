@@ -49,6 +49,7 @@ public enum OpCode {
 	jumpREL(CONTROL, 0, NUM),
 	jumpIND(CONTROL, 0, REG),
 	jumpLABEL(CONTROL, 0, NUM),
+	jumpBREAK(CONTROL, 0, NUM),
 
 	//The branch statements
 	branchABS(CONTROL, 0, REG, NUM),

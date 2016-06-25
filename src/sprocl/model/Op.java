@@ -2,11 +2,7 @@ package sprocl.model;
 
 import static sprocl.model.OpClaz.COMMENT;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import sprocl.model.Operand.Type;
 
@@ -26,8 +22,8 @@ public class Op extends Instr {
 	private final List<Operand> args;
 	/** The optional comment for this operation. */
 	private String comment;
-
-	private int label = -1;
+	private String ifstartlabel = "";
+	private List<String> ifendlabels = new LinkedList<>();
 
 
 	/** Constructs an unlabelled operation with a given opcode and arguments. */
@@ -161,7 +157,7 @@ public class Op extends Instr {
 			result.append(' ');
 		}
 		result.append(toCommentString());
-		return label + " " + result.toString();
+		return " " + result.toString();
 	}
 
 
@@ -214,11 +210,16 @@ public class Op extends Instr {
 			}
 			result.append(o);
 		}
-		if (label!=-1) {
-			return result.toString() + " (label="+label+")";
-		} else {
-			return result.toString();
+
+		String toreturn = result.toString();
+
+		if (!getIfStartLabel().equals("")) {
+			toreturn += " (ifstart="+ifstartlabel+")";
 		}
+		if (!getIfEndLabels().isEmpty()) {
+			toreturn += " (ifend="+getIfEndLabels()+")";
+		}
+		return toreturn;
 	}
 
 	@Override
@@ -255,18 +256,26 @@ public class Op extends Instr {
 		if (!this.args.equals(other.args)) {
 			return false;
 		}
-		if (this.label != other.label) {
+		if (!this.ifstartlabel.equals(other.ifstartlabel)) {
 			return false;
 		}
 		return true;
 	}
 
-	public int getLabel() {
-		return label;
+	public String getIfStartLabel() {
+		return ifstartlabel;
 	}
 
-	public void setLabel(int label) {
-		this.label = label;
+	public void setIfStartLabel(String set) {
+		ifstartlabel = set;
+	}
+
+	public List<String> getIfEndLabels() {
+		return ifendlabels;
+	}
+
+	public void addIfendlabel(String input) {
+		ifendlabels.add(input);
 	}
 
 	public void setArg(int index, Operand op) {
