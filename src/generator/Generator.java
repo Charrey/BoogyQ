@@ -20,7 +20,6 @@ import java.util.*;
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     private static Generator ourInstance = new Generator();
-
     public static Generator getInstance() {
         return ourInstance;
     }
@@ -48,6 +47,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
+    Stack<Integer> if_statements;
+    int if_statement_counter;
+
     ParseTreeProperty<String> label;
 
     private Generator(){
@@ -58,6 +60,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     }
 
     public Program generate(ParseTree tree) throws RegisterException {
+        if_statements = new Stack<>();
+        if_statement_counter = 0;
         symbolTable = new OffsetSymbolTable();
         prog = new Program();
         regsList = new ParseTreeProperty<List<Reg>>();
@@ -75,6 +79,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(tree,regsListForTopNode);
         labels = new ParseTreeProperty<>();
         List<Op> res = tree.accept(this);
+        res = LoopBreakFixer.fix(res);
         for (Op i : res) {
             prog.addInstr(i);
         }
@@ -126,9 +131,14 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         List<Reg> ifRegList = regsList.get(ctx);
 
+        if_statements.push(if_statement_counter);
+
+
         List<Reg> exprRegList = ifRegList.subList(0, regCount.get(ctx.expr()));
         regsList.put(ctx.expr(), exprRegList);
         operations.addAll(visit(ctx.expr()));
+
+        operations.get(0).setLabel(if_statement_counter++);
 
         List<Reg> statementRegList;
         List<Op> statementoperations = new ArrayList<>();
@@ -144,16 +154,41 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         operations.add(new Op(OpCode.pop, r_standard0));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_load));
         operations.add(new Op(OpCode.computeXOR, r_standard0, r_load, r_standard0));
-        operations.add(new Op(OpCode.branchREL, r_standard0, new Num(statementoperations.size())));
+        operations.add(new Op(OpCode.branchREL, r_standard0, new Num(statementoperations.size()+1)));
         operations.addAll(statementoperations);
+
+
+
+
         return operations;
     }
+
+
 
     //EVERYTHING CONERCING STATEMENTS
     @Override
     public List<Op> visitCommentstat(BoogyQParser.CommentstatContext ctx) {
         regsList.put(ctx.statement(), regsList.get(ctx));
         return visit(ctx.statement());
+    }
+
+    @Override
+    public List<Op> visitLoopstat(BoogyQParser.LoopstatContext ctx) {
+        List<Op> operations = new ArrayList<>();
+        Stack<Integer> stackcopy = (Stack<Integer>) if_statements.clone();
+        int back = Integer.parseInt(ctx.NUMBER().getText());
+
+        while (back>0) {
+            stackcopy.pop();
+            back--;
+        }
+        operations.add(new Op(OpCode.jumpLABEL, new Num(stackcopy.pop())));
+        return operations;
+    }
+
+    @Override
+    public List<Op> visitBreakstat(BoogyQParser.BreakstatContext ctx) {
+        return null;
     }
 
     @Override

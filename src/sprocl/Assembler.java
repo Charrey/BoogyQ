@@ -119,6 +119,9 @@ public class Assembler {
 			case branchIND:
 				sproclCode = ("Branch " + args.get(0) + " (Ind " + args.get(1)+ ")");
 				break;
+			case jumpIND:
+				sproclCode = ("Jump (Rel (" + args.get(0)+ "))");
+				break;
 
 
 			//All the stack operations

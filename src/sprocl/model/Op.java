@@ -21,13 +21,13 @@ public class Op extends Instr {
 	private final static String OP_SEP = ",";
 
 	/** The operation code. */
-	private final OpCode opCode;
+	private OpCode opCode;
 	/** The list of arguments of this operation. */
 	private final List<Operand> args;
 	/** The optional comment for this operation. */
 	private String comment;
 
-	private String label;
+	private int label = -1;
 
 
 	/** Constructs an unlabelled operation with a given opcode and arguments. */
@@ -161,7 +161,7 @@ public class Op extends Instr {
 			result.append(' ');
 		}
 		result.append(toCommentString());
-		return result.toString();
+		return label + " " + result.toString();
 	}
 
 
@@ -214,7 +214,11 @@ public class Op extends Instr {
 			}
 			result.append(o);
 		}
-		return result.toString();
+		if (label!=-1) {
+			return result.toString() + " (label="+label+")";
+		} else {
+			return result.toString();
+		}
 	}
 
 	@Override
@@ -251,14 +255,25 @@ public class Op extends Instr {
 		if (!this.args.equals(other.args)) {
 			return false;
 		}
+		if (this.label != other.label) {
+			return false;
+		}
 		return true;
 	}
 
-	public String getLabel() {
+	public int getLabel() {
 		return label;
 	}
 
-	public void setLabel(String label) {
+	public void setLabel(int label) {
 		this.label = label;
+	}
+
+	public void setArg(int index, Operand op) {
+		args.set(index, op);
+	}
+
+	public void setOpCode(OpCode input) {
+		opCode = input;
 	}
 }

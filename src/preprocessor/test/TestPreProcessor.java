@@ -19,12 +19,8 @@ public class TestPreProcessor {
 
     @Test
     public void testDeclarations() throws ParseException {
-        String test = "int a.";
-        String expected = "0 -> int a.";
-        assertEquals(expected, PreProcessor.process(test));
-        test = "char b.";
-        expected = "'A' -> char b.";
-        assertEquals(expected, PreProcessor.process(test));
+        String test;
+        String expected;
         test = "int[4][9] sudoku.";
         expected = "{0}*4*9 -> int[][] sudoku.";
         assertEquals(expected, PreProcessor.process(test));
