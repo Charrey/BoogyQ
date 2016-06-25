@@ -225,8 +225,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
             operations.add(new Op(OpCode.push, r_standard0));
                     } else {
-            operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.push, new Reg("0")));
         }
         return operations;
     }
@@ -485,8 +484,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = visit(leftexpr);
 
         operations.add(new Op(OpCode.pop, r_load));
-        operations.add(new Op(OpCode.loadCONST, new Num(0), r_standard0));
-        operations.add(new Op(OpCode.computeSUB, r_standard0, r_load, r_load));
+        operations.add(new Op(OpCode.computeSUB, new Reg("0") , r_load, r_load));
         operations.add(new Op(OpCode.push, r_load));
         return operations;
     }
