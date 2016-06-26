@@ -346,11 +346,41 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(ctx.expr(0), leftmayhave);
         regsList.put(ctx.expr(1), rightmayhave);
 
-        List<Op> left = visit(ctx.expr(0));
-        List<Op> right = visit(ctx.expr(1));
+        List<Op> operations = visit(ctx.expr(0));
+        operations.addAll(visit(ctx.expr(1)));
+
+        Reg r_result = regsList.get(ctx).get(0);
+        Reg r_base = r_load;
+        Reg r_temp1 = regsList.get(ctx).get(1);
+        Reg r_temp2 = regsList.get(ctx).get(2);
+        Reg r_exponent = r_standard0;
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_temp2));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_result));
+        operations.add(new Op(OpCode.pop, r_exponent)); //exponent
+        operations.add(new Op(OpCode.pop, r_load)); //base
 
 
-        return null;
+
+
+        operations.add(new Op(OpCode.computeEQUAL, r_exponent, new Reg("0"), r_temp1));
+        operations.add(new Op(OpCode.branchREL, r_temp1, new Num(10))); // jump to end of this all
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_temp1));
+        operations.add(new Op(OpCode.computeAND, r_exponent, r_temp1, r_temp1));
+
+
+        operations.add(new Op(OpCode.computeXOR, r_temp2, r_temp1, r_temp1));   // invert condition
+
+        operations.add(new Op(OpCode.branchREL, r_temp1, new Num(2)));              //jump to the end of result mult
+        operations.add(new Op(OpCode.computeMUL, r_result, r_base, r_result));
+        operations.add(new Op(OpCode.computeRSHIFT, r_exponent, r_temp2, r_exponent));
+        operations.add(new Op(OpCode.computeMUL, r_base, r_base, r_base));
+
+        operations.add(new Op(OpCode.loadCONST, new Num(-10), r_temp1));
+        operations.add(new Op(OpCode.jumpREL, new Num(-10)));
+        operations.add(new Op(OpCode.push, r_result));
+
+
+        return operations;
     }
 
     @Override

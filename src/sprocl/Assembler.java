@@ -83,11 +83,14 @@ public class Assembler {
 			case computeXOR:
 				sproclCode = ("Compute Xor " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
+			case computeRSHIFT:
+				sproclCode = "Compute RShift " + args.get(0) + " " + args.get(1) + " " + args.get(2);
+				break;
 
 
 			//All the load operations
 			case loadCONST:
-				sproclCode = ("Load " + "(ImmValue " + args.get(0)+ ") " + args.get(1));
+				sproclCode = ("Load " + "(ImmValue (" + args.get(0)+ ")) " + args.get(1));
 				break;
 			case loadDIRA:
 				sproclCode = ("Load " + "(DirAddr " + args.get(0)+ ") " + args.get(1));
@@ -119,7 +122,7 @@ public class Assembler {
 			case branchIND:
 				sproclCode = ("Branch " + args.get(0) + " (Ind " + args.get(1)+ ")");
 				break;
-			case jumpIND:
+			case jumpREL:
 				sproclCode = ("Jump (Rel (" + args.get(0)+ "))");
 				break;
 

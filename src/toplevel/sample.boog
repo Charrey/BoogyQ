@@ -1,6 +1,1 @@
-10 -> int a.
-5 -> int b.
-if (a>b):
-	b + 1 -> b.
-	if(True):
-	<-  loop.
+-3^2 -> int a.
