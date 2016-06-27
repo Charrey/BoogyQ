@@ -24,7 +24,7 @@ public class LoopBreakFixer {
             int tojumpto = ((Num) input.get(i).getArgs().get(0)).getValue();
             for (int p = 0; p<input.size(); p++) {
                 if (input.get(p).getIfEndLabels().contains(String.valueOf(tojumpto))) {
-                    input.get(i).setOpCode(OpCode.jumpIND);
+                    input.get(i).setOpCode(OpCode.jumpREL);
                     input.get(i).setArg(0, new Num(p-i + 1));
                     break;
                 }
@@ -41,7 +41,7 @@ public class LoopBreakFixer {
             int tojumpto = ((Num) input.get(i).getArgs().get(0)).getValue();
             for (int p = 0; p<input.size(); p++) {
                 if (input.get(p).getIfStartLabel().equals(String.valueOf(tojumpto))) {
-                    input.get(i).setOpCode(OpCode.jumpIND);
+                    input.get(i).setOpCode(OpCode.jumpREL);
                     input.get(i).setArg(0, new Num(p-i));
                     break;
                 }

@@ -213,7 +213,16 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             return new ArrayList<>();
         } else {
             regsList.put(ctx.flow(), regsList.get(ctx));
-            return visit(ctx.flow());
+            List<Op> a = visit(ctx.flow());
+            Op lastinstruction = a.get(a.size()-1);
+            Set<OpCode> storeset = new HashSet<>();
+            storeset.add(OpCode.storeCONST);
+            storeset.add(OpCode.storeDIRA);
+            storeset.add(OpCode.storeINDA);
+            while (!storeset.contains(lastinstruction.getOpCode()) && !a.isEmpty()) {
+                a = a.subList(0, a.size()-2);
+            }
+            return a;
         }
     }
 
@@ -235,9 +244,13 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         List<Op> operations = new ArrayList<>();
         int number = Integer.parseInt(ctx.NUMBER().getText());
-        operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
-        operations.add(new Op(OpCode.push, r_standard0));
-                return operations;
+        if (number != 0) {
+            operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
+            operations.add(new Op(OpCode.push, r_standard0));
+        } else {
+            operations.add(new Op(OpCode.push, new Reg("0")));
+        }
+        return operations;
     }
 
     @Override
@@ -405,11 +418,15 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         String type = ctx.PRIMITIVE().getText();
 
         symbolTable.add(id);
-        operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
-        operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
-        operations.add(new Op(OpCode.storeINDA, r_standard0, r_load));
+        if (defaultValues.get(type).getValue() != 0) {
+                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
+                operations.add(new Op(OpCode.storeINDA, r_standard0, r_load));
+        } else {
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
+                operations.add(new Op(OpCode.storeINDA, new Reg("0"), r_load));
+        }
         operations.add(new Op(OpCode.push, r_standard0));
-
         return operations;
     }
 
