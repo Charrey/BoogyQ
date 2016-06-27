@@ -59,7 +59,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public Program generate(ParseTree tree) throws RegisterException {
+    public Program generate(ParseTree tree) {
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
@@ -69,7 +69,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         RegisterCounter registerCounter = new RegisterCounter();
         int maxamountofregisters = registerCounter.check(tree);
         if(maxamountofregisters > 8){
-            throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
+            //throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
         }
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
@@ -201,10 +201,12 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         return operations;
     }
 
+    /*
     @Override
     public List<Op> visitBarecomment(BoogyQParser.BarecommentContext ctx) {
         return new LinkedList<>();
     }
+    */
 
     // EVERYTHING CONCERNING FLOWS
     @Override

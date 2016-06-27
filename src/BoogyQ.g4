@@ -2,7 +2,6 @@ grammar BoogyQ;
 
 program : NEWLINE* (statement NEWLINE+)* statement NEWLINE* EOF;
 statement : statement comment                                                                 #commentstat
-          | comment                                                                           #barecomment
           | IF LPAR expr RPAR COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #ifstat
           | FUNCTION LPAR functionvars RPAR ID COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope #functiondecl
           | CONCURRENT COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope        #concurrentstat
@@ -16,7 +15,7 @@ closescope : CLOSESCOPE;
 functionvars : ((type ID) (',' type ID)*)? PLACEOPR type ID  ;
 
 flow    : flow PLACEOPR ID              #assignstandardflow
-        | flow PLACEOPR type ID         #declstandardflow
+        | flow PLACEOPR REACH? type ID         #declstandardflow
 
         | PIPEOPR ID                    #assigngeneratorflow // Voor functies zonder argumenten
         | flow (',' flow)* PIPEOPR ID   #assignfunctionflow
@@ -25,7 +24,7 @@ flow    : flow PLACEOPR ID              #assignstandardflow
 
 expr    : BOOL                          #boolexpr
         | ID                            #idenexpr
-        | PRIMITIVE ID                  #declexpr
+        | REACH? PRIMITIVE ID           #declexpr //TODO: Find a different name for reach.
         | CHAR                          #charexpr
         | NUMBER                        #numberexpr
         | array                         #arraydecl
@@ -61,6 +60,8 @@ OPENSCOPE : 'OPENSCOPE';
 CLOSESCOPE : 'CLOSESCOPE';
 LOOP : 'loop';
 BREAK : 'break';
+REACH   : 'global'
+        | 'local';
 
 BOOL: ('True' | 'False');
 ID : [a-zA-Z] [a-zA-Z0-9]*;

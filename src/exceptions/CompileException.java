@@ -3,9 +3,26 @@ package exceptions;
 /**
  * Created by poesd_000 on 14/06/2016.
  */
-public class CompileException extends Exception{
+public class CompileException {
 
-    public CompileException(String message) {
-        super(message);
+    private String message;
+    private int linenumber;
+
+    public CompileException(String message, int linenumber) {
+        this.message = message;
+        this.linenumber = linenumber;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getLineNumber() {
+        return linenumber;
+    }
+
+    public String toString() {
+        return message;
+    }
+
 }

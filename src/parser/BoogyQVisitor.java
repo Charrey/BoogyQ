@@ -1,4 +1,4 @@
-// Generated from C:/Users/jij/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -51,13 +51,6 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFlowstat(BoogyQParser.FlowstatContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code barecomment}
-	 * labeled alternative in {@link BoogyQParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBarecomment(BoogyQParser.BarecommentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code commentstat}
 	 * labeled alternative in {@link BoogyQParser#statement}.
