@@ -40,7 +40,7 @@ public enum OpCode {
 
 	//The load functions
 	loadCONST(1, NUM, REG),
-	loadDIRA(1, REG, REG),
+	loadDIRA(1, NUM, REG),
 	loadINDA(1, REG, REG),
 	//TODO: Load (Defer p) toReg
 
@@ -76,7 +76,9 @@ public enum OpCode {
 	testAndSetINDA(1,REG),
 
 	writeDIRA(2,REG,REG),
-	writeINDA(2,REG,REG);
+	writeINDA(2,REG,REG),
+
+	NOP(0);
 
 
 

@@ -454,8 +454,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         int offset = symbolTable.get(id);
         List<Op> operations = new ArrayList<>();
 
-        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.loadINDA, r_load, r_load));
+        operations.add(new Op(OpCode.loadDIRA, new Num(offset), r_load));
         operations.add(new Op(OpCode.push, r_load));
         return operations;
     }
