@@ -15,7 +15,7 @@ public class Tree<T> {
         this.data = data;
     }
 
-    public void setParent(Tree parent) {
+    private void setParent(Tree parent) {
         this.parent = parent;
     }
 
