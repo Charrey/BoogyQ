@@ -30,7 +30,11 @@ public class Assembler {
 			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
-		sproclCode.append("\n" + s8 + ", EndProg");
+		if (program.getInstr().size()>0) {
+			sproclCode.append("\n" + s8 + ", EndProg");
+		} else {
+			sproclCode.append("\n" + s8 + "EndProg");
+		}
 		sproclCode.append("\n" + s8 + "]");
 		return sproclCode.toString();
 	}

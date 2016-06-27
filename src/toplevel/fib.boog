@@ -1,0 +1,17 @@
+10 -> int n.
+0 -> int counter.
+0 -> int a.
+1 -> int b.
+int c.
+if (counter < n):
+	counter + 1 -> counter.
+	a + b -> b.
+	b -> c.
+	a -> b.
+	c -> a.
+	<loop.
+a -> n.
+0 -> counter.
+0 -> a.
+0 -> b.
+0 -> c.
