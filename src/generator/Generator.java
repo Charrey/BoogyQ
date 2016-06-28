@@ -56,12 +56,16 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public List<Op> generate(ParseTree tree) throws RegisterException {
+    public List<Op> generate(ParseTree tree, Set<String> global) throws RegisterException {
 
 
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
+        for (String i: global) {
+            symbolTable.add(i);
+        }
+
         regsList = new ParseTreeProperty<>();
         label = new ParseTreeProperty<>();
         RegisterCounter registerCounter = new RegisterCounter();

@@ -1,4 +1,3 @@
-5-> int a.
+5 -> global int a.
 concurrent:
-	True -> bool a.
-6 -> a.
+	6 -> a.

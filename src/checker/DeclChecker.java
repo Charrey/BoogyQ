@@ -22,10 +22,14 @@ public class DeclChecker extends BoogyQBaseVisitor {
     private int junklines;
     
 
-    public List<DeclException> check(ParseTree input) {
+    public List<DeclException> check(ParseTree input, Set<String> global) {
         decls = new BasicSymbolTable<>();
         junklines = 0;
         errors = new LinkedList<>();
+        for (String i : global) {
+            decls.add(i, 0);
+        }
+
         input.accept(this);
         return errors;
     }

@@ -14,6 +14,8 @@ import org.junit.Test;
 import parser.*;
 import preprocessor.PreProcessor;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class RegisterCountTest {
         
         List<CompileException> errors = new LinkedList<>();
         if (!haserrors) {
-            errors.addAll(new DeclChecker().check(tree));
+            errors.addAll(new DeclChecker().check(tree, new HashSet<>()));
             if (!errors.isEmpty()) {
                 haserrors = true;
                 for (CompileException error : errors) {
@@ -79,7 +81,7 @@ public class RegisterCountTest {
         }
 
         if (!haserrors) {
-            errors.addAll(new TypeChecker().check(tree));
+            errors.addAll(new TypeChecker().check(tree, new HashMap<>()));
             if (!errors.isEmpty()) {
                 haserrors = true;
                 for (CompileException error : errors) {

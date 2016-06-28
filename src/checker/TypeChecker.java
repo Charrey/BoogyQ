@@ -28,12 +28,15 @@ public class TypeChecker extends BoogyQBaseListener {
     private Map<String, Pair<Type, List<Type>>> functions;
     private int junklines;
 
-    public List<TypeException> check(ParseTree input) {
+    public List<TypeException> check(ParseTree input, Map<String, Type> global) {
         errors = new LinkedList<>();
         types = new ParseTreeProperty<>();
         symbols = new BasicSymbolTable<>();
         functions = new HashMap<>();
         junklines = 0;
+        for (String i : global.keySet()) {
+            symbols.add(i, global.get(i));
+        }
 
         new ParseTreeWalker().walk(this, input);
         return errors;

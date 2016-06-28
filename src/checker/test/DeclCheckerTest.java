@@ -9,6 +9,8 @@ import org.junit.Test;
 import parser.*;
 import preprocessor.PreProcessor;
 
+import java.util.HashSet;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -26,12 +28,12 @@ public class DeclCheckerTest {
 
     @Test
     public void basicDeclarations() {
-        assertEquals(checker.check(parse("int a.")).size(), 0);
-        assertEquals(checker.check(parse("int a.\nint a.")).size(), 1);
-        assertEquals(checker.check(parse("int a.\nif (1>1):\nOPENSCOPE\nint a.\nCLOSESCOPE")).size(), 0);
-        assertEquals(checker.check(parse("5 -> int a.")).size(), 0);
-        assertEquals(checker.check(parse("int b -> int a.")).size(), 0);
-        assertEquals(checker.check(parse("int a -> int a.")).size(), 1);
+        assertEquals(checker.check(parse("int a."), new HashSet<>()).size(), 0);
+        assertEquals(checker.check(parse("int a.\nint a."), new HashSet<>()).size(), 1);
+        assertEquals(checker.check(parse("int a.\nif (1>1):\nOPENSCOPE\nint a.\nCLOSESCOPE"), new HashSet<>()).size(), 0);
+        assertEquals(checker.check(parse("5 -> int a."), new HashSet<>()).size(), 0);
+        assertEquals(checker.check(parse("int b -> int a."), new HashSet<>()).size(), 0);
+        assertEquals(checker.check(parse("int a -> int a."), new HashSet<>()).size(), 1);
     }
 
 

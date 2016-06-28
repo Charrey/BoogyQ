@@ -9,6 +9,8 @@ import org.junit.Test;
 import parser.*;
 import preprocessor.PreProcessor;
 
+import java.util.HashMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -26,15 +28,15 @@ public class TypeCheckerTest {
 
     @Test
     public void basicDeclarations() {
-        System.out.println(checker.check(parse("char a.\n6 -> a.")));
-        System.out.println(checker.check(parse("[4,5,6] -> int a.\n6 -> a.")));
-        System.out.println(checker.check(parse("[4,5,6] -> int[] a.\n6 -> a.")));
-        System.out.println(checker.check(parse("5 + False -> bool a.")));
-        System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n(=> square) -> char a.")));
-        System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n\nfunction (int a -> int b) square:\n\ta -> b.")));
-        System.out.println(checker.check(parse("function (char a -> int b) square:\n\ta -> b.\n5 => square -> char a.")));
-        System.out.println(checker.check(parse("!!!!!1 -> char a.")));
-        System.out.println(checker.check(parse("-True -> char a.")));
+        System.out.println(checker.check(parse("char a.\n6 -> a."), new HashMap<>()));
+        System.out.println(checker.check(parse("[4,5,6] -> int a.\n6 -> a."), new HashMap<>()));
+        System.out.println(checker.check(parse("[4,5,6] -> int[] a.\n6 -> a."), new HashMap<>()));
+        System.out.println(checker.check(parse("5 + False -> bool a."), new HashMap<>()));
+        System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n(=> square) -> char a."), new HashMap<>()));
+        System.out.println(checker.check(parse("function (int a -> int b) square:\n\ta -> b.\n\nfunction (int a -> int b) square:\n\ta -> b."), new HashMap<>()));
+        System.out.println(checker.check(parse("function (char a -> int b) square:\n\ta -> b.\n5 => square -> char a."), new HashMap<>()));
+        System.out.println(checker.check(parse("!!!!!1 -> char a."), new HashMap<>()));
+        System.out.println(checker.check(parse("-True -> char a."), new HashMap<>()));
 
 
     }

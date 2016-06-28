@@ -17,6 +17,7 @@ import parser.BoogyQParser;
 import sprocl.model.Op;
 import toplevel.Tree;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -41,21 +42,35 @@ public class Divider extends BoogyQBaseVisitor {
         parseTree.accept(this);
 
         DeclChecker declChecker = new DeclChecker();
-        exceptions.addAll(declChecker.check(parseTree));
+
+        //If this is the main code, declarations are allowed.
+        if (!globalDeclAllowed) {
+            exceptions.addAll(declChecker.check(parseTree, globalVars.keySet()));
+        } else {
+            exceptions.addAll(declChecker.check(parseTree, new HashSet<>()));
+        }
+
+
+
         if (!exceptions.isEmpty()) {
             return new DividerResult(threadTree, exceptions);
         }
 
         TypeChecker typeChecker = new TypeChecker();
-        exceptions.addAll(typeChecker.check(parseTree));
+        exceptions.addAll(typeChecker.check(parseTree, globalVars));
         if (!exceptions.isEmpty()) {
             return new DividerResult(threadTree, exceptions);
         }
 
         List<Op> mainCode = null;
         try {
-            mainCode = Generator.getInstance().generate(parseTree);
-            threadTree.set(mainCode);
+            if (!globalDeclAllowed) {
+                mainCode = Generator.getInstance().generate(parseTree, globalVars.keySet());
+                threadTree.set(mainCode);
+            } else {
+                mainCode = Generator.getInstance().generate(parseTree, new HashSet<>());
+                threadTree.set(mainCode);
+            }
         } catch (RegisterException e) {
             exceptions.add(new CompileException(e.getMessage(), 0));
         }
