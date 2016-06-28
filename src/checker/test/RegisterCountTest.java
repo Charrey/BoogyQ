@@ -4,6 +4,8 @@ import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.RegisterCounter;
 import checker.TypeChecker;
+import exceptions.CompileException;
+import exceptions.divider.DeclException;
 import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import parser.*;
 import preprocessor.PreProcessor;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -54,32 +57,32 @@ public class RegisterCountTest {
         BoogyQParser parser = new BoogyQParser(tokens);
         BoogyQParser.ProgramContext tree = parser.program();
         
-        List<String> errors = null;
+        List<CompileException> errors = new LinkedList<>();
         if (!haserrors) {
-            errors = new DeclChecker().check(tree);
+            errors.addAll(new DeclChecker().check(tree));
             if (!errors.isEmpty()) {
                 haserrors = true;
-                for (String error : errors) {
+                for (CompileException error : errors) {
                     System.out.println(error);
                 }
             }
         }
 
         if (!haserrors) {
-            errors = new JumpChecker().check(tree);
+            errors.addAll(new JumpChecker().check(tree));
             if (!errors.isEmpty()) {
                 haserrors = true;
-                for (String error : errors) {
+                for (CompileException error : errors) {
                     System.out.println(error);
                 }
             }
         }
 
         if (!haserrors) {
-            errors = new TypeChecker().check(tree);
+            errors.addAll(new TypeChecker().check(tree));
             if (!errors.isEmpty()) {
                 haserrors = true;
-                for (String error : errors) {
+                for (CompileException error : errors) {
                     System.out.println(error);
                 }
             }

@@ -251,4 +251,12 @@ public class Program {
 		return result.toString();
 	}
 
+	public static Program fromOpList(List<Op> input) {
+		Program res = new Program();
+		for (Op op : input) {
+			res.addInstr(op);
+		}
+		return res;
+	}
+
 }

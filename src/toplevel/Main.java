@@ -3,6 +3,9 @@ package toplevel;
 import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.TypeChecker;
+import divider.Divider;
+import divider.DividerResult;
+import exceptions.CompileException;
 import exceptions.generator.RegisterException;
 import exceptions.parser.ParseException;
 import generator.Generator;
@@ -15,17 +18,11 @@ import preprocessor.PreProcessor;
 import sprocl.Assembler;
 import sprocl.model.Program;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.BitSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.junit.Assert.fail;
 
@@ -76,16 +73,19 @@ public class Main {
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
 
-                    List<String> errors = getErrors(parsed);
+                    DividerResult errors = new Divider().generate(true, parsed, new HashMap<>());
 
-                    if (errors.size()>0) {
-                        for (String err : errors) {
+                    if (errors.hasErrors()) {
+                        for (CompileException err : errors.getErrors()) {
                             System.out.println(err);
                         }
                         System.out.println("Could not compile, program had errors.");
                     } else {
                         System.out.println("Program has no errors.");
-                        Program prog = Generator.getInstance().generate(parsed);
+
+
+
+                        Program prog = Program.fromOpList(errors.getThreadTree().get());
                         System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
 
@@ -97,13 +97,27 @@ public class Main {
                         System.out.println(sproclcode);
                         System.out.println("----------------------------");
                         writeToFile(sproclcode,bettername + ".hs");
-                        System.out.println(bettername + ".hs");
+                        ProcessBuilder builder = new ProcessBuilder(
+                                "cmd.exe", "/c", " runhaskell " + bettername + ".hs");
+                        builder.redirectErrorStream(true);
+
+                        Process p = builder.start();
+                        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                        String read = stdInput.readLine();
+                        while (read!=null) {
+                            System.out.println(read);
+                            read = stdInput.readLine();
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } catch (IOException e) {
                     System.out.println("Error while reading file.");
-                } catch (RegisterException e) {
-                    System.out.println(e.getMessage());
+
                 }
 
                 while (true) {
@@ -155,22 +169,7 @@ public class Main {
         return -1;
     }
 
-    public static List<String> getErrors(ParseTree tree) {
-        if (!parseerrors.isEmpty()) {
-            return parseerrors;
-        }
-        List<String> errors = null;
-        errors = new DeclChecker().check(tree);
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-        errors = new JumpChecker().check(tree);
-        if (!errors.isEmpty()) {
-            return errors;
-        }
-        errors = new TypeChecker().check(tree);
-        return errors;
-    }
+
 
     public static void writeToFile(String input, String filename) throws IOException {
         PrintWriter out = null;

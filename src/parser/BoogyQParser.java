@@ -1,4 +1,4 @@
-// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/Administrator/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -373,6 +373,25 @@ public class BoogyQParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class BarecommentContext extends StatementContext {
+		public CommentContext comment() {
+			return getRuleContext(CommentContext.class,0);
+		}
+		public BarecommentContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).enterBarecomment(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).exitBarecomment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof BoogyQVisitor ) return ((BoogyQVisitor<? extends T>)visitor).visitBarecomment(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class CommentstatContext extends StatementContext {
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
@@ -431,7 +450,7 @@ public class BoogyQParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(117);
+			setState(118);
 			switch (_input.LA(1)) {
 			case IF:
 				{
@@ -458,7 +477,7 @@ public class BoogyQParser extends Parser {
 				setState(64);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__5) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
 					{
 					{
 					setState(59);
@@ -501,7 +520,7 @@ public class BoogyQParser extends Parser {
 				setState(83);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__5) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
 					{
 					{
 					setState(78);
@@ -536,7 +555,7 @@ public class BoogyQParser extends Parser {
 				setState(98);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__3) | (1L << T__5) | (1L << PRIMITIVE) | (1L << IF) | (1L << CONCURRENT) | (1L << FUNCTION) | (1L << LOOP) | (1L << BREAK) | (1L << REACH) | (1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR) | (1L << DEL) | (1L << LPAR) | (1L << MINUS) | (1L << NEGATION) | (1L << PIPEOPR))) != 0)) {
 					{
 					{
 					setState(93);
@@ -617,11 +636,20 @@ public class BoogyQParser extends Parser {
 				match(DEL);
 				}
 				break;
+			case T__5:
+				{
+				_localctx = new BarecommentContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(117);
+				comment();
+				}
+				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(123);
+			setState(124);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -632,14 +660,14 @@ public class BoogyQParser extends Parser {
 					{
 					_localctx = new CommentstatContext(new StatementContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_statement);
-					setState(119);
-					if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 					setState(120);
+					if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+					setState(121);
 					comment();
 					}
 					} 
 				}
-				setState(125);
+				setState(126);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
@@ -683,7 +711,7 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(126);
+			setState(127);
 			match(OPENSCOPE);
 			}
 		}
@@ -725,7 +753,7 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(128);
+			setState(129);
 			match(CLOSESCOPE);
 			}
 		}
@@ -778,42 +806,42 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(142);
+			setState(143);
 			_la = _input.LA(1);
 			if (_la==PRIMITIVE) {
 				{
 				{
-				setState(130);
-				type();
 				setState(131);
+				type();
+				setState(132);
 				match(ID);
 				}
-				setState(139);
+				setState(140);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(133);
-					match(T__2);
 					setState(134);
-					type();
+					match(T__2);
 					setState(135);
+					type();
+					setState(136);
 					match(ID);
 					}
 					}
-					setState(141);
+					setState(142);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 			}
 
-			setState(144);
-			match(PLACEOPR);
 			setState(145);
-			type();
+			match(PLACEOPR);
 			setState(146);
+			type();
+			setState(147);
 			match(ID);
 			}
 		}
@@ -963,7 +991,7 @@ public class BoogyQParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152);
+			setState(153);
 			switch (_input.LA(1)) {
 			case PIPEOPR:
 				{
@@ -971,9 +999,9 @@ public class BoogyQParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(149);
-				match(PIPEOPR);
 				setState(150);
+				match(PIPEOPR);
+				setState(151);
 				match(ID);
 				}
 				break;
@@ -992,7 +1020,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new IgnoremeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(151);
+				setState(152);
 				expr(0);
 				}
 				break;
@@ -1000,7 +1028,7 @@ public class BoogyQParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(177);
+			setState(178);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -1008,17 +1036,17 @@ public class BoogyQParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(175);
+					setState(176);
 					switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 					case 1:
 						{
 						_localctx = new AssignstandardflowContext(new FlowContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_flow);
-						setState(154);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(155);
-						match(PLACEOPR);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(156);
+						match(PLACEOPR);
+						setState(157);
 						match(ID);
 						}
 						break;
@@ -1026,22 +1054,22 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new DeclstandardflowContext(new FlowContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_flow);
-						setState(157);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(158);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(159);
 						match(PLACEOPR);
-						setState(160);
+						setState(161);
 						_la = _input.LA(1);
 						if (_la==REACH) {
 							{
-							setState(159);
+							setState(160);
 							match(REACH);
 							}
 						}
 
-						setState(162);
-						type();
 						setState(163);
+						type();
+						setState(164);
 						match(ID);
 						}
 						break;
@@ -1049,34 +1077,34 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new AssignfunctionflowContext(new FlowContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_flow);
-						setState(165);
+						setState(166);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(170);
+						setState(171);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						while (_la==T__2) {
 							{
 							{
-							setState(166);
-							match(T__2);
 							setState(167);
+							match(T__2);
+							setState(168);
 							flow(0);
 							}
 							}
-							setState(172);
+							setState(173);
 							_errHandler.sync(this);
 							_la = _input.LA(1);
 						}
-						setState(173);
-						match(PIPEOPR);
 						setState(174);
+						match(PIPEOPR);
+						setState(175);
 						match(ID);
 						}
 						break;
 					}
 					} 
 				}
-				setState(179);
+				setState(180);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			}
@@ -1411,7 +1439,7 @@ public class BoogyQParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(199);
+			setState(200);
 			switch (_input.LA(1)) {
 			case NEGATION:
 				{
@@ -1419,9 +1447,9 @@ public class BoogyQParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(181);
-				match(NEGATION);
 				setState(182);
+				match(NEGATION);
+				setState(183);
 				expr(7);
 				}
 				break;
@@ -1430,9 +1458,9 @@ public class BoogyQParser extends Parser {
 				_localctx = new MinusexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(183);
-				match(MINUS);
 				setState(184);
+				match(MINUS);
+				setState(185);
 				expr(6);
 				}
 				break;
@@ -1441,7 +1469,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new BoolexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(185);
+				setState(186);
 				match(BOOL);
 				}
 				break;
@@ -1450,7 +1478,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new IdenexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(186);
+				setState(187);
 				match(ID);
 				}
 				break;
@@ -1460,18 +1488,18 @@ public class BoogyQParser extends Parser {
 				_localctx = new DeclexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(188);
+				setState(189);
 				_la = _input.LA(1);
 				if (_la==REACH) {
 					{
-					setState(187);
+					setState(188);
 					match(REACH);
 					}
 				}
 
-				setState(190);
-				match(PRIMITIVE);
 				setState(191);
+				match(PRIMITIVE);
+				setState(192);
 				match(ID);
 				}
 				break;
@@ -1480,7 +1508,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new CharexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(192);
+				setState(193);
 				match(CHAR);
 				}
 				break;
@@ -1489,7 +1517,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new NumberexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(193);
+				setState(194);
 				match(NUMBER);
 				}
 				break;
@@ -1499,7 +1527,7 @@ public class BoogyQParser extends Parser {
 				_localctx = new ArraydeclContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(194);
+				setState(195);
 				array();
 				}
 				break;
@@ -1508,11 +1536,11 @@ public class BoogyQParser extends Parser {
 				_localctx = new FlowexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(195);
-				match(LPAR);
 				setState(196);
-				flow(0);
+				match(LPAR);
 				setState(197);
+				flow(0);
+				setState(198);
 				match(RPAR);
 				}
 				break;
@@ -1520,7 +1548,7 @@ public class BoogyQParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(222);
+			setState(223);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -1528,17 +1556,17 @@ public class BoogyQParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(220);
+					setState(221);
 					switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 					case 1:
 						{
 						_localctx = new PowerexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(201);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(202);
-						match(HAT);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(203);
+						match(HAT);
+						setState(204);
 						expr(6);
 						}
 						break;
@@ -1546,16 +1574,16 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new TimesexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(204);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(205);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(206);
 						_la = _input.LA(1);
 						if ( !(_la==TIMES || _la==DIVIDE) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(206);
+						setState(207);
 						expr(5);
 						}
 						break;
@@ -1563,16 +1591,16 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new PlusexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(207);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(208);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(209);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(209);
+						setState(210);
 						expr(4);
 						}
 						break;
@@ -1580,14 +1608,14 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new ComparatorexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(210);
+						setState(211);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(213);
+						setState(214);
 						switch (_input.LA(1)) {
 						case COMP_EQ:
 						case COMP_NE:
 							{
-							setState(211);
+							setState(212);
 							equality();
 							}
 							break;
@@ -1596,14 +1624,14 @@ public class BoogyQParser extends Parser {
 						case COMP_GE:
 						case COMP_GT:
 							{
-							setState(212);
+							setState(213);
 							inequality();
 							}
 							break;
 						default:
 							throw new NoViableAltException(this);
 						}
-						setState(215);
+						setState(216);
 						expr(3);
 						}
 						break;
@@ -1611,23 +1639,23 @@ public class BoogyQParser extends Parser {
 						{
 						_localctx = new AndorexprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(217);
-						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(218);
+						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
+						setState(219);
 						_la = _input.LA(1);
 						if ( !(_la==AND || _la==OR) ) {
 						_errHandler.recoverInline(this);
 						} else {
 							consume();
 						}
-						setState(219);
+						setState(220);
 						expr(2);
 						}
 						break;
 					}
 					} 
 				}
-				setState(224);
+				setState(225);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			}
@@ -1673,7 +1701,7 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(225);
+			setState(226);
 			_la = _input.LA(1);
 			if ( !(_la==COMP_EQ || _la==COMP_NE) ) {
 			_errHandler.recoverInline(this);
@@ -1724,7 +1752,7 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(227);
+			setState(228);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COMP_LE) | (1L << COMP_LT) | (1L << COMP_GE) | (1L << COMP_GT))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1817,31 +1845,31 @@ public class BoogyQParser extends Parser {
 		int _la;
 		try {
 			int _alt;
-			setState(258);
+			setState(259);
 			switch (_input.LA(1)) {
 			case T__3:
 				_localctx = new PresetarrayContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(229);
+				setState(230);
 				match(T__3);
-				setState(234);
+				setState(235);
 				switch (_input.LA(1)) {
 				case ID:
 					{
-					setState(230);
+					setState(231);
 					match(ID);
 					}
 					break;
 				case NUMBER:
 					{
-					setState(231);
+					setState(232);
 					match(NUMBER);
 					}
 					break;
 				case BOOL:
 					{
-					setState(232);
+					setState(233);
 					match(BOOL);
 					}
 					break;
@@ -1853,31 +1881,31 @@ public class BoogyQParser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(245);
+				setState(246);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__2) {
 					{
 					{
-					setState(236);
+					setState(237);
 					match(T__2);
-					setState(241);
+					setState(242);
 					switch (_input.LA(1)) {
 					case ID:
 						{
-						setState(237);
+						setState(238);
 						match(ID);
 						}
 						break;
 					case NUMBER:
 						{
-						setState(238);
+						setState(239);
 						match(NUMBER);
 						}
 						break;
 					case BOOL:
 						{
-						setState(239);
+						setState(240);
 						match(BOOL);
 						}
 						break;
@@ -1891,11 +1919,11 @@ public class BoogyQParser extends Parser {
 					}
 					}
 					}
-					setState(247);
+					setState(248);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(248);
+				setState(249);
 				match(T__4);
 				}
 				break;
@@ -1903,18 +1931,18 @@ public class BoogyQParser extends Parser {
 				_localctx = new MultiarrayContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(249);
-				match(T__0);
 				setState(250);
+				match(T__0);
+				setState(251);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << BOOL) | (1L << ID) | (1L << NUMBER) | (1L << CHAR))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				} else {
 					consume();
 				}
-				setState(251);
+				setState(252);
 				match(T__1);
-				setState(254); 
+				setState(255); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -1922,9 +1950,9 @@ public class BoogyQParser extends Parser {
 					case 1:
 						{
 						{
-						setState(252);
-						match(TIMES);
 						setState(253);
+						match(TIMES);
+						setState(254);
 						match(NUMBER);
 						}
 						}
@@ -1932,7 +1960,7 @@ public class BoogyQParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(256); 
+					setState(257); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -1981,16 +2009,16 @@ public class BoogyQParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(260);
+			setState(261);
 			match(T__5);
-			setState(264);
+			setState(265);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,27,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(261);
+					setState(262);
 					_la = _input.LA(1);
 					if ( _la <= 0 || (_la==NEWLINE) ) {
 					_errHandler.recoverInline(this);
@@ -2000,7 +2028,7 @@ public class BoogyQParser extends Parser {
 					}
 					} 
 				}
-				setState(266);
+				setState(267);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,27,_ctx);
 			}
@@ -2045,19 +2073,19 @@ public class BoogyQParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(267);
+			setState(268);
 			match(PRIMITIVE);
-			setState(271);
+			setState(272);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__6) {
 				{
 				{
-				setState(268);
+				setState(269);
 				match(T__6);
 				}
 				}
-				setState(273);
+				setState(274);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2088,7 +2116,7 @@ public class BoogyQParser extends Parser {
 	private boolean statement_sempred(StatementContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 7);
+			return precpred(_ctx, 8);
 		}
 		return true;
 	}
@@ -2120,7 +2148,7 @@ public class BoogyQParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3-\u0115\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3-\u0116\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\3\2\7\2\34\n\2\f\2\16\2\37\13\2\3\2\3\2\6\2#\n\2\r"+
 		"\2\16\2$\7\2\'\n\2\f\2\16\2*\13\2\3\2\3\2\7\2.\n\2\f\2\16\2\61\13\2\3"+
@@ -2128,94 +2156,95 @@ public class BoogyQParser extends Parser {
 		"\3D\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3T"+
 		"\n\3\f\3\16\3W\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3c\n\3\f"+
 		"\3\16\3f\13\3\3\3\3\3\3\3\5\3k\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\5\3x\n\3\3\3\3\3\7\3|\n\3\f\3\16\3\177\13\3\3\4\3\4\3\5\3\5\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6\u008c\n\6\f\6\16\6\u008f\13\6\5\6\u0091"+
-		"\n\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\5\7\u009b\n\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\5\7\u00a3\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00ab\n\7\f\7\16\7\u00ae"+
-		"\13\7\3\7\3\7\7\7\u00b2\n\7\f\7\16\7\u00b5\13\7\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\3\b\3\b\5\b\u00bf\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00ca"+
-		"\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00d8\n\b\3\b"+
-		"\3\b\3\b\3\b\3\b\7\b\u00df\n\b\f\b\16\b\u00e2\13\b\3\t\3\t\3\n\3\n\3\13"+
-		"\3\13\3\13\3\13\3\13\5\13\u00ed\n\13\3\13\3\13\3\13\3\13\3\13\5\13\u00f4"+
-		"\n\13\7\13\u00f6\n\13\f\13\16\13\u00f9\13\13\3\13\3\13\3\13\3\13\3\13"+
-		"\3\13\6\13\u0101\n\13\r\13\16\13\u0102\5\13\u0105\n\13\3\f\3\f\7\f\u0109"+
-		"\n\f\f\f\16\f\u010c\13\f\3\r\3\r\7\r\u0110\n\r\f\r\16\r\u0113\13\r\3\r"+
-		"\2\5\4\f\16\16\2\4\6\b\n\f\16\20\22\24\26\30\2\t\3\2\37 \3\2!\"\3\2#$"+
-		"\3\2%&\3\2\'*\3\2\23\26\3\2\34\34\u0138\2\35\3\2\2\2\4w\3\2\2\2\6\u0080"+
-		"\3\2\2\2\b\u0082\3\2\2\2\n\u0090\3\2\2\2\f\u009a\3\2\2\2\16\u00c9\3\2"+
-		"\2\2\20\u00e3\3\2\2\2\22\u00e5\3\2\2\2\24\u0104\3\2\2\2\26\u0106\3\2\2"+
-		"\2\30\u010d\3\2\2\2\32\34\7\34\2\2\33\32\3\2\2\2\34\37\3\2\2\2\35\33\3"+
-		"\2\2\2\35\36\3\2\2\2\36(\3\2\2\2\37\35\3\2\2\2 \"\5\4\3\2!#\7\34\2\2\""+
-		"!\3\2\2\2#$\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\'\3\2\2\2& \3\2\2\2\'*\3\2\2"+
-		"\2(&\3\2\2\2()\3\2\2\2)+\3\2\2\2*(\3\2\2\2+/\5\4\3\2,.\7\34\2\2-,\3\2"+
-		"\2\2.\61\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\62\3\2\2\2\61/\3\2\2\2\62\63"+
-		"\7\2\2\3\63\3\3\2\2\2\64\65\b\3\1\2\65\66\7\13\2\2\66\67\7\30\2\2\678"+
-		"\5\16\b\289\7\31\2\29:\7\32\2\2:;\7\34\2\2;<\5\6\4\2<B\7\34\2\2=>\5\4"+
-		"\3\2>?\7\34\2\2?A\3\2\2\2@=\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3"+
-		"\2\2\2DB\3\2\2\2EF\5\b\5\2Fx\3\2\2\2GH\7\r\2\2HI\7\30\2\2IJ\5\n\6\2JK"+
-		"\7\31\2\2KL\7\24\2\2LM\7\32\2\2MN\7\34\2\2NO\5\6\4\2OU\7\34\2\2PQ\5\4"+
-		"\3\2QR\7\34\2\2RT\3\2\2\2SP\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3\2\2\2VX\3"+
-		"\2\2\2WU\3\2\2\2XY\5\b\5\2Yx\3\2\2\2Z[\7\f\2\2[\\\7\32\2\2\\]\7\34\2\2"+
-		"]^\5\6\4\2^d\7\34\2\2_`\5\4\3\2`a\7\34\2\2ac\3\2\2\2b_\3\2\2\2cf\3\2\2"+
-		"\2db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gh\5\b\5\2hx\3\2\2\2ik\5\f\7"+
-		"\2ji\3\2\2\2jk\3\2\2\2kl\3\2\2\2lx\7\27\2\2mn\7\20\2\2no\7\3\2\2op\7\25"+
-		"\2\2pq\7\4\2\2qx\7\27\2\2rs\7\21\2\2st\7\3\2\2tu\7\25\2\2uv\7\4\2\2vx"+
-		"\7\27\2\2w\64\3\2\2\2wG\3\2\2\2wZ\3\2\2\2wj\3\2\2\2wm\3\2\2\2wr\3\2\2"+
-		"\2x}\3\2\2\2yz\f\t\2\2z|\5\26\f\2{y\3\2\2\2|\177\3\2\2\2}{\3\2\2\2}~\3"+
-		"\2\2\2~\5\3\2\2\2\177}\3\2\2\2\u0080\u0081\7\16\2\2\u0081\7\3\2\2\2\u0082"+
-		"\u0083\7\17\2\2\u0083\t\3\2\2\2\u0084\u0085\5\30\r\2\u0085\u0086\7\24"+
-		"\2\2\u0086\u008d\3\2\2\2\u0087\u0088\7\5\2\2\u0088\u0089\5\30\r\2\u0089"+
-		"\u008a\7\24\2\2\u008a\u008c\3\2\2\2\u008b\u0087\3\2\2\2\u008c\u008f\3"+
-		"\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2\u008e\u0091\3\2\2\2\u008f"+
-		"\u008d\3\2\2\2\u0090\u0084\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u0092\3\2"+
-		"\2\2\u0092\u0093\7,\2\2\u0093\u0094\5\30\r\2\u0094\u0095\7\24\2\2\u0095"+
-		"\13\3\2\2\2\u0096\u0097\b\7\1\2\u0097\u0098\7-\2\2\u0098\u009b\7\24\2"+
-		"\2\u0099\u009b\5\16\b\2\u009a\u0096\3\2\2\2\u009a\u0099\3\2\2\2\u009b"+
-		"\u00b3\3\2\2\2\u009c\u009d\f\7\2\2\u009d\u009e\7,\2\2\u009e\u00b2\7\24"+
-		"\2\2\u009f\u00a0\f\6\2\2\u00a0\u00a2\7,\2\2\u00a1\u00a3\7\22\2\2\u00a2"+
-		"\u00a1\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\5\30"+
-		"\r\2\u00a5\u00a6\7\24\2\2\u00a6\u00b2\3\2\2\2\u00a7\u00ac\f\4\2\2\u00a8"+
-		"\u00a9\7\5\2\2\u00a9\u00ab\5\f\7\2\u00aa\u00a8\3\2\2\2\u00ab\u00ae\3\2"+
-		"\2\2\u00ac\u00aa\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad\u00af\3\2\2\2\u00ae"+
-		"\u00ac\3\2\2\2\u00af\u00b0\7-\2\2\u00b0\u00b2\7\24\2\2\u00b1\u009c\3\2"+
-		"\2\2\u00b1\u009f\3\2\2\2\u00b1\u00a7\3\2\2\2\u00b2\u00b5\3\2\2\2\u00b3"+
-		"\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4\r\3\2\2\2\u00b5\u00b3\3\2\2\2"+
-		"\u00b6\u00b7\b\b\1\2\u00b7\u00b8\7+\2\2\u00b8\u00ca\5\16\b\t\u00b9\u00ba"+
-		"\7\"\2\2\u00ba\u00ca\5\16\b\b\u00bb\u00ca\7\23\2\2\u00bc\u00ca\7\24\2"+
-		"\2\u00bd\u00bf\7\22\2\2\u00be\u00bd\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf"+
-		"\u00c0\3\2\2\2\u00c0\u00c1\7\n\2\2\u00c1\u00ca\7\24\2\2\u00c2\u00ca\7"+
-		"\26\2\2\u00c3\u00ca\7\25\2\2\u00c4\u00ca\5\24\13\2\u00c5\u00c6\7\30\2"+
-		"\2\u00c6\u00c7\5\f\7\2\u00c7\u00c8\7\31\2\2\u00c8\u00ca\3\2\2\2\u00c9"+
-		"\u00b6\3\2\2\2\u00c9\u00b9\3\2\2\2\u00c9\u00bb\3\2\2\2\u00c9\u00bc\3\2"+
-		"\2\2\u00c9\u00be\3\2\2\2\u00c9\u00c2\3\2\2\2\u00c9\u00c3\3\2\2\2\u00c9"+
-		"\u00c4\3\2\2\2\u00c9\u00c5\3\2\2\2\u00ca\u00e0\3\2\2\2\u00cb\u00cc\f\7"+
-		"\2\2\u00cc\u00cd\7\36\2\2\u00cd\u00df\5\16\b\b\u00ce\u00cf\f\6\2\2\u00cf"+
-		"\u00d0\t\2\2\2\u00d0\u00df\5\16\b\7\u00d1\u00d2\f\5\2\2\u00d2\u00d3\t"+
-		"\3\2\2\u00d3\u00df\5\16\b\6\u00d4\u00d7\f\4\2\2\u00d5\u00d8\5\20\t\2\u00d6"+
-		"\u00d8\5\22\n\2\u00d7\u00d5\3\2\2\2\u00d7\u00d6\3\2\2\2\u00d8\u00d9\3"+
-		"\2\2\2\u00d9\u00da\5\16\b\5\u00da\u00df\3\2\2\2\u00db\u00dc\f\3\2\2\u00dc"+
-		"\u00dd\t\4\2\2\u00dd\u00df\5\16\b\4\u00de\u00cb\3\2\2\2\u00de\u00ce\3"+
-		"\2\2\2\u00de\u00d1\3\2\2\2\u00de\u00d4\3\2\2\2\u00de\u00db\3\2\2\2\u00df"+
-		"\u00e2\3\2\2\2\u00e0\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\17\3\2\2"+
-		"\2\u00e2\u00e0\3\2\2\2\u00e3\u00e4\t\5\2\2\u00e4\21\3\2\2\2\u00e5\u00e6"+
-		"\t\6\2\2\u00e6\23\3\2\2\2\u00e7\u00ec\7\6\2\2\u00e8\u00ed\7\24\2\2\u00e9"+
-		"\u00ed\7\25\2\2\u00ea\u00ed\7\23\2\2\u00eb\u00ed\3\2\2\2\u00ec\u00e8\3"+
-		"\2\2\2\u00ec\u00e9\3\2\2\2\u00ec\u00ea\3\2\2\2\u00ec\u00eb\3\2\2\2\u00ed"+
-		"\u00f7\3\2\2\2\u00ee\u00f3\7\5\2\2\u00ef\u00f4\7\24\2\2\u00f0\u00f4\7"+
-		"\25\2\2\u00f1\u00f4\7\23\2\2\u00f2\u00f4\3\2\2\2\u00f3\u00ef\3\2\2\2\u00f3"+
-		"\u00f0\3\2\2\2\u00f3\u00f1\3\2\2\2\u00f3\u00f2\3\2\2\2\u00f4\u00f6\3\2"+
-		"\2\2\u00f5\u00ee\3\2\2\2\u00f6\u00f9\3\2\2\2\u00f7\u00f5\3\2\2\2\u00f7"+
-		"\u00f8\3\2\2\2\u00f8\u00fa\3\2\2\2\u00f9\u00f7\3\2\2\2\u00fa\u0105\7\7"+
-		"\2\2\u00fb\u00fc\7\3\2\2\u00fc\u00fd\t\7\2\2\u00fd\u0100\7\4\2\2\u00fe"+
-		"\u00ff\7\37\2\2\u00ff\u0101\7\25\2\2\u0100\u00fe\3\2\2\2\u0101\u0102\3"+
-		"\2\2\2\u0102\u0100\3\2\2\2\u0102\u0103\3\2\2\2\u0103\u0105\3\2\2\2\u0104"+
-		"\u00e7\3\2\2\2\u0104\u00fb\3\2\2\2\u0105\25\3\2\2\2\u0106\u010a\7\b\2"+
-		"\2\u0107\u0109\n\b\2\2\u0108\u0107\3\2\2\2\u0109\u010c\3\2\2\2\u010a\u0108"+
-		"\3\2\2\2\u010a\u010b\3\2\2\2\u010b\27\3\2\2\2\u010c\u010a\3\2\2\2\u010d"+
-		"\u0111\7\n\2\2\u010e\u0110\7\t\2\2\u010f\u010e\3\2\2\2\u0110\u0113\3\2"+
-		"\2\2\u0111\u010f\3\2\2\2\u0111\u0112\3\2\2\2\u0112\31\3\2\2\2\u0113\u0111"+
-		"\3\2\2\2\37\35$(/BUdjw}\u008d\u0090\u009a\u00a2\u00ac\u00b1\u00b3\u00be"+
-		"\u00c9\u00d7\u00de\u00e0\u00ec\u00f3\u00f7\u0102\u0104\u010a\u0111";
+		"\3\3\3\3\3\3\5\3y\n\3\3\3\3\3\7\3}\n\3\f\3\16\3\u0080\13\3\3\4\3\4\3\5"+
+		"\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6\u008d\n\6\f\6\16\6\u0090\13\6\5\6"+
+		"\u0092\n\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\5\7\u009c\n\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\5\7\u00a4\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00ac\n\7\f\7\16"+
+		"\7\u00af\13\7\3\7\3\7\7\7\u00b3\n\7\f\7\16\7\u00b6\13\7\3\b\3\b\3\b\3"+
+		"\b\3\b\3\b\3\b\3\b\5\b\u00c0\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5"+
+		"\b\u00cb\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b\u00d9"+
+		"\n\b\3\b\3\b\3\b\3\b\3\b\7\b\u00e0\n\b\f\b\16\b\u00e3\13\b\3\t\3\t\3\n"+
+		"\3\n\3\13\3\13\3\13\3\13\3\13\5\13\u00ee\n\13\3\13\3\13\3\13\3\13\3\13"+
+		"\5\13\u00f5\n\13\7\13\u00f7\n\13\f\13\16\13\u00fa\13\13\3\13\3\13\3\13"+
+		"\3\13\3\13\3\13\6\13\u0102\n\13\r\13\16\13\u0103\5\13\u0106\n\13\3\f\3"+
+		"\f\7\f\u010a\n\f\f\f\16\f\u010d\13\f\3\r\3\r\7\r\u0111\n\r\f\r\16\r\u0114"+
+		"\13\r\3\r\2\5\4\f\16\16\2\4\6\b\n\f\16\20\22\24\26\30\2\t\3\2\37 \3\2"+
+		"!\"\3\2#$\3\2%&\3\2\'*\3\2\23\26\3\2\34\34\u013a\2\35\3\2\2\2\4x\3\2\2"+
+		"\2\6\u0081\3\2\2\2\b\u0083\3\2\2\2\n\u0091\3\2\2\2\f\u009b\3\2\2\2\16"+
+		"\u00ca\3\2\2\2\20\u00e4\3\2\2\2\22\u00e6\3\2\2\2\24\u0105\3\2\2\2\26\u0107"+
+		"\3\2\2\2\30\u010e\3\2\2\2\32\34\7\34\2\2\33\32\3\2\2\2\34\37\3\2\2\2\35"+
+		"\33\3\2\2\2\35\36\3\2\2\2\36(\3\2\2\2\37\35\3\2\2\2 \"\5\4\3\2!#\7\34"+
+		"\2\2\"!\3\2\2\2#$\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\'\3\2\2\2& \3\2\2\2\'"+
+		"*\3\2\2\2(&\3\2\2\2()\3\2\2\2)+\3\2\2\2*(\3\2\2\2+/\5\4\3\2,.\7\34\2\2"+
+		"-,\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\62\3\2\2\2\61/\3\2\2\2"+
+		"\62\63\7\2\2\3\63\3\3\2\2\2\64\65\b\3\1\2\65\66\7\13\2\2\66\67\7\30\2"+
+		"\2\678\5\16\b\289\7\31\2\29:\7\32\2\2:;\7\34\2\2;<\5\6\4\2<B\7\34\2\2"+
+		"=>\5\4\3\2>?\7\34\2\2?A\3\2\2\2@=\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2"+
+		"\2CE\3\2\2\2DB\3\2\2\2EF\5\b\5\2Fy\3\2\2\2GH\7\r\2\2HI\7\30\2\2IJ\5\n"+
+		"\6\2JK\7\31\2\2KL\7\24\2\2LM\7\32\2\2MN\7\34\2\2NO\5\6\4\2OU\7\34\2\2"+
+		"PQ\5\4\3\2QR\7\34\2\2RT\3\2\2\2SP\3\2\2\2TW\3\2\2\2US\3\2\2\2UV\3\2\2"+
+		"\2VX\3\2\2\2WU\3\2\2\2XY\5\b\5\2Yy\3\2\2\2Z[\7\f\2\2[\\\7\32\2\2\\]\7"+
+		"\34\2\2]^\5\6\4\2^d\7\34\2\2_`\5\4\3\2`a\7\34\2\2ac\3\2\2\2b_\3\2\2\2"+
+		"cf\3\2\2\2db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gh\5\b\5\2hy\3\2\2\2"+
+		"ik\5\f\7\2ji\3\2\2\2jk\3\2\2\2kl\3\2\2\2ly\7\27\2\2mn\7\20\2\2no\7\3\2"+
+		"\2op\7\25\2\2pq\7\4\2\2qy\7\27\2\2rs\7\21\2\2st\7\3\2\2tu\7\25\2\2uv\7"+
+		"\4\2\2vy\7\27\2\2wy\5\26\f\2x\64\3\2\2\2xG\3\2\2\2xZ\3\2\2\2xj\3\2\2\2"+
+		"xm\3\2\2\2xr\3\2\2\2xw\3\2\2\2y~\3\2\2\2z{\f\n\2\2{}\5\26\f\2|z\3\2\2"+
+		"\2}\u0080\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\5\3\2\2\2\u0080~\3\2\2\2"+
+		"\u0081\u0082\7\16\2\2\u0082\7\3\2\2\2\u0083\u0084\7\17\2\2\u0084\t\3\2"+
+		"\2\2\u0085\u0086\5\30\r\2\u0086\u0087\7\24\2\2\u0087\u008e\3\2\2\2\u0088"+
+		"\u0089\7\5\2\2\u0089\u008a\5\30\r\2\u008a\u008b\7\24\2\2\u008b\u008d\3"+
+		"\2\2\2\u008c\u0088\3\2\2\2\u008d\u0090\3\2\2\2\u008e\u008c\3\2\2\2\u008e"+
+		"\u008f\3\2\2\2\u008f\u0092\3\2\2\2\u0090\u008e\3\2\2\2\u0091\u0085\3\2"+
+		"\2\2\u0091\u0092\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0094\7,\2\2\u0094"+
+		"\u0095\5\30\r\2\u0095\u0096\7\24\2\2\u0096\13\3\2\2\2\u0097\u0098\b\7"+
+		"\1\2\u0098\u0099\7-\2\2\u0099\u009c\7\24\2\2\u009a\u009c\5\16\b\2\u009b"+
+		"\u0097\3\2\2\2\u009b\u009a\3\2\2\2\u009c\u00b4\3\2\2\2\u009d\u009e\f\7"+
+		"\2\2\u009e\u009f\7,\2\2\u009f\u00b3\7\24\2\2\u00a0\u00a1\f\6\2\2\u00a1"+
+		"\u00a3\7,\2\2\u00a2\u00a4\7\22\2\2\u00a3\u00a2\3\2\2\2\u00a3\u00a4\3\2"+
+		"\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\5\30\r\2\u00a6\u00a7\7\24\2\2\u00a7"+
+		"\u00b3\3\2\2\2\u00a8\u00ad\f\4\2\2\u00a9\u00aa\7\5\2\2\u00aa\u00ac\5\f"+
+		"\7\2\u00ab\u00a9\3\2\2\2\u00ac\u00af\3\2\2\2\u00ad\u00ab\3\2\2\2\u00ad"+
+		"\u00ae\3\2\2\2\u00ae\u00b0\3\2\2\2\u00af\u00ad\3\2\2\2\u00b0\u00b1\7-"+
+		"\2\2\u00b1\u00b3\7\24\2\2\u00b2\u009d\3\2\2\2\u00b2\u00a0\3\2\2\2\u00b2"+
+		"\u00a8\3\2\2\2\u00b3\u00b6\3\2\2\2\u00b4\u00b2\3\2\2\2\u00b4\u00b5\3\2"+
+		"\2\2\u00b5\r\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b7\u00b8\b\b\1\2\u00b8\u00b9"+
+		"\7+\2\2\u00b9\u00cb\5\16\b\t\u00ba\u00bb\7\"\2\2\u00bb\u00cb\5\16\b\b"+
+		"\u00bc\u00cb\7\23\2\2\u00bd\u00cb\7\24\2\2\u00be\u00c0\7\22\2\2\u00bf"+
+		"\u00be\3\2\2\2\u00bf\u00c0\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00c2\7\n"+
+		"\2\2\u00c2\u00cb\7\24\2\2\u00c3\u00cb\7\26\2\2\u00c4\u00cb\7\25\2\2\u00c5"+
+		"\u00cb\5\24\13\2\u00c6\u00c7\7\30\2\2\u00c7\u00c8\5\f\7\2\u00c8\u00c9"+
+		"\7\31\2\2\u00c9\u00cb\3\2\2\2\u00ca\u00b7\3\2\2\2\u00ca\u00ba\3\2\2\2"+
+		"\u00ca\u00bc\3\2\2\2\u00ca\u00bd\3\2\2\2\u00ca\u00bf\3\2\2\2\u00ca\u00c3"+
+		"\3\2\2\2\u00ca\u00c4\3\2\2\2\u00ca\u00c5\3\2\2\2\u00ca\u00c6\3\2\2\2\u00cb"+
+		"\u00e1\3\2\2\2\u00cc\u00cd\f\7\2\2\u00cd\u00ce\7\36\2\2\u00ce\u00e0\5"+
+		"\16\b\b\u00cf\u00d0\f\6\2\2\u00d0\u00d1\t\2\2\2\u00d1\u00e0\5\16\b\7\u00d2"+
+		"\u00d3\f\5\2\2\u00d3\u00d4\t\3\2\2\u00d4\u00e0\5\16\b\6\u00d5\u00d8\f"+
+		"\4\2\2\u00d6\u00d9\5\20\t\2\u00d7\u00d9\5\22\n\2\u00d8\u00d6\3\2\2\2\u00d8"+
+		"\u00d7\3\2\2\2\u00d9\u00da\3\2\2\2\u00da\u00db\5\16\b\5\u00db\u00e0\3"+
+		"\2\2\2\u00dc\u00dd\f\3\2\2\u00dd\u00de\t\4\2\2\u00de\u00e0\5\16\b\4\u00df"+
+		"\u00cc\3\2\2\2\u00df\u00cf\3\2\2\2\u00df\u00d2\3\2\2\2\u00df\u00d5\3\2"+
+		"\2\2\u00df\u00dc\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00df\3\2\2\2\u00e1"+
+		"\u00e2\3\2\2\2\u00e2\17\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e4\u00e5\t\5\2"+
+		"\2\u00e5\21\3\2\2\2\u00e6\u00e7\t\6\2\2\u00e7\23\3\2\2\2\u00e8\u00ed\7"+
+		"\6\2\2\u00e9\u00ee\7\24\2\2\u00ea\u00ee\7\25\2\2\u00eb\u00ee\7\23\2\2"+
+		"\u00ec\u00ee\3\2\2\2\u00ed\u00e9\3\2\2\2\u00ed\u00ea\3\2\2\2\u00ed\u00eb"+
+		"\3\2\2\2\u00ed\u00ec\3\2\2\2\u00ee\u00f8\3\2\2\2\u00ef\u00f4\7\5\2\2\u00f0"+
+		"\u00f5\7\24\2\2\u00f1\u00f5\7\25\2\2\u00f2\u00f5\7\23\2\2\u00f3\u00f5"+
+		"\3\2\2\2\u00f4\u00f0\3\2\2\2\u00f4\u00f1\3\2\2\2\u00f4\u00f2\3\2\2\2\u00f4"+
+		"\u00f3\3\2\2\2\u00f5\u00f7\3\2\2\2\u00f6\u00ef\3\2\2\2\u00f7\u00fa\3\2"+
+		"\2\2\u00f8\u00f6\3\2\2\2\u00f8\u00f9\3\2\2\2\u00f9\u00fb\3\2\2\2\u00fa"+
+		"\u00f8\3\2\2\2\u00fb\u0106\7\7\2\2\u00fc\u00fd\7\3\2\2\u00fd\u00fe\t\7"+
+		"\2\2\u00fe\u0101\7\4\2\2\u00ff\u0100\7\37\2\2\u0100\u0102\7\25\2\2\u0101"+
+		"\u00ff\3\2\2\2\u0102\u0103\3\2\2\2\u0103\u0101\3\2\2\2\u0103\u0104\3\2"+
+		"\2\2\u0104\u0106\3\2\2\2\u0105\u00e8\3\2\2\2\u0105\u00fc\3\2\2\2\u0106"+
+		"\25\3\2\2\2\u0107\u010b\7\b\2\2\u0108\u010a\n\b\2\2\u0109\u0108\3\2\2"+
+		"\2\u010a\u010d\3\2\2\2\u010b\u0109\3\2\2\2\u010b\u010c\3\2\2\2\u010c\27"+
+		"\3\2\2\2\u010d\u010b\3\2\2\2\u010e\u0112\7\n\2\2\u010f\u0111\7\t\2\2\u0110"+
+		"\u010f\3\2\2\2\u0111\u0114\3\2\2\2\u0112\u0110\3\2\2\2\u0112\u0113\3\2"+
+		"\2\2\u0113\31\3\2\2\2\u0114\u0112\3\2\2\2\37\35$(/BUdjx~\u008e\u0091\u009b"+
+		"\u00a3\u00ad\u00b2\u00b4\u00bf\u00ca\u00d8\u00df\u00e1\u00ed\u00f4\u00f8"+
+		"\u0103\u0105\u010b\u0112";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

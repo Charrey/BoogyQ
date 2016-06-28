@@ -1,10 +1,9 @@
 package toplevel;
 
+import sprocl.model.Program;
+
 import java.util.*;
 
-/**
- * Created by poesd_000 on 27/06/2016.
- */
 public class Tree<T> {
 
     private T data;
@@ -13,6 +12,10 @@ public class Tree<T> {
 
     public Tree(T data) {
         this.data = data;
+    }
+
+    public Tree() {
+        this.data = null;
     }
 
     private void setParent(Tree parent) {
@@ -29,7 +32,7 @@ public class Tree<T> {
     }
 
     public void addChild(T child) {
-        Tree<T> newchild = new Tree<T>(child);
+        Tree<T> newchild = new Tree<>(child);
         children.add(newchild);
         newchild.setParent(this);
     }
@@ -82,7 +85,13 @@ public class Tree<T> {
     }
 
     public String toString() {
+        if (data == null) {
+            return "(nulldata)";
+        }
         return "(" + data.toString()+ ", " + children.toString() + ")";
     }
 
+    public T get() {
+        return data;
+    }
 }

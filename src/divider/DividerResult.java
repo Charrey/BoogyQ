@@ -6,9 +6,6 @@ import toplevel.Tree;
 
 import java.util.List;
 
-/**
- * Created by Hans on 27-6-2016.
- */
 public class DividerResult {
 
 
@@ -25,7 +22,13 @@ public class DividerResult {
         return threadTree;
     }
 
-    public List<CompileException> getExceptions() {
+    public List<CompileException> getErrors() {
         return exceptions;
     }
+
+    public boolean hasErrors() {
+        return !exceptions.isEmpty();
+    }
+
+
 }

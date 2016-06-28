@@ -21,6 +21,9 @@ public class Assembler {
 				"import Sprockell\n" +
 				"import System\n" +
 				"import Simulation\n" +
+				"\n" +
+				"main = sysTest [prog]\n" +
+				"\n" +
 				"prog :: [Instruction]\n" +
 				"prog = [");
 		for(Instr instr: program.getInstr()) {

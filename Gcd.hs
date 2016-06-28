@@ -5,14 +5,17 @@ import HardwareTypes
 import Sprockell
 import System
 import Simulation
+
+main = sysTest [prog]
+
 prog :: [Instruction]
 prog = [
-        Load (ImmValue (27)) 1
+        Load (ImmValue (10)) 1
         , Push 1
         , Pop 3
         , Load (ImmValue (1)) 2
         , Store 3 (IndAddr 2)
-        , Load (ImmValue (12)) 1
+        , Load (ImmValue (5)) 1
         , Push 1
         , Pop 3
         , Load (ImmValue (2)) 2

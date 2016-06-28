@@ -7,7 +7,8 @@ statement : statement comment                                                   
           | CONCURRENT COLON NEWLINE openscope NEWLINE (statement NEWLINE)* closescope        #concurrentstat
           | flow? DEL                                                                         #flowstat
           | LOOP '{' NUMBER '}' DEL                                                           #loopstat
-          | BREAK '{' NUMBER '}' DEL                                                          #breakstat;
+          | BREAK '{' NUMBER '}' DEL                                                          #breakstat
+          | comment                                                                           #barecomment;
 
 
 openscope : OPENSCOPE;

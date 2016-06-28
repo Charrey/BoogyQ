@@ -14,9 +14,6 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-/**
- * Created by Hans on 21-6-2016.
- */
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     private static Generator ourInstance = new Generator();
@@ -29,7 +26,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     /** Association of statement nodes to labels. */
     private ParseTreeProperty<Label> labels;
     /** The program being built. */
-    private Program prog;
     /** Register count, used to generate fresh registers. */
     /** Association of expression and target nodes to registers. */
     private ParseTreeProperty<List<Reg>> regsList;
@@ -59,17 +55,16 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public Program generate(ParseTree tree) {
+    public List<Op> generate(ParseTree tree) throws RegisterException {
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
-        prog = new Program();
-        regsList = new ParseTreeProperty<List<Reg>>();
+        regsList = new ParseTreeProperty<>();
         label = new ParseTreeProperty<>();
         RegisterCounter registerCounter = new RegisterCounter();
         int maxamountofregisters = registerCounter.check(tree);
         if(maxamountofregisters > 8){
-            //throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
+            throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
         }
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
@@ -80,10 +75,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         labels = new ParseTreeProperty<>();
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
-        for (Op i : res) {
-            prog.addInstr(i);
-        }
-        return prog;
+        return res;
     }
 
     /**
