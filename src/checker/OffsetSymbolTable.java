@@ -1,14 +1,15 @@
 package checker;
 
-import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
-import java.util.Map;
-import java.util.Stack;
+import javafx.util.Pair;
+
+import java.util.*;
 
 public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
     Stack<Integer> offsets = new Stack<>();
     int currentoffset = 1;
+    int globaloffset = 0;
+    Set<String> global = new HashSet<>();
 
     @Override
     public void openScope() {
@@ -28,14 +29,24 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
     }
 
     @Override
-    public Integer get(String id) {
-        return (Integer) super.get(id);
+    public Pair<Integer, Boolean> get(String id) {
+        return new Pair<>((Integer) super.get(id), global.contains(id));
     }
 
-    public boolean add(String id) {
-        boolean res = super.add(id, currentoffset);
+    public boolean add(String id, boolean global) {
+        boolean res;
+        if (!global) {
+            res = super.add(id, currentoffset);
+        } else {
+            res = super.add(id, globaloffset);
+        }
         if(res) {
-            currentoffset += 1;
+            if (global) {
+                this.global.add(id);
+                globaloffset++;
+            } else {
+                currentoffset++;
+            }
         } else {
             throw new IllegalArgumentException("WTF HAPPENED???");
         }

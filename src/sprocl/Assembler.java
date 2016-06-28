@@ -117,7 +117,18 @@ public class Assembler {
 			case storeINDA:
 				sproclCode = ("Store " + args.get(0) + " (IndAddr "+ args.get(1) + ")");
 				break;
-
+			case writeINDA:
+				sproclCode = ("WriteInstr " + args.get(0) + " (IndAddr " + args.get(1) + ")");
+				break;
+			case readDIRA:
+				sproclCode = ("ReadInstr (DirAddr " + args.get(0) + ")");
+				break;
+			case readINDA:
+				sproclCode = ("ReadInstr (IndAddr " + args.get(0) + ")");
+				break;
+			case receive:
+				sproclCode = ("Receive " + args.get(0));
+				break;
 
 			//All the branch statements
 			case branchABS:

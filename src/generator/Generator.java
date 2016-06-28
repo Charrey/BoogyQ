@@ -2,6 +2,7 @@ package generator;
 
 import checker.*;
 import exceptions.generator.RegisterException;
+import javafx.util.Pair;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -63,7 +64,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
         for (String i: global) {
-            symbolTable.add(i);
+            symbolTable.add(i, true);
         }
 
         regsList = new ParseTreeProperty<>();
@@ -73,7 +74,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         if(maxamountofregisters > 8){
             throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
         }
-        JOptionPane.showMessageDialog(null, "Amount of registers: "+maxamountofregisters);
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
         for (int i = 3; i < regCount.get(tree) ; i++){
@@ -230,8 +230,11 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             storeset.add(OpCode.storeCONST);
             storeset.add(OpCode.storeDIRA);
             storeset.add(OpCode.storeINDA);
+            storeset.add(OpCode.writeDIRA);
+            storeset.add(OpCode.writeINDA);
+            storeset.add(OpCode.receive);   //waiting for global memory
             while (!storeset.contains(lastinstruction.getOpCode()) && !a.isEmpty()) {
-                a = a.subList(0, a.size()-2);
+                a = a.subList(0, a.size()-1);
             }
             return a;
         }
@@ -414,10 +417,18 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
 
         List<Op> operations = visit(ctx.flow());
-        int offset = symbolTable.get(ctx.ID().getText());
+        Pair<Integer, Boolean> offset = symbolTable.get(ctx.ID().getText());
 
-        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.storeINDA, r_res, r_load));
+
+        operations.add(new Op(OpCode.loadCONST, new Num(offset.getKey()), r_load));
+
+        if (!offset.getValue()) {
+            operations.add(new Op(OpCode.storeINDA, r_res, r_load));
+        } else {
+            operations.add(new Op(OpCode.writeINDA, r_res, r_load));
+            operations.add(new Op(OpCode.readINDA, r_load));
+            operations.add(new Op(OpCode.receive, r_res));
+        }
 
         return operations;
     }
@@ -427,17 +438,33 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         String id = ctx.ID().getText();
         String type = ctx.PRIMITIVE().getText();
-
-        symbolTable.add(id);
-        if (defaultValues.get(type).getValue() != 0) {
+        if (!ctx.REACH().getText().equals("global")) {
+            symbolTable.add(id, false);
+            if (defaultValues.get(type).getValue() != 0) {
                 operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
-                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
                 operations.add(new Op(OpCode.storeINDA, r_standard0, r_load));
-        } else {
-                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id)), r_load));
+            } else {
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
                 operations.add(new Op(OpCode.storeINDA, new Reg("0"), r_load));
+            }
+            operations.add(new Op(OpCode.push, r_standard0));
+        } else {
+            symbolTable.add(id, true);
+            if (defaultValues.get(type).getValue() != 0) {
+                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
+                operations.add(new Op(OpCode.writeINDA, r_standard0, r_load));
+                operations.add(new Op(OpCode.readINDA, r_load));
+                operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+            } else {
+                operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
+                operations.add(new Op(OpCode.writeINDA, new Reg("0"), r_load));
+                operations.add(new Op(OpCode.readINDA, r_load));
+                operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+            }
+            operations.add(new Op(OpCode.push, r_standard0));
         }
-        operations.add(new Op(OpCode.push, r_standard0));
         return operations;
     }
 
@@ -450,22 +477,38 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
         List<Op> operations = visit(ctx.flow());
         String id = ctx.ID().getText();
-        symbolTable.add(id);
-        int offset = symbolTable.get(id);
 
-        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
-        operations.add(new Op(OpCode.storeINDA, r_res, r_load));
+        if (!ctx.REACH().getText().equals("global")) {
+            symbolTable.add(id, false);
+            int offset = symbolTable.get(id).getKey();
 
+            operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+            operations.add(new Op(OpCode.storeINDA, r_res, r_load));
+        } else {
+            symbolTable.add(id, true);
+            int offset = symbolTable.get(id).getKey();
+            operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+            operations.add(new Op(OpCode.writeINDA, r_res, r_load));
+            operations.add(new Op(OpCode.readINDA, r_load));
+            operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+        }
         return operations;
     }
 
     @Override
     public List<Op> visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         String id = ctx.ID().getText();
-        int offset = symbolTable.get(id);
+        Pair<Integer, Boolean> offset = symbolTable.get(id);
         List<Op> operations = new ArrayList<>();
 
-        operations.add(new Op(OpCode.loadDIRA, new Num(offset), r_load));
+        operations.add(new Op(OpCode.loadDIRA, new Num(offset.getKey()), r_load));
+
+        if (!offset.getValue()) {
+            operations.add(new Op(OpCode.loadINDA, new Num(offset.getKey()), r_load));
+        } else {
+            operations.add(new Op(OpCode.readINDA, r_load));
+            operations.add(new Op(OpCode.receive, r_load));
+        }
         operations.add(new Op(OpCode.push, r_load));
         return operations;
     }
