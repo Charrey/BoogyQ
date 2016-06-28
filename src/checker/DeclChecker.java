@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class DeclChecker extends BoogyQBaseListener {
+public class DeclChecker extends BoogyQBaseVisitor {
 
     private BasicSymbolTable<Integer> decls = new BasicSymbolTable<>();
     private Set<String> functions = new HashSet<>();
@@ -26,86 +26,110 @@ public class DeclChecker extends BoogyQBaseListener {
         decls = new BasicSymbolTable<>();
         junklines = 0;
         errors = new LinkedList<>();
-        new ParseTreeWalker().walk(this, input);
+        input.accept(this);
         return errors;
     }
 
     @Override
-    public void exitNumberexpr(BoogyQParser.NumberexprContext ctx) {
+    public Object visitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         BigInteger get = new BigInteger(ctx.NUMBER().getText());
         BigInteger intmax = new BigInteger(String.valueOf(Integer.MAX_VALUE));
         if (get.compareTo(intmax)==1) {
             errors.add(new DeclException("Integer overflow", ctx.getStart().getLine() - junklines));
         }
+        return null;
     }
 
     @Override
-    public void enterDeclexpr(BoogyQParser.DeclexprContext ctx) {
+    public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
             errors.add(new DeclException("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
         }
+        return null;
     }
 
     @Override
-    public void exitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
+    public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
+        visit(ctx.flow());
         if (!decls.add(ctx.ID().getText(), 0)) {
             errors.add(new DeclException("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
         }
+        return null;
     }
 
     @Override
-    public void enterAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
+    public Object visitAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         if (!functions.contains(ctx.ID().getText())) {
             errors.add(new DeclException("Unknown function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
         }
+        for (BoogyQParser.FlowContext i : ctx.flow()) {
+            visit(i);
+        }
+        return null;
     }
 
     @Override
-    public void enterIdenexpr(BoogyQParser.IdenexprContext ctx) {
+    public Object visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
             errors.add(new DeclException("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
         }
+        return null;
     }
 
+
     @Override
-    public void exitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
+    public Object visitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
+        visit(ctx.flow());
         if (!decls.contains(ctx.ID().getText())) {
             errors.add(new DeclException("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
         }
+        return null;
     }
 
+
     @Override
-    public void enterFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
+    public Object visitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
         decls.openScope();
         int size = functions.size();
         functions.add(ctx.ID().getText());
         if (functions.size() == size) {
             errors.add(new DeclException("Duplicate function "+ ctx.ID().getText(), ctx.getStart().getLine() - junklines));
         }
+
+        visit(ctx.functionvars());
+        visit(ctx.openscope());
+        for (BoogyQParser.StatementContext i : ctx.statement()) {
+            visit(i);
+        }
+        visit(ctx.closescope());
+
+        return null;
     }
 
     @Override
-    public void enterFunctionvars(BoogyQParser.FunctionvarsContext ctx) {
+    public Object visitFunctionvars(BoogyQParser.FunctionvarsContext ctx) {
         for (TerminalNode i : ctx.ID()) {
             decls.add(i.getText(), 0);
         }
+        return null;
     }
 
     @Override
-    public void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
-        decls.closeScope();
-    }
-
-
-    @Override
-    public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {
+    public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         decls.openScope();
         junklines++;
+        return null;
     }
 
     @Override
-    public void enterClosescope(BoogyQParser.ClosescopeContext ctx) {
+    public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         decls.closeScope();
         junklines++;
+        return null;
     }
 }

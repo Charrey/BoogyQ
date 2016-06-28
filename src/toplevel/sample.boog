@@ -1,3 +1,4 @@
-int a.
-int b.
-3 -> b.
+5-> int a.
+concurrent:
+	True -> bool a.
+6 -> a.

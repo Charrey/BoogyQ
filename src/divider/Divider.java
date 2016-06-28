@@ -7,9 +7,12 @@ import exceptions.CompileException;
 import exceptions.divider.ReachException;
 import exceptions.generator.RegisterException;
 import generator.Generator;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.BoogyQBaseListener;
+import parser.BoogyQBaseVisitor;
 import parser.BoogyQParser;
 import sprocl.model.Op;
 import toplevel.Tree;
@@ -21,7 +24,7 @@ import java.util.Map;
 /**
  * Created by Hans on 27-6-2016.
  */
-public class Divider extends BoogyQBaseListener{
+public class Divider extends BoogyQBaseVisitor {
 
     boolean globalDeclAllowed;
     private Map<String, Type> globalVars;
@@ -35,7 +38,7 @@ public class Divider extends BoogyQBaseListener{
         this.exceptions = new LinkedList<>();
         threadTree = new Tree<>();
 
-        new ParseTreeWalker().walk(this,parseTree);
+        parseTree.accept(this);
 
         DeclChecker declChecker = new DeclChecker();
         exceptions.addAll(declChecker.check(parseTree));
@@ -59,26 +62,34 @@ public class Divider extends BoogyQBaseListener{
         return new DividerResult(threadTree, exceptions);
     }
 
+
     @Override
-    public void enterConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        DividerResult dividerResult = new Divider().generate(false, ctx, globalVars);
+    public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
+        BoogyQParser.ProgramContext a = new BoogyQParser.ProgramContext(null, -1);
+        for (int i = 0; i<ctx.statement().size(); i++) {
+            a.addChild(ctx.statement(i));
+        }
+
+        DividerResult dividerResult = new Divider().generate(false, a, globalVars);
         threadTree.addChild(dividerResult.getThreadTree());
         exceptions.addAll(dividerResult.getErrors());
+        return null;
     }
 
     @Override
-    public void enterDeclexpr(BoogyQParser.DeclexprContext ctx) {
-        if(ctx.REACH().getText().equals("global")){
+    public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
+        if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
             if (globalDeclAllowed){
                 globalVars.put(ctx.ID().getText(), TypeChecker.fromString(ctx.PRIMITIVE().getText()));
             } else {
                 exceptions.add(new ReachException(ctx.getStart().getLine() - junklines));
             }
         }
+        return null;
     }
 
     @Override
-    public void enterDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx)  {
+    public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
             if (globalDeclAllowed){
                 globalVars.put(ctx.ID().getText(), TypeChecker.fromString(ctx.type().getText()));
@@ -86,15 +97,20 @@ public class Divider extends BoogyQBaseListener{
                 exceptions.add(new ReachException(ctx.getStart().getLine() - junklines));
             }
         }
+        visit(ctx.flow());
+        return null;
     }
 
     @Override
-    public void enterOpenscope(BoogyQParser.OpenscopeContext ctx) {
+    public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         junklines++;
+        return null;
     }
 
+
     @Override
-    public void enterClosescope(BoogyQParser.ClosescopeContext ctx) {
+    public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         junklines++;
+        return null;
     }
 }

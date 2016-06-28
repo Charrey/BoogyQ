@@ -36,10 +36,10 @@ public class RegisterCountTest {
 
     @Test
     public void testProg() {
-        assertEquals(rc.check(parse("5 -> int a.")), 3);
-        assertEquals(rc.check(parse("5 -> int a -> int b -> int c.")), 3);
-        assertEquals(rc.check(parse("function (int a, int b -> int c) add:\n\ta + b -> c.\n\n5, 3 => add -> int c.")), 4);
-        assertEquals(rc.check(parse("5 -> int a.\n10 -> int b.\n\nif (b>a):\n\tb + 1 -> b.\n\t<loop.\n\n5->a.\n10->b.\nif (True):\n\tb-1->b.\n\tif (b<10):\n\t\tb+1->b.\n\t<-  loop.\n\na=>showV.\nb=>showV.")), 3);
+        assertEquals(rc.check(parse("5 -> int a.")), 4);
+        assertEquals(rc.check(parse("5 -> int a -> int b -> int c.")), 4);
+        assertEquals(rc.check(parse("function (int a, int b -> int c) add:\n\ta + b -> c.\n\n5, 3 => add -> int c.")), 5);
+        assertEquals(rc.check(parse("5 -> int a.\n10 -> int b.\n\nif (b>a):\n\tb + 1 -> b.\n\t<loop.\n\n5->a.\n10->b.\nif (True):\n\tb-1->b.\n\tif (b<10):\n\t\tb+1->b.\n\t<-  loop.\n\na=>showV.\nb=>showV.")), 7);
     }
 
 

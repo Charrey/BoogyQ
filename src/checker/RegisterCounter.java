@@ -169,12 +169,12 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer> {
 
     @Override
     public Integer visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        int max = 0;
+        return 0;/*int max = 0;
         for (BoogyQParser.StatementContext st : ctx.statement()) {
             max = Math.max(max, visit(st));
         }
         regcount.put(ctx, max);
-        return max;
+        return max;*/
     }
 
     @Override

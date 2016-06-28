@@ -73,10 +73,10 @@ public class Main {
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
 
-                    DividerResult errors = new Divider().generate(true, parsed, new HashMap<>());
+                    DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>());
 
-                    if (errors.hasErrors()) {
-                        for (CompileException err : errors.getErrors()) {
+                    if (divresult.hasErrors()) {
+                        for (CompileException err : divresult.getErrors()) {
                             System.out.println(err);
                         }
                         System.out.println("Could not compile, program had errors.");
@@ -85,7 +85,7 @@ public class Main {
 
 
 
-                        Program prog = Program.fromOpList(errors.getThreadTree().get());
+                        Program prog = Program.fromOpList(divresult.getThreadTree().get());
                         System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
 
@@ -108,11 +108,8 @@ public class Main {
                             System.out.println(read);
                             read = stdInput.readLine();
                         }
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        p.destroy();
+
                     }
 
                 } catch (IOException e) {

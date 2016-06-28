@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.*;
 import sprocl.model.*;
 
+import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -56,6 +57,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     }
 
     public List<Op> generate(ParseTree tree) throws RegisterException {
+
+
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
@@ -66,6 +69,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         if(maxamountofregisters > 8){
             throw new RegisterException("Not enough registers available to compile this program. Available: 8, Needed: " + maxamountofregisters);
         }
+        JOptionPane.showMessageDialog(null, "Amount of registers: "+maxamountofregisters);
         regCount = registerCounter.regcount;
         List<Reg> regsListForTopNode = new ArrayList<>();
         for (int i = 3; i < regCount.get(tree) ; i++){
@@ -73,6 +77,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         }
         regsList.put(tree,regsListForTopNode);
         labels = new ParseTreeProperty<>();
+
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
         return res;
@@ -111,6 +116,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Reg> programRegList = regsList.get(ctx);
         List<Reg> statementRegList;
         for(BoogyQParser.StatementContext context : ctx.statement()){
+            if (context instanceof BoogyQParser.ConcurrentstatContext) {
+                continue;
+            }
             statementRegList = programRegList.subList(0, regCount.get(context));
             regsList.put(context, statementRegList);
             operations.addAll(visit(context));
@@ -164,6 +172,11 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitCommentstat(BoogyQParser.CommentstatContext ctx) {
         regsList.put(ctx.statement(), regsList.get(ctx));
         return visit(ctx.statement());
+    }
+
+    @Override
+    public List<Op> visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
+        return new LinkedList<>();
     }
 
     @Override
