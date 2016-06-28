@@ -9,7 +9,7 @@ public class Reg extends Operand {
 	/** Constructs an operand with a given name. */
 	public Reg(String name) {
 		super(Type.REG);
-		assert name != null && name.length() > 1 : "Register names must be non-empty strings";
+		assert name != null && name.length() >= 1 : "Register names must be non-empty strings";
 		this.name = name;
 	}
 

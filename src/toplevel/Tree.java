@@ -71,6 +71,23 @@ public class Tree<T> {
         return res;
     }
 
+    public List<Set<T>> getLevels() {
+        Set<T> thisset = new HashSet<>();
+        thisset.add(this.data);
+        List<Set<T>> res = new LinkedList<>();
+        res.add(thisset);
+        for (Tree<T> child : this.children) {
+            List<Set<T>> get = child.getLevels();
+            for (int i = 0;i<get.size(); i++) {
+                if (i+1>=res.size()) {
+                    res.add(new HashSet<T>());
+                }
+                res.get(i+1).addAll(get.get(i));
+            }
+        }
+        return res;
+    }
+
     public Tree find(T query) {
         if (query.equals(data)) {
             return this;
@@ -93,5 +110,13 @@ public class Tree<T> {
 
     public T get() {
         return data;
+    }
+
+    public int size() {
+        int res = 1;
+        for (Tree<T> child : children) {
+            res += child.size();
+        }
+        return res;
     }
 }
