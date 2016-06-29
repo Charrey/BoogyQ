@@ -75,7 +75,7 @@ public enum OpCode {
 	testAndSetDIRA(1,REG),
 	testAndSetINDA(1,REG),
 
-	writeDIRA(2,NUM,REG),
+	writeDIRA(2,REG,NUM),
 	writeINDA(2,REG,REG),
 
 	NOP(0);

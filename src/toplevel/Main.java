@@ -84,16 +84,15 @@ public class Main {
                         Map<OpListWrapper, Integer> coresassigned = CoreManager.instance.assignCores(divresult.getThreadTree());
                         Map<Integer, Set<OpListWrapper>> coresassigned_good = CoreManager.invert(coresassigned);
                         //NOTE: The MAIN thread runs on the core with the HIGHEST number.
+                        OpListWrapper main = divresult.getThreadTree().get();
 
-
-                        Program prog = Program.fromOpList(divresult.getThreadTree().get().getOps());
                         System.out.println("-----MAIN Program:----------");
-                        System.out.println(prog.prettyPrint());
+                        System.out.println(Program.fromOpList(main.getOps()).prettyPrint());
 
                         String withoutextension = the_file.getName().replace(".boog", "");
                         String bettername = withoutextension.substring(0, 1).toUpperCase() + withoutextension.substring(1);
 
-                        String sproclcode = Assembler.assemble(prog, bettername);
+                        String sproclcode = Assembler.assemble(coresassigned_good, bettername, main);
                         System.out.println("-----Sprocl Code:---------------");
                         System.out.println(sproclcode);
                         System.out.println("----------------------------");

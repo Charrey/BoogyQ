@@ -74,9 +74,8 @@ public class Divider extends BoogyQBaseVisitor {
             } else {
                 mainCode = Generator.getInstance().generate(parseTree, new HashSet<>(), true);
                 for (OpListWrapper i : threadTree.toSetChildren()) {
-                    mainCode.getKey().getOps().add(new Op(OpCode.loadCONST, new Num(i.getMemLocation()), Generator.getInstance().r_load));
                     mainCode.getKey().getOps().add(new Op(OpCode.loadCONST, new Num(-1), Generator.getInstance().r_standard0));
-                    mainCode.getKey().getOps().add(new Op(OpCode.writeINDA, Generator.getInstance().r_standard0, Generator.getInstance().r_load));
+                    mainCode.getKey().getOps().add(new Op(OpCode.writeDIRA, Generator.getInstance().r_standard0, new Num(i.getMemLocation())));
                 }
                 mainCode.getKey().getOps().add(new Op(OpCode.readDIRA, new Num(0)));
                 mainCode.getKey().getOps().add(new Op(OpCode.receive, Generator.getInstance().r_standard0));

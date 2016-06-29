@@ -2,8 +2,11 @@ package sprocl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import sprocl.model.*;
+import toplevel.OpListWrapper;
 
 
 /** Assembler for the ILOC language. */
@@ -11,6 +14,32 @@ public class Assembler {
 
 	private static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
 	private static String s8 = s4+s4;
+
+    public static String assemble(Map<Integer, Set<OpListWrapper>> map, String progname, OpListWrapper main) {
+        StringBuilder sproclCode = new StringBuilder();
+        sproclCode.append("module "+progname+" where\n" +
+                "\n" +
+                "import BasicFunctions\n" +
+                "import HardwareTypes\n" +
+                "import Sprockell\n" +
+                "import System\n" +
+                "import Simulation\n" +
+                "\n" +
+                "main :: IO()\n" +
+                "main = sysTest [");
+        boolean comma = false;
+        for (int core : map.keySet()) {
+            if (comma) {
+            sproclCode.append(", ");
+            }
+            sproclCode.append("core" + core);
+            comma = true;
+        }
+        sproclCode.append("]\n\n");
+
+
+        return sproclCode.toString();
+    }
 
 	public static String assemble(Program program, String progname){
 		StringBuilder sproclCode = new StringBuilder();
@@ -22,6 +51,7 @@ public class Assembler {
 				"import System\n" +
 				"import Simulation\n" +
 				"\n" +
+                "main :: IO()\n" +
 				"main = sysTest [prog]\n" +
 				"\n" +
 				"prog :: [Instruction]\n" +
