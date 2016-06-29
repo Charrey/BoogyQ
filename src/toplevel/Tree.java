@@ -71,6 +71,19 @@ public class Tree<T> {
         return res;
     }
 
+    public Set<T> toSetChildren() {
+        Set<T> res;
+        if (children.isEmpty()) {
+            res = new HashSet<>();
+        } else {
+            res = children.get(0).toSet();
+            for (int i = 1; i<children.size(); i++) {
+                res.addAll(children.get(i).toSet());
+            }
+        }
+        return res;
+    }
+
     public List<Set<T>> getLevels() {
         Set<T> thisset = new HashSet<>();
         thisset.add(this.data);

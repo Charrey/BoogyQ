@@ -53,4 +53,15 @@ public enum CoreManager {
             startingfrom++;
         }
     }
+
+    public static Map<Integer, Set<OpListWrapper>> invert(Map<OpListWrapper, Integer> input) {
+        Map<Integer, Set<OpListWrapper>> res = new HashMap<>();
+        for (Map.Entry<OpListWrapper, Integer> i : input.entrySet()) {
+            if (!res.containsKey(i)) {
+                res.put(i.getValue(), new HashSet<>());
+            }
+            res.get(i.getValue()).add(i.getKey());
+        }
+        return res;
+    }
 }

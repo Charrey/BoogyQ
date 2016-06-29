@@ -81,9 +81,13 @@ public class Main {
                         System.out.println("Program has no errors.");
 
 
+                        Map<OpListWrapper, Integer> coresassigned = CoreManager.instance.assignCores(divresult.getThreadTree());
+                        Map<Integer, Set<OpListWrapper>> coresassigned_good = CoreManager.invert(coresassigned);
+                        //NOTE: The MAIN thread runs on the core with the HIGHEST number.
+
 
                         Program prog = Program.fromOpList(divresult.getThreadTree().get().getOps());
-                        System.out.println("-----Program:---------------");
+                        System.out.println("-----MAIN Program:----------");
                         System.out.println(prog.prettyPrint());
 
                         String withoutextension = the_file.getName().replace(".boog", "");

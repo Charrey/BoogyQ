@@ -69,13 +69,13 @@ public enum OpCode {
 	receive(0,REG),
 
 	//All the read functions
-	readDIRA(1,REG),
+	readDIRA(1,NUM),
 	readINDA(1,REG),
 
 	testAndSetDIRA(1,REG),
 	testAndSetINDA(1,REG),
 
-	writeDIRA(2,REG,REG),
+	writeDIRA(2,NUM,REG),
 	writeINDA(2,REG,REG),
 
 	NOP(0);

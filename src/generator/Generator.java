@@ -40,9 +40,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
                                                   //Atm we only have int, char and bool
                                                     // int = 0; char = A; bool = False;
 
-    private Reg r_standard0 = new Reg("1"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
+    public Reg r_standard0 = new Reg("1"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
     //private Reg r_arp = new Reg("r_arp");
-    private Reg r_load = new Reg("2");
+    public Reg r_load = new Reg("2");
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
@@ -180,7 +180,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(concurrentBlockID).getKey()), r_load));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
-        operations.add(new Op(OpCode.writeDIRA, r_standard0, r_load));
+        operations.add(new Op(OpCode.writeINDA, r_standard0, r_load));
         return operations;
     }
 

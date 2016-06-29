@@ -118,10 +118,10 @@ public class Assembler {
 				sproclCode = ("Store " + args.get(0) + " (IndAddr "+ args.get(1) + ")");
 				break;
 			case writeINDA:
-				sproclCode = ("WriteInstr " + args.get(0) + " (IndAddr " + args.get(1) + ")");
+				sproclCode = ("WriteInstr (" + args.get(0) + ") (IndAddr " + args.get(1) + ")");
 				break;
 			case writeDIRA:
-				sproclCode = ("WriteInstr " + args.get(0) + " (DirAddr " + args.get(1) + ")");
+				sproclCode = ("WriteInstr (" + args.get(0) + ") (DirAddr " + args.get(1) + ")");
 				break;
 			case readDIRA:
 				sproclCode = ("ReadInstr (DirAddr " + args.get(0) + ")");
