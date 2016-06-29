@@ -1,5 +1,7 @@
 package test;
 
+import toplevel.Tree;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -12,6 +14,8 @@ import java.util.Arrays;
 public class kloten {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println(ByteBuffer.wrap("A".getBytes("UTF-32")).getInt());
+        Tree<Integer> mytree = new Tree<>(4);
+        mytree.addChild(5);
+        mytree.addChild(5);
     }
 }

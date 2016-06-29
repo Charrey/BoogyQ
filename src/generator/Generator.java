@@ -10,16 +10,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.*;
 import sprocl.model.*;
-import toplevel.CoreManager;
 import toplevel.OpListWrapper;
 
-import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.*;
-
-import static toplevel.CoreManager.*;
 
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
@@ -50,10 +46,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
-    Stack<Integer> if_statements;
-    int if_statement_counter;
+    private Stack<Integer> if_statements;
+    private int if_statement_counter;
 
-    ParseTreeProperty<String> label;
+    private ParseTreeProperty<String> label;
 
     private Generator(){
         defaultValues = new HashMap<>();
@@ -62,16 +58,13 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public OpListWrapper generate(ParseTree tree, Set<String> global) throws RegisterException {
-
-
+    public Pair<OpListWrapper, OffsetSymbolTable> generate(ParseTree tree, Set<String> global, boolean main) throws RegisterException {
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
         for (String i: global) {
             symbolTable.add(i, true);
         }
-
         regsList = new ParseTreeProperty<>();
         label = new ParseTreeProperty<>();
         RegisterCounter registerCounter = new RegisterCounter();
@@ -89,7 +82,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
-        return new OpListWrapper(res);
+        return new Pair<>(new OpListWrapper(res), symbolTable);
     }
 
     /**
@@ -98,15 +91,15 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
      * The label is actually constructed from the entry node
      * in the flow graph, as stored in the checker result.
      */
-    private Label label(ParserRuleContext node) {
-        Label result = this.labels.get(node);
-        if (result == null) {
-            //ParserRuleContext entry = this.checkResult.getEntry(node);
-            //result = createLabel(entry, "n");
-            this.labels.put(node, result);
-        }
-        return result;
-    }
+//    private Label label(ParserRuleContext node) {
+//        Label result = this.labels.get(node);
+//        if (result == null) {
+//            //ParserRuleContext entry = this.checkResult.getEntry(node);
+//            //result = createLabel(entry, "n");
+//            this.labels.put(node, result);
+//        }
+//        return result;
+//    }
 
     /** Creates a label for a given parse tree node and prefix. */
     private Label createLabel(ParserRuleContext node, String prefix) {
@@ -121,13 +114,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitProgram(BoogyQParser.ProgramContext ctx) {
-        List<Op> operations = new LinkedList<Op>();
+        List<Op> operations = new LinkedList<>();
         List<Reg> programRegList = regsList.get(ctx);
         List<Reg> statementRegList;
         for(BoogyQParser.StatementContext context : ctx.statement()){
-            if (context instanceof BoogyQParser.ConcurrentstatContext) {
-                continue;
-            }
             statementRegList = programRegList.subList(0, regCount.get(context));
             regsList.put(context, statementRegList);
             operations.addAll(visit(context));
@@ -185,7 +175,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        String concurrentBlockID = Divider.getConcurrentPTP().get(ctx);
+        String concurrentBlockID = Divider.getConcurrent_identifiers().get(ctx);
         symbolTable.add(concurrentBlockID, true);
         List<Op> operations = new ArrayList<>();
         operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(concurrentBlockID).getKey()), r_load));
@@ -449,7 +439,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         String id = ctx.ID().getText();
         String type = ctx.PRIMITIVE().getText();
-        if (!ctx.REACH().getText().equals("global")) {
+        if (ctx.REACH()==null || !ctx.REACH().getText().equals("global")) {
             symbolTable.add(id, false);
             if (defaultValues.get(type).getValue() != 0) {
                 operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
@@ -489,7 +479,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = visit(ctx.flow());
         String id = ctx.ID().getText();
 
-        if (!ctx.REACH().getText().equals("global")) {
+        if (ctx.REACH() == null || !ctx.REACH().getText().equals("global")) {
             symbolTable.add(id, false);
             int offset = symbolTable.get(id).getKey();
 
@@ -512,10 +502,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         Pair<Integer, Boolean> offset = symbolTable.get(id);
         List<Op> operations = new ArrayList<>();
 
-        operations.add(new Op(OpCode.loadDIRA, new Num(offset.getKey()), r_load));
+        operations.add(new Op(OpCode.loadCONST, new Num(offset.getKey()), r_load));
 
         if (!offset.getValue()) {
-            operations.add(new Op(OpCode.loadINDA, new Num(offset.getKey()), r_load));
+            operations.add(new Op(OpCode.loadINDA, r_load, r_load));
         } else {
             operations.add(new Op(OpCode.readINDA, r_load));
             operations.add(new Op(OpCode.receive, r_load));

@@ -10,7 +10,7 @@ import java.util.*;
 public enum CoreManager {
     instance;
 
-    public static final int CORE_AMOUNT = 400;
+    public static final int CORE_AMOUNT = 4;
 
 
 

@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.*;
+import sprocl.model.Op;
+import toplevel.Tree;
 
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -20,7 +22,9 @@ public class DeclChecker extends BoogyQBaseVisitor {
 
     private List<DeclException> errors;
     private int junklines;
-    
+
+
+
 
     public List<DeclException> check(ParseTree input, Set<String> global) {
         decls = new BasicSymbolTable<>();

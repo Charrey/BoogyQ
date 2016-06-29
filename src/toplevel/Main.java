@@ -24,8 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.junit.Assert.fail;
-
 /**
  * Created by poesd_000 on 20/06/2016.
  */
@@ -73,8 +71,7 @@ public class Main {
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
 
-                    DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>());
-
+                    DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>()).getKey();
                     if (divresult.hasErrors()) {
                         for (CompileException err : divresult.getErrors()) {
                             System.out.println(err);
@@ -117,15 +114,19 @@ public class Main {
 
                 }
 
+                label:
                 while (true) {
                     System.out.println("Awaiting input...");
                     String input = scanner.nextLine();
-                    if (input.equals(":r")) {
-                        break;
-                    } else if (input.equals("exit")) {
-                        System.exit(0);
-                    } else {
-                        System.out.println("Unknown input.");
+                    switch (input) {
+                        case ":r":
+                            break label;
+                        case "exit":
+                            exit = true;
+                            break;
+                        default:
+                            System.out.println("Unknown input.");
+                            break;
                     }
                 }
             }
@@ -168,7 +169,7 @@ public class Main {
 
 
 
-    public static void writeToFile(String input, String filename) throws IOException {
+    private static void writeToFile(String input, String filename) throws IOException {
         PrintWriter out = null;
         try {
             new File(filename).createNewFile();
@@ -198,11 +199,11 @@ public class Main {
 
             private int getRealLine(String text, int i) {
                 while(text.contains("OPENSCOPE")) {
-                    text.replaceFirst("OPENSCOPE", "");
+                    text = text.replaceFirst("OPENSCOPE", "");
                     i--;
                 }
                 while(text.contains("CLOSESCOPE")) {
-                    text.replaceFirst("CLOSESCOPE", "");
+                    text = text.replaceFirst("CLOSESCOPE", "");
                     i--;
                 }
                 return i;

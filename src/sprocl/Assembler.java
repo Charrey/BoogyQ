@@ -9,8 +9,8 @@ import sprocl.model.*;
 /** Assembler for the ILOC language. */
 public class Assembler {
 
-	public static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
-	public static String s8 = s4+s4;
+	private static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
+	private static String s8 = s4+s4;
 
 	public static String assemble(Program program, String progname){
 		StringBuilder sproclCode = new StringBuilder();
@@ -43,7 +43,7 @@ public class Assembler {
 	}
 
 
-	public static String convertToSprocl(Op operation){
+	private static String convertToSprocl(Op operation){
 		OpCode opCode = operation.getOpCode();
 		List<String> args = new ArrayList<>();
 		for (Operand arg: operation.getArgs()){
@@ -119,6 +119,9 @@ public class Assembler {
 				break;
 			case writeINDA:
 				sproclCode = ("WriteInstr " + args.get(0) + " (IndAddr " + args.get(1) + ")");
+				break;
+			case writeDIRA:
+				sproclCode = ("WriteInstr " + args.get(0) + " (DirAddr " + args.get(1) + ")");
 				break;
 			case readDIRA:
 				sproclCode = ("ReadInstr (DirAddr " + args.get(0) + ")");

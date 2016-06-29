@@ -5,6 +5,7 @@ import sprocl.model.Op;
 import sprocl.model.OpCode;
 import sprocl.model.Reg;
 import toplevel.CoreManager;
+import toplevel.OpListWrapper;
 import toplevel.Tree;
 
 import java.util.LinkedList;
@@ -42,8 +43,8 @@ public class CoreManagerTest {
         the_tree.addChild(listop3);
         the_tree.getChild(0).addChild(listop4);
         the_tree.getChild(0).addChild(listop5);
-        Tree<CoreManager.OpListWrapper> wrapped = CoreManager.instance.wrap(the_tree);
-        Map<CoreManager.OpListWrapper, Integer> assigned = CoreManager.instance.assignCores(wrapped);
+        Tree<OpListWrapper> wrapped = CoreManager.instance.wrap(the_tree);
+        Map<OpListWrapper, Integer> assigned = CoreManager.instance.assignCores(wrapped);
         System.out.println(assigned.get(wrapped.get()));
     }
 }

@@ -1,21 +1,18 @@
 package divider;
 
 import checker.DeclChecker;
+import checker.OffsetSymbolTable;
 import checker.Type;
 import checker.TypeChecker;
 import exceptions.CompileException;
 import exceptions.divider.ReachException;
 import exceptions.generator.RegisterException;
 import generator.Generator;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
+import javafx.util.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import parser.BoogyQBaseListener;
 import parser.BoogyQBaseVisitor;
 import parser.BoogyQParser;
-import sprocl.model.Op;
 import toplevel.OpListWrapper;
 import toplevel.Tree;
 
@@ -29,20 +26,20 @@ import java.util.Map;
  */
 public class Divider extends BoogyQBaseVisitor {
 
-    boolean globalDeclAllowed;
+    private boolean globalDeclAllowed;
     private Map<String, Type> globalVars;
     public List<CompileException> exceptions;
     private static int junklines;
-    public Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
-    private static ParseTreeProperty<String> concurrentPTP = new ParseTreeProperty<>();
+    private Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
+    private static ParseTreeProperty<String> concurrent_identifiers = new ParseTreeProperty<>();
     private static int concurrentblockCounter = 0;
 
     public static void init(){
         junklines = 0;
-        concurrentPTP = new ParseTreeProperty<>();
+        concurrent_identifiers = new ParseTreeProperty<>();
         concurrentblockCounter = 0;
     }
-    public DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars){
+    public Pair<DividerResult, OffsetSymbolTable> generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars){
         this.globalDeclAllowed = globalDeclAllowed;
         this.globalVars = globalVars;
         this.exceptions = new LinkedList<>();
@@ -58,46 +55,43 @@ public class Divider extends BoogyQBaseVisitor {
         } else {
             exceptions.addAll(declChecker.check(parseTree, new HashSet<>()));
         }
-
-
-
         if (!exceptions.isEmpty()) {
-            return new DividerResult(threadTree, exceptions);
+            return new Pair<>(new DividerResult(threadTree, exceptions), null);
         }
-
         TypeChecker typeChecker = new TypeChecker();
         exceptions.addAll(typeChecker.check(parseTree, globalVars));
         if (!exceptions.isEmpty()) {
-            return new DividerResult(threadTree, exceptions);
+            return new Pair<>(new DividerResult(threadTree, exceptions), null);
         }
-
-        OpListWrapper mainCode = null;
         try {
+            Pair<OpListWrapper, OffsetSymbolTable> mainCode;
             if (!globalDeclAllowed) {
-                mainCode = Generator.getInstance().generate(parseTree, globalVars.keySet());
-                threadTree.set(mainCode);
+                mainCode = Generator.getInstance().generate(parseTree, globalVars.keySet(), false);
+                threadTree.set(mainCode.getKey());
             } else {
-                mainCode = Generator.getInstance().generate(parseTree, new HashSet<>());
-                threadTree.set(mainCode);
+                mainCode = Generator.getInstance().generate(parseTree, new HashSet<>(), true);
+                threadTree.set(mainCode.getKey());
             }
+            return new Pair<>(new DividerResult(threadTree, exceptions), mainCode.getValue());
         } catch (RegisterException e) {
             exceptions.add(new CompileException(e.getMessage(), 0));
         }
-        return new DividerResult(threadTree, exceptions);
+        return new Pair<>(new DividerResult(threadTree, exceptions), null);
     }
 
 
     @Override
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        concurrentPTP.put(ctx, "_ConcurrentBlockID" + concurrentblockCounter++);
+        concurrent_identifiers.put(ctx, "_ConcurrentBlockID" + concurrentblockCounter++);
         BoogyQParser.ProgramContext a = new BoogyQParser.ProgramContext(null, -1);
         for (int i = 0; i<ctx.statement().size(); i++) {
             a.addChild(ctx.statement(i));
         }
-
-        DividerResult dividerResult = new Divider().generate(false, a, globalVars);
-        threadTree.addChild(dividerResult.getThreadTree());
-        exceptions.addAll(dividerResult.getErrors());
+        globalVars.put(concurrent_identifiers.get(ctx), null);
+        Pair<DividerResult, OffsetSymbolTable> dividerResult = new Divider().generate(false, a, globalVars);
+        threadTree.addChild(dividerResult.getKey().getThreadTree());
+        dividerResult.getKey().getThreadTree().get().setMemLocation(dividerResult.getValue().get(concurrent_identifiers.get(ctx)).getKey());
+        exceptions.addAll(dividerResult.getKey().getErrors());
         return null;
     }
 
@@ -139,7 +133,7 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
-    public static ParseTreeProperty<String> getConcurrentPTP() {
-        return concurrentPTP;
+    public static ParseTreeProperty<String> getConcurrent_identifiers() {
+        return concurrent_identifiers;
     }
 }

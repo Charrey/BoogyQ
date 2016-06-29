@@ -1,5 +1,5 @@
-10 -> int a.
-5 -> int b.
+99 -> int a.
+22 -> int b.
 if (a!=b):
 	if (True):
 		if (a>b):
