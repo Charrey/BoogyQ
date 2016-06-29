@@ -10,11 +10,13 @@ import generator.Generator;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.BoogyQBaseListener;
 import parser.BoogyQBaseVisitor;
 import parser.BoogyQParser;
 import sprocl.model.Op;
+import toplevel.OpListWrapper;
 import toplevel.Tree;
 
 import java.util.HashSet;
@@ -30,9 +32,16 @@ public class Divider extends BoogyQBaseVisitor {
     boolean globalDeclAllowed;
     private Map<String, Type> globalVars;
     public List<CompileException> exceptions;
-    private int junklines;
-    public Tree<List<Op>> threadTree; //A tree with the hierarchies of threads.
+    private static int junklines;
+    public Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
+    private static ParseTreeProperty<String> concurrentPTP = new ParseTreeProperty<>();
+    private static int concurrentblockCounter = 0;
 
+    public static void init(){
+        junklines = 0;
+        concurrentPTP = new ParseTreeProperty<>();
+        concurrentblockCounter = 0;
+    }
     public DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars){
         this.globalDeclAllowed = globalDeclAllowed;
         this.globalVars = globalVars;
@@ -62,7 +71,7 @@ public class Divider extends BoogyQBaseVisitor {
             return new DividerResult(threadTree, exceptions);
         }
 
-        List<Op> mainCode = null;
+        OpListWrapper mainCode = null;
         try {
             if (!globalDeclAllowed) {
                 mainCode = Generator.getInstance().generate(parseTree, globalVars.keySet());
@@ -80,6 +89,7 @@ public class Divider extends BoogyQBaseVisitor {
 
     @Override
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
+        concurrentPTP.put(ctx, "_ConcurrentBlockID" + concurrentblockCounter++);
         BoogyQParser.ProgramContext a = new BoogyQParser.ProgramContext(null, -1);
         for (int i = 0; i<ctx.statement().size(); i++) {
             a.addChild(ctx.statement(i));
@@ -127,5 +137,9 @@ public class Divider extends BoogyQBaseVisitor {
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         junklines++;
         return null;
+    }
+
+    public static ParseTreeProperty<String> getConcurrentPTP() {
+        return concurrentPTP;
     }
 }

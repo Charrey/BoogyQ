@@ -1,6 +1,7 @@
 package generator;
 
 import checker.*;
+import divider.Divider;
 import exceptions.generator.RegisterException;
 import javafx.util.Pair;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -9,12 +10,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.*;
 import sprocl.model.*;
+import toplevel.CoreManager;
+import toplevel.OpListWrapper;
 
 import javax.swing.*;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.*;
+
+import static toplevel.CoreManager.*;
 
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
@@ -57,7 +62,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public List<Op> generate(ParseTree tree, Set<String> global) throws RegisterException {
+    public OpListWrapper generate(ParseTree tree, Set<String> global) throws RegisterException {
 
 
         if_statements = new Stack<>();
@@ -84,7 +89,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
-        return res;
+        return new OpListWrapper(res);
     }
 
     /**
@@ -180,7 +185,13 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        return new LinkedList<>();
+        String concurrentBlockID = Divider.getConcurrentPTP().get(ctx);
+        symbolTable.add(concurrentBlockID, true);
+        List<Op> operations = new ArrayList<>();
+        operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(concurrentBlockID).getKey()), r_load));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
+        operations.add(new Op(OpCode.writeDIRA, r_standard0, r_load));
+        return operations;
     }
 
     @Override

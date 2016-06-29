@@ -85,7 +85,7 @@ public class Main {
 
 
 
-                        Program prog = Program.fromOpList(divresult.getThreadTree().get());
+                        Program prog = Program.fromOpList(divresult.getThreadTree().get().getOps());
                         System.out.println("-----Program:---------------");
                         System.out.println(prog.prettyPrint());
 

@@ -2,6 +2,7 @@ package divider;
 
 import exceptions.CompileException;
 import sprocl.model.Op;
+import toplevel.OpListWrapper;
 import toplevel.Tree;
 
 import java.util.List;
@@ -9,16 +10,16 @@ import java.util.List;
 public class DividerResult {
 
 
-    Tree<List<Op>> threadTree;
+    Tree<OpListWrapper> threadTree;
     List<CompileException> exceptions;
 
-    public DividerResult(Tree<List<Op>> concurrencyTree, List<CompileException> exceptions) {
+    public DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileException> exceptions) {
         this.threadTree = concurrencyTree;
         this.exceptions = exceptions;
     }
 
 
-    public Tree<List<Op>> getThreadTree() {
+    public Tree<OpListWrapper> getThreadTree() {
         return threadTree;
     }
 

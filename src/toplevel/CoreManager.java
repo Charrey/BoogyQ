@@ -53,24 +53,4 @@ public enum CoreManager {
             startingfrom++;
         }
     }
-
-    public class OpListWrapper {
-        private final List<Op> ops;
-        private int identifier;
-
-        public OpListWrapper(List<Op> ops) {
-            this.ops = ops;
-        }
-        public List<Op> getOps() {return ops;}
-
-        public void setIdentifier(int iden) {
-            this.identifier = iden;
-        }
-        public int getIdentiefier() {
-            return identifier;
-        }
-        public String toString() {
-            return  "<"+this.hashCode()+">";
-        }
-    }
 }
