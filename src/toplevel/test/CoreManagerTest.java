@@ -9,6 +9,7 @@ import toplevel.Tree;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 28-6-2016.
@@ -41,6 +42,8 @@ public class CoreManagerTest {
         the_tree.addChild(listop3);
         the_tree.getChild(0).addChild(listop4);
         the_tree.getChild(0).addChild(listop5);
-        System.out.println(CoreManager.instance.assignCores(the_tree));
+        Tree<CoreManager.OpListWrapper> wrapped = CoreManager.instance.wrap(the_tree);
+        Map<CoreManager.OpListWrapper, Integer> assigned = CoreManager.instance.assignCores(wrapped);
+        System.out.println(assigned.get(wrapped.get()));
     }
 }

@@ -10,26 +10,31 @@ import java.util.*;
 public enum CoreManager {
     instance;
 
-    public static final int CORE_AMOUNT = 4;
+    public static final int CORE_AMOUNT = 400;
 
 
 
     //toplevel ONLY. No recursion.
-    public Map<OpListWrapper, Integer> assignCores(Tree<List<Op>> input) {
+    public Map<OpListWrapper, Integer> assignCores(Tree<OpListWrapper> input) {
         int maincore = CORE_AMOUNT-1;
-        int percoremax = (int) Math.ceil((input.size()-1)/(CORE_AMOUNT-1));
-        Tree<OpListWrapper> wrapped = wrap(input);
-        List<Set<OpListWrapper>> levels = wrapped.getLevels();
+        List<Set<OpListWrapper>> levels = input.getLevels();
         Map<OpListWrapper, Integer> res = new HashMap<>();
+        res.put(input.get(), maincore);
         int counter = 0;
+        boolean toplevel = true;
         for (Set<OpListWrapper> layer : levels) {
+            if (toplevel) {
+                toplevel = false;
+                continue;
+            }
             for (OpListWrapper oplist : layer) {
                 res.put(oplist, counter);
                 counter = (counter+1)%(CORE_AMOUNT-1);
             }
         }
-        assert levels.get(0).size()==1;
 
+
+        assert levels.get(0).size()==1;
         return res;
     }
 
@@ -63,6 +68,9 @@ public enum CoreManager {
         }
         public int getIdentiefier() {
             return identifier;
+        }
+        public String toString() {
+            return  "<"+this.hashCode()+">";
         }
     }
 }
