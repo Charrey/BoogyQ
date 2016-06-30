@@ -78,7 +78,7 @@ public enum OpCode {
 	writeDIRA(2,REG,NUM),
 	writeINDA(2,REG,REG),
 
-	NOP(0);
+	nop(0);
 
 
 

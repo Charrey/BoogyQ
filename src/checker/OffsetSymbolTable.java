@@ -8,7 +8,7 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
     Stack<Integer> offsets = new Stack<>();
     int currentoffset = 1;
-    int globaloffset = 0;
+    int globaloffset = 1;
     Set<String> global = new HashSet<>();
 
     @Override

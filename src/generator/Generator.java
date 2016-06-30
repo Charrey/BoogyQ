@@ -126,6 +126,11 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     }
 
     @Override
+    public List<Op> visitBarecomment(BoogyQParser.BarecommentContext ctx) {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<Op> visitIfstat(BoogyQParser.IfstatContext ctx) {
         List<Op> operations = new ArrayList<>();
         List<Reg> ifRegList = regsList.get(ctx);

@@ -74,11 +74,11 @@ public class Divider extends BoogyQBaseVisitor {
             } else {
                 mainCode = Generator.getInstance().generate(parseTree, new HashSet<>(), true);
                 for (OpListWrapper i : threadTree.toSetChildren()) {
-                    mainCode.getKey().getOps().add(new Op(OpCode.loadCONST, new Num(-1), Generator.getInstance().r_standard0));
-                    mainCode.getKey().getOps().add(new Op(OpCode.writeDIRA, Generator.getInstance().r_standard0, new Num(i.getMemLocation())));
+                    //mainCode.getKey().getOps().add(new Op(OpCode.loadCONST, new Num(-1), Generator.getInstance().r_standard0));
+                    //mainCode.getKey().getOps().add(new Op(OpCode.writeDIRA, Generator.getInstance().r_standard0, new Num(i.getMemLocation())));
                 }
-                mainCode.getKey().getOps().add(new Op(OpCode.readDIRA, new Num(0)));
-                mainCode.getKey().getOps().add(new Op(OpCode.receive, Generator.getInstance().r_standard0));
+               // mainCode.getKey().getOps().add(new Op(OpCode.readDIRA, new Num(0)));
+                //mainCode.getKey().getOps().add(new Op(OpCode.receive, Generator.getInstance().r_standard0));
             }
             threadTree.set(mainCode.getKey());
             return new Pair<>(new DividerResult(threadTree, exceptions), mainCode.getValue());
@@ -99,7 +99,8 @@ public class Divider extends BoogyQBaseVisitor {
         globalVars.put(concurrent_identifiers.get(ctx), null);
         Pair<DividerResult, OffsetSymbolTable> dividerResult = new Divider().generate(false, a, globalVars);
         threadTree.addChild(dividerResult.getKey().getThreadTree());
-        dividerResult.getKey().getThreadTree().get().setMemLocation(dividerResult.getValue().get(concurrent_identifiers.get(ctx)).getKey());
+        //OffsetSymbolTable symbolTable = dividerResult.getValue();
+       ///dividerResult.getKey().getThreadTree().get().setMemLocation(symbolTable.get(concurrent_identifiers.get(ctx)).getKey());
         exceptions.addAll(dividerResult.getKey().getErrors());
         return null;
     }

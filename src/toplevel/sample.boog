@@ -1,4 +1,9 @@
-3 -> int a.
 global int b.
 concurrent:
-	4 -> b.
+	6 -> b.
+concurrent:
+	5 -> b.
+if(b != 6):
+	<loop.
+b -> int a.
+3 -> int c.

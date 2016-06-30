@@ -3,7 +3,6 @@ package sprocl;
 import java.util.*;
 
 import generator.Generator;
-import javafx.util.Pair;
 import sprocl.model.*;
 import toplevel.OpListWrapper;
 
@@ -37,9 +36,9 @@ public class Assembler {
         }
         sproclCode.append("]");
 
+		Reg r_0 = new Reg("0");
 		Reg r_load = Generator.getInstance().r_load;
 		Reg r_standard = Generator.getInstance().r_standard0;
-		Reg r_1 = new Reg("4");
 
 		for (int core : map.keySet()) {
 			boolean thisismain = false;
@@ -55,26 +54,52 @@ public class Assembler {
 
 
 			if (!thisismain) {
-				percore.add(new Op(OpCode.loadCONST, new Num(1), r_1));
 				List<OpListWrapper> opListWrappers = new LinkedList<>(map.get(core));
+
+
+				List<List<Op>> concurrentBlocksOps = new ArrayList<>();
+				List<Op> concurrentBlockOps;
 				for (OpListWrapper wrap : opListWrappers) {
+					concurrentBlockOps = new LinkedList<>();
+					int memloc = wrap.getMemLocation();
+					concurrentBlockOps.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
+					concurrentBlockOps.add(new Op(OpCode.writeINDA, r_0, r_load));
+					concurrentBlockOps.add(new Op(OpCode.readINDA, r_load));
+					concurrentBlockOps.add(new Op(OpCode.receive, r_standard));
+					concurrentBlockOps.addAll(wrap.getOps());
+					concurrentBlockOps.add(new Op(OpCode.jumpABS, new Num(0)));
+					concurrentBlocksOps.add(concurrentBlockOps);
+				}
+
+				int blockcodebefore = 0; //A simple counter to keep track how many concurrentblock operations
+										// Were added before the current one.
+
+				int totalprogsize = 0;
+				for (int i = 0; i < opListWrappers.size(); i++) {
+					totalprogsize += 10 + opListWrappers.get(i).getOps().size();
+				}
+				totalprogsize += 5;
+
+				for (int i = 0; i < opListWrappers.size(); i++) {
+					OpListWrapper wrap = opListWrappers.get(i);
 					int memloc = wrap.getMemLocation();
 					percore.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
 					percore.add(new Op(OpCode.readINDA, r_load));
-					percore.add(new Op(OpCode.receive, r_standard));
-					percore.add(new Op(OpCode.computeEQUAL, r_1, r_standard, r_standard));
-					percore.add(new Op(OpCode.branchABS, r_standard, new Num(9999999))); //TODO: The right number here
+					percore.add(new Op(OpCode.receive, r_load));
+					percore.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
+					percore.add(new Op(OpCode.computeEQUAL, r_standard, r_load, r_standard));
+					percore.add(new Op(OpCode.branchABS, r_standard, new Num(( concurrentBlocksOps.size() * 10) + blockcodebefore ))); //TODO: The right number here
+					percore.add(new Op(OpCode.loadCONST, new Num(-1), r_standard));
+					percore.add(new Op(OpCode.computeEQUAL, r_standard, r_load, r_standard));
+					percore.add(new Op(OpCode.branchABS, r_standard, new Num((totalprogsize)))); //TODO: The right number here
+					blockcodebefore += concurrentBlocksOps.get(i).size();
 				}
 				percore.add(new Op(OpCode.jumpABS, new Num(0)));
-				for (OpListWrapper wrap : opListWrappers) {
-					int memloc = wrap.getMemLocation();
-					percore.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
-					percore.add(new Op(OpCode.writeINDA, new Reg("0"), r_load));
-					percore.add(new Op(OpCode.readINDA, r_load));
-					percore.add(new Op(OpCode.receive, r_standard));
-					percore.addAll(wrap.getOps());
-					percore.add(new Op(OpCode.jumpABS, new Num(0)));
+				for (List<Op> ops: concurrentBlocksOps){
+					percore.addAll(ops);
 				}
+
+
 			} else {
 				percore.addAll(main.getOps());
 				percore.add(new Op(OpCode.loadCONST, new Num(-1), r_standard));
@@ -84,11 +109,22 @@ public class Assembler {
 							continue;
 						}
 						int address = wrap.getMemLocation();
-						percore.add(new Op(OpCode.writeDIRA, r_standard, new Num(address)));
-						percore.add(new Op(OpCode.readDIRA, new Num(address)));
+						percore.add(new Op(OpCode.loadCONST, new Num(address), r_load));
+						percore.add(new Op(OpCode.readINDA, r_load));
 						percore.add(new Op(OpCode.receive, r_standard));
+						percore.add(new Op(OpCode.computeNEQ, r_0, r_standard, r_standard ));
+						percore.add(new Op(OpCode.branchREL, r_standard, new Num(-3)));
+						percore.add(new Op(OpCode.loadCONST, new Num(-1), r_standard));
+						percore.add(new Op(OpCode.writeINDA, r_standard, r_load));
 					}
 				}
+				// Vijf extra instructies, anders is er de kans dat de write niet helemaal is uitgevoerd voordat het programma
+				//getermineerd wordt. (Want de recieve duurt 5 instructies).
+				percore.add(new Op(OpCode.nop));
+				percore.add(new Op(OpCode.nop));
+				percore.add(new Op(OpCode.nop));
+				percore.add(new Op(OpCode.nop));
+				percore.add(new Op(OpCode.nop));
 			}
 
 
@@ -100,6 +136,8 @@ public class Assembler {
 					sproclCode.append("\n" + s8 + ", " + convertToSprocl(percore.get(i)));
 				}
 			}
+			sproclCode.append("\n" + s8 + ", EndProg");
+			sproclCode.append("\n" + s8 + "]");
 		}
 
 
@@ -234,7 +272,7 @@ public class Assembler {
 				sproclCode = ("Branch " + args.get(0) + " (Abs " + args.get(1)+ ")");
 				break;
 			case branchREL:
-				sproclCode = ("Branch " + args.get(0) + " (Rel " + args.get(1)+ ")");
+				sproclCode = ("Branch " + args.get(0) + " (Rel (" + args.get(1)+ "))");
 				break;
 			case branchIND:
 				sproclCode = ("Branch " + args.get(0) + " (Ind " + args.get(1)+ ")");
@@ -254,6 +292,9 @@ public class Assembler {
 				sproclCode = ("Pop " + args.get(0));
 				break;
 
+			case nop:
+				sproclCode = "Nop";
+				break;
 
 			default:
 				throw new UnsupportedOperationException(operation.toString());
