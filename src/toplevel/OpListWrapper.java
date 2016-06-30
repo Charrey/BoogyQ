@@ -1,7 +1,9 @@
 package toplevel;
 
+import sprocl.model.Flag;
 import sprocl.model.Op;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,10 +13,12 @@ public class OpListWrapper {
 
     private final List<Op> ops;
     private int identifier;
-    private int memLocation;
+    private Flag memLocation;
 
-    public OpListWrapper(List<Op> ops) {
+    public OpListWrapper(){ops = new LinkedList<>();}
+    public OpListWrapper(List<Op> ops, Flag flag) {
         this.ops = ops;
+        memLocation = flag;
     }
     public List<Op> getOps() {return ops;}
 
@@ -28,11 +32,11 @@ public class OpListWrapper {
         return  "<"+this.hashCode()+">";
     }
 
-    public int getMemLocation() {
+    public Flag getMemLocation() {
         return memLocation;
     }
 
-    public void setMemLocation(int memLocation) {
+    public void setMemLocation(Flag memLocation) {
         this.memLocation = memLocation;
     }
 }

@@ -29,14 +29,14 @@ public class Program {
 	private final Map<Label, Integer> labelMap;
 	/** (Partial) mapping from symbolic constants used in the program
 	 * to corresponding numeric values. */
-	private final Map<Num, Integer> symbMap;
+	//private final Map<Num, Integer> symbMap;
 
 	/** Creates a program with an initially empty instruction list. */
 	public Program() {
 		this.instrList = new ArrayList<>();
 		this.opList = new ArrayList<>();
 		this.labelMap = new LinkedHashMap<>();
-		this.symbMap = new LinkedHashMap<>();
+		//this.symbMap = new LinkedHashMap<>();
 	}
 
 	/** Adds an instruction to the instruction list of this program.
@@ -74,35 +74,6 @@ public class Program {
 	public int getLine(Label label) {
 		Integer result = this.labelMap.get(label);
 		return result == null ? -1 : result;
-	}
-
-	/** Assigns a fixed numeric value to a symbolic constant.
-	 * It is an error to assign to the same constant twice.
-	 * constant name, without preceding '@'
-	 */
-	public void setSymb(Num symb, int value) {
-		if (this.symbMap.containsKey(symb)) {
-			throw new IllegalArgumentException("Constant '" + symb
-					+ "' already assigned");
-		}
-		this.symbMap.put(symb, value);
-	}
-
-	/** 
-	 * Returns the value with which a given symbol has been
-	 * initialised, if any.
-	 */
-	public Integer getSymb(Num symb) {
-		return this.symbMap.get(symb);
-	}
-
-	/** 
-	 * Returns the value with which a given named symbol has been
-	 * initialised, if any.
-	 * @param name name of the symbol, without '@'-prefix
-	 */
-	public Integer getSymb(String name) {
-		return getSymb(new Num(name));
 	}
 
 	/**
@@ -166,15 +137,7 @@ public class Program {
 				if (!(opnd instanceof Num)) {
 					continue;
 				}
-				if (((Num) opnd).getKind() != NumKind.SYMB) {
-					continue;
-				}
-				String name = ((Num) opnd).getName();
-				Set<Integer> lines = result.get(name);
-				if (lines == null) {
-					result.put(name, lines = new LinkedHashSet<>());
-				}
-				lines.add(op.getLine());
+				continue;
 			}
 		}
 		return result;
@@ -184,10 +147,6 @@ public class Program {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		for (Map.Entry<Num, Integer> symbEntry : this.symbMap.entrySet()) {
-			result.append(String.format("%s <- %d%n", symbEntry.getKey()
-					.getName(), symbEntry.getValue()));
-		}
 		for (Instr instr : getInstr()) {
 			result.append(instr.toString());
 			result.append('\n');
@@ -223,13 +182,6 @@ public class Program {
 		StringBuilder result = new StringBuilder();
 		// first print the symbolic declaration map
 		int idSize = 0;
-		for (Num symb : this.symbMap.keySet()) {
-			idSize = Math.max(idSize, symb.getName().length());
-		}
-		for (Map.Entry<Num, Integer> symbEntry : this.symbMap.entrySet()) {
-			result.append(String.format("%-" + idSize + "s <- %d%n", symbEntry
-					.getKey().getName(), symbEntry.getValue()));
-		}
 		if (idSize > 0) {
 			result.append('\n');
 		}

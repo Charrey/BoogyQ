@@ -61,7 +61,7 @@ public class Assembler {
 				List<Op> concurrentBlockOps;
 				for (OpListWrapper wrap : opListWrappers) {
 					concurrentBlockOps = new LinkedList<>();
-					int memloc = wrap.getMemLocation();
+					int memloc = wrap.getMemLocation().getFlag();
 					concurrentBlockOps.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
 					concurrentBlockOps.add(new Op(OpCode.writeINDA, r_0, r_load));
 					concurrentBlockOps.add(new Op(OpCode.readINDA, r_load));
@@ -82,7 +82,7 @@ public class Assembler {
 
 				for (int i = 0; i < opListWrappers.size(); i++) {
 					OpListWrapper wrap = opListWrappers.get(i);
-					int memloc = wrap.getMemLocation();
+					int memloc = wrap.getMemLocation().getFlag();
 					percore.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
 					percore.add(new Op(OpCode.readINDA, r_load));
 					percore.add(new Op(OpCode.receive, r_load));
@@ -108,7 +108,7 @@ public class Assembler {
 						if (wrap.equals(main)) {
 							continue;
 						}
-						int address = wrap.getMemLocation();
+						int address = wrap.getMemLocation().getFlag();
 						percore.add(new Op(OpCode.loadCONST, new Num(address), r_load));
 						percore.add(new Op(OpCode.readINDA, r_load));
 						percore.add(new Op(OpCode.receive, r_standard));
@@ -181,7 +181,10 @@ public class Assembler {
 		OpCode opCode = operation.getOpCode();
 		List<String> args = new ArrayList<>();
 		for (Operand arg: operation.getArgs()){
-			args.add(arg.toString());
+			if (args == null) {
+                int a;
+            }
+            args.add(arg.toString());
 		}
 		String sproclCode;
 		switch (opCode){

@@ -22,6 +22,8 @@ abstract public class Operand {
 		/** Label operand; class {@link Label}. */
 		LABEL,
 		/** Literal string operand; class {@link Str}. */
-		STR;
+		STR,
+
+		FLAG;
 	}
 }

@@ -43,8 +43,8 @@ public class CoreManagerTest {
         the_tree.addChild(listop3);
         the_tree.getChild(0).addChild(listop4);
         the_tree.getChild(0).addChild(listop5);
-        Tree<OpListWrapper> wrapped = CoreManager.instance.wrap(the_tree);
-        Map<OpListWrapper, Integer> assigned = CoreManager.instance.assignCores(wrapped);
-        System.out.println(assigned.get(wrapped.get()));
+        //Tree<OpListWrapper> wrapped = CoreManager.instance.wrap(the_tree);
+        //Map<OpListWrapper, Integer> assigned = CoreManager.instance.assignCores(wrapped);
+        //System.out.println(assigned.get(wrapped.get()));
     }
 }

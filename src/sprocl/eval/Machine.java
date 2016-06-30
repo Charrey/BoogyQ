@@ -103,48 +103,6 @@ public class Machine {
 		return result;
 	}
 
-	/** Reserves a memory segment of a given length (in bytes),
-	 * assigns the base address to a symbolic constant,
-	 * and returns the base address.
-	 * The reserved memory is guaranteed to be unshared and
-	 * initialized to 0.
-	 * @param cst the name for the start address of the allocated memory
-	 * @param length length (in bytes) of the segment to be reserved
-	 * @return the allocated start address
-	 * @throws IllegalArgumentException if the symbolic name is known
-	 */
-	public int alloc(String cst, int length) {
-		if (this.symbMap.get(new Num(cst)) != null) {
-			throw new IllegalArgumentException("Duplicate symbolic name '"
-					+ cst + "'");
-		}
-		int result = alloc(length);
-		setNum(cst, result);
-		return result;
-	}
-
-	/** Initializes a memory segment of a length sufficient to
-	 * accommodate a given list of initial values,
-	 * assigns the start address to a symbolic name,
-	 * and returns the start address.
-	 * The reserved memory is guaranteed to be unshared.
-	 * @param cst the name for the start address of the allocated memory
-	 * @param vals the initial values 
-	 * @return the allocated start address
-	 * @throws IllegalArgumentException if the symbolic name is known
-	 */
-	public int init(String cst, int... vals) {
-		if (this.symbMap.get(new Num(cst)) != null) {
-			throw new IllegalArgumentException("Duplicate symbolic name '"
-					+ cst + "'");
-		}
-		int result = alloc(vals.length * INT_SIZE);
-		setNum(cst, result);
-		for (int i = 0; i < vals.length; i++) {
-			store(vals[i], result + INT_SIZE * i);
-		}
-		return result;
-	}
 
 	/** Declares a register with a given name, and sets its value to 0. */
 	public void declare(String reg) {
@@ -177,18 +135,6 @@ public class Machine {
 		return getReg(reg.getName());
 	}
 
-	/** Sets the value of a given named symbolic constant.
-	 * @param name symbolic name, without '@'-prefix
-	 * @throws IllegalArgumentException if the name is already declared
-	 */
-	public void setNum(String name, int val) {
-		Num symbol = new Num(name);
-		Integer oldVal = this.symbMap.put(symbol, val);
-		if (oldVal != null) {
-			throw new IllegalArgumentException("Duplicate symbol '" + symbol
-					+ "': values " + oldVal + " and " + val);
-		}
-	}
 
 	/** Returns the value of a given symbolic numeric value.
 	 * @return the corresponding value, or <code>null</code> if
@@ -198,14 +144,6 @@ public class Machine {
 		return this.symbMap.get(symb);
 	}
 
-	/** Convenience method to returns the value of a given symbolic constant.
-	 * @param name symbolic name without '@'-prefix
-	 * @throws IllegalArgumentException if the name is not declared 
-	 * @see #getNum(Num)
-	 */
-	public Integer getNum(String name) {
-		return getNum(new Num(name));
-	}
 
 	/** Returns the integer value starting at a given memory location.
 	 * The value is computed from the four successive bytes starting

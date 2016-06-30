@@ -38,14 +38,14 @@ public enum CoreManager {
         return res;
     }
 
-    public Tree<OpListWrapper> wrap(Tree<List<Op>> input) {
-        Tree<OpListWrapper> res = new Tree<>(new OpListWrapper(input.get()));
-        for (Tree<List<Op>> t : input.getChildren()) {
-            Tree<OpListWrapper> newchild = wrap(t);
-            res.addChild(newchild);
-        }
-        return res;
-    }
+//    public Tree<OpListWrapper> wrap(Tree<List<Op>> input) {
+//        Tree<OpListWrapper> res = new Tree<>(new OpListWrapper(input.get()));
+//        for (Tree<List<Op>> t : input.getChildren()) {
+//            Tree<OpListWrapper> newchild = wrap(t);
+//            res.addChild(newchild);
+//        }
+//        return res;
+//    }
 
     public void giveIdentifiers(Set<OpListWrapper> ops, int startingfrom) {
         for (OpListWrapper i: ops) {

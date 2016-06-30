@@ -47,8 +47,7 @@ public class Op extends Instr {
 		for (int i = 0; i < argsCount; i++) {
 			Operand arg = args.get(i);
 			Type expected = opCode.getSig().get(i);
-			if (arg.getType() != expected) {
-				throw new IllegalArgumentException(
+			if (arg.getType() != expected) {throw new IllegalArgumentException(
 						String.format(
 								"Operation '%s' argument %d should be '%s' but is '%s'",
 								this.opCode, i, expected, arg.getType()));

@@ -71,7 +71,7 @@ public class Main {
                     parseerrors = new LinkedList<>();
                     ParseTree parsed = parse(program);
 
-                    DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>()).getKey();
+                    DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>());
                     if (divresult.hasErrors()) {
                         for (CompileException err : divresult.getErrors()) {
                             System.out.println(err);

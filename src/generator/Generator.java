@@ -20,6 +20,7 @@ import java.util.*;
 public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     private static Generator ourInstance = new Generator();
+
     public static Generator getInstance() {
         return ourInstance;
     }
@@ -44,6 +45,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     //private Reg r_arp = new Reg("r_arp");
     public Reg r_load = new Reg("2");
 
+
     private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
     private Stack<Integer> if_statements;
@@ -58,7 +60,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public Pair<OpListWrapper, OffsetSymbolTable> generate(ParseTree tree, Set<String> global, boolean main) throws RegisterException {
+    public GeneratorResult generate(ParseTree tree, Set<String> global, Flag mine) throws RegisterException {
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
@@ -82,7 +84,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
-        return new Pair<>(new OpListWrapper(res), symbolTable);
+        return new GeneratorResult(new OpListWrapper(res, mine), symbolTable, mine);
     }
 
     /**
@@ -183,7 +185,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         String concurrentBlockID = Divider.getConcurrent_identifiers().get(ctx);
         symbolTable.add(concurrentBlockID, true);
         List<Op> operations = new ArrayList<>();
-        operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(concurrentBlockID).getKey()), r_load));
+        operations.add(new Op(OpCode.loadCONST, Divider.flags.get(ctx), r_load));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
         operations.add(new Op(OpCode.writeINDA, r_standard0, r_load));
         return operations;
@@ -239,9 +241,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             storeset.add(OpCode.writeDIRA);
             storeset.add(OpCode.writeINDA);
             storeset.add(OpCode.receive);   //waiting for global memory
-            while (!storeset.contains(lastinstruction.getOpCode()) && !a.isEmpty()) {
-                a = a.subList(0, a.size()-1);
-            }
+//            while (!storeset.contains(lastinstruction.getOpCode()) && !a.isEmpty()) {
+//                a = a.subList(0, a.size()-1);
+//            }
             return a;
         }
     }
