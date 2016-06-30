@@ -18,7 +18,7 @@ public class Flag extends Num {
         if (!set) {
             return "unset_flag";
         } else {
-            return "flag_"+getValue();
+            return "" + getValue();
         }
     }
 

@@ -7,8 +7,13 @@ import java.util.*;
 public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
     Stack<Integer> offsets = new Stack<>();
-    int currentoffset = 1;
-    int globaloffset = 1;
+
+    public static final int LOCAL_OFFSET_START = 1;
+    public static final int GLOBAL_OFFSET_START = 1;
+
+    int currentoffset = LOCAL_OFFSET_START;
+    int globaloffset = GLOBAL_OFFSET_START;
+
     Set<String> global = new HashSet<>();
 
     @Override
@@ -48,7 +53,7 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
                 currentoffset++;
             }
         } else {
-            throw new IllegalArgumentException("WTF HAPPENED???");
+            //throw new IllegalArgumentException("WTF HAPPENED???");
         }
         return res;
 

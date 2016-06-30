@@ -1,9 +1,21 @@
-global int b.
+0 -> global int done1.
+0 -> global int done2.
+100 -> global int bank.
+0 -> global int turn.
+
 concurrent:
-	6 -> b.
+	if (turn==0):
+		<loop.
+	bank + 5 -> bank.
+	1 -> done1.
+	1 -> turn.
+
 concurrent:
-	5 -> b.
-if(b != 6):
+	if (turn==1):
+		<loop.
+	bank - 20 -> bank.
+	1 -> done2.
+	0 -> turn.
+
+if (done1 == 0 || done2 == 0):
 	<loop.
-b -> int a.
-3 -> int c.

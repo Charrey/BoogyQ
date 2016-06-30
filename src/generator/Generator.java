@@ -60,13 +60,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         defaultValues.put("char",new Num(65));
     }
 
-    public GeneratorResult generate(ParseTree tree, Set<String> global, Flag mine) throws RegisterException {
+    public GeneratorResult generate(ParseTree tree, Flag mine) throws RegisterException {
         if_statements = new Stack<>();
         if_statement_counter = 1;
         symbolTable = new OffsetSymbolTable();
-        for (String i: global) {
-            symbolTable.add(i, true);
-        }
         regsList = new ParseTreeProperty<>();
         label = new ParseTreeProperty<>();
         RegisterCounter registerCounter = new RegisterCounter();
@@ -182,8 +179,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
 
     @Override
     public List<Op> visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
-        String concurrentBlockID = Divider.getConcurrent_identifiers().get(ctx);
-        symbolTable.add(concurrentBlockID, true);
+        //String concurrentBlockID = Divider.getConcurrent_identifiers().get(ctx);
+        //symbolTable.add(concurrentBlockID, true);
         List<Op> operations = new ArrayList<>();
         operations.add(new Op(OpCode.loadCONST, Divider.flags.get(ctx), r_load));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
@@ -425,12 +422,22 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
 
         List<Op> operations = visit(ctx.flow());
-        Pair<Integer, Boolean> offset = symbolTable.get(ctx.ID().getText());
+        Pair<Integer, Boolean> symbol = symbolTable.get(ctx.ID().getText());
 
+        int offset;
+        boolean global;
+        if (Divider.globalSymbolTable.contains(ctx.ID().getText())) {
+            assert symbol == null;
+            global = true;
+            offset = Divider.globalSymbolTable.get(ctx.ID().getText()).getKey();
+        } else {
+            global = false;
+            offset = symbolTable.get(ctx.ID().getText()).getKey();
+        }
 
-        operations.add(new Op(OpCode.loadCONST, new Num(offset.getKey()), r_load));
+        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
 
-        if (!offset.getValue()) {
+        if (!global) {
             operations.add(new Op(OpCode.storeINDA, r_res, r_load));
         } else {
             operations.add(new Op(OpCode.writeINDA, r_res, r_load));
@@ -458,6 +465,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             }
             operations.add(new Op(OpCode.push, r_standard0));
         } else {
+            Divider.globalSymbolTable.add(id, true);
             symbolTable.add(id, true);
             if (defaultValues.get(type).getValue() != 0) {
                 operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
@@ -494,6 +502,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.storeINDA, r_res, r_load));
         } else {
             symbolTable.add(id, true);
+            Divider.globalSymbolTable.add(id, true);
             int offset = symbolTable.get(id).getKey();
             operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
             operations.add(new Op(OpCode.writeINDA, r_res, r_load));
@@ -506,12 +515,22 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     @Override
     public List<Op> visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         String id = ctx.ID().getText();
-        Pair<Integer, Boolean> offset = symbolTable.get(id);
+        Pair<Integer, Boolean> symbol = symbolTable.get(id);
         List<Op> operations = new ArrayList<>();
 
-        operations.add(new Op(OpCode.loadCONST, new Num(offset.getKey()), r_load));
+        int offset;
+        boolean global;
+        if (Divider.globalSymbolTable.contains(id)) {
+            global = true;
+            offset = Divider.globalSymbolTable.get(id).getKey();
+        } else {
+            global = false;
+            offset = symbolTable.get(id).getKey();
+        }
 
-        if (!offset.getValue()) {
+        operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
+
+        if (!global) {
             operations.add(new Op(OpCode.loadINDA, r_load, r_load));
         } else {
             operations.add(new Op(OpCode.readINDA, r_load));

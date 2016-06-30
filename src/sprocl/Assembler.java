@@ -2,6 +2,7 @@ package sprocl;
 
 import java.util.*;
 
+import checker.OffsetSymbolTable;
 import generator.Generator;
 import sprocl.model.*;
 import toplevel.OpListWrapper;
@@ -14,8 +15,25 @@ public class Assembler {
 	private static String s8 = s4+s4;
 	private static final String PREFIX = "core";
 
-    public static String assemble(Map<Integer, Set<OpListWrapper>> map, String progname, OpListWrapper main) {
+	private static int flagcount = -1000;
+	private static int requestFlag() {
+		return flagcount++;
+	}
+
+
+
+    public static String assemble(Map<Integer, Set<OpListWrapper>> map, String progname, OpListWrapper main, int globalVarCount) {
         StringBuilder sproclCode = new StringBuilder();
+
+		flagcount = OffsetSymbolTable.GLOBAL_OFFSET_START + globalVarCount;
+		for (Set<OpListWrapper> i : map.values()) {
+			for (OpListWrapper p : i) {
+				if (!p.equals(main)) {
+					p.getMemLocation().setFlag(requestFlag());
+				}
+			}
+		}
+
         sproclCode.append("module "+progname+" where\n" +
                 "\n" +
                 "import BasicFunctions\n" +
@@ -61,8 +79,7 @@ public class Assembler {
 				List<Op> concurrentBlockOps;
 				for (OpListWrapper wrap : opListWrappers) {
 					concurrentBlockOps = new LinkedList<>();
-					int memloc = wrap.getMemLocation().getFlag();
-					concurrentBlockOps.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
+					concurrentBlockOps.add(new Op(OpCode.loadCONST, wrap.getMemLocation(), r_load));
 					concurrentBlockOps.add(new Op(OpCode.writeINDA, r_0, r_load));
 					concurrentBlockOps.add(new Op(OpCode.readINDA, r_load));
 					concurrentBlockOps.add(new Op(OpCode.receive, r_standard));
@@ -82,8 +99,7 @@ public class Assembler {
 
 				for (int i = 0; i < opListWrappers.size(); i++) {
 					OpListWrapper wrap = opListWrappers.get(i);
-					int memloc = wrap.getMemLocation().getFlag();
-					percore.add(new Op(OpCode.loadCONST, new Num(memloc), r_load));
+					percore.add(new Op(OpCode.loadCONST, wrap.getMemLocation(), r_load));
 					percore.add(new Op(OpCode.readINDA, r_load));
 					percore.add(new Op(OpCode.receive, r_load));
 					percore.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
@@ -108,8 +124,7 @@ public class Assembler {
 						if (wrap.equals(main)) {
 							continue;
 						}
-						int address = wrap.getMemLocation().getFlag();
-						percore.add(new Op(OpCode.loadCONST, new Num(address), r_load));
+						percore.add(new Op(OpCode.loadCONST, wrap.getMemLocation(), r_load));
 						percore.add(new Op(OpCode.readINDA, r_load));
 						percore.add(new Op(OpCode.receive, r_standard));
 						percore.add(new Op(OpCode.computeNEQ, r_0, r_standard, r_standard ));
@@ -120,11 +135,8 @@ public class Assembler {
 				}
 				// Vijf extra instructies, anders is er de kans dat de write niet helemaal is uitgevoerd voordat het programma
 				//getermineerd wordt. (Want de recieve duurt 5 instructies).
-				percore.add(new Op(OpCode.nop));
-				percore.add(new Op(OpCode.nop));
-				percore.add(new Op(OpCode.nop));
-				percore.add(new Op(OpCode.nop));
-				percore.add(new Op(OpCode.nop));
+				percore.add(new Op(OpCode.readDIRA, new Num(1)));
+				percore.add(new Op(OpCode.receive, r_0));
 			}
 
 
