@@ -621,7 +621,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         BoogyQParser.ExprContext leftexpr = ctx.expr();
 
         List<Reg> exprRegList = regsList.get(ctx).subList(0, regCount.get(leftexpr));
-        Reg r_1 = regsList.get(ctx).get(0); //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
+        Reg r_1 = r_load; //Niet exprRegList.get(0) want exprRegList kan een lege lijst zijn.
 
         regsList.put(leftexpr, exprRegList);
         List<Op> operations = visit(leftexpr);

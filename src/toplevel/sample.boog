@@ -1,21 +1,35 @@
-0 -> global int done1.
-0 -> global int done2.
+False -> global bool done.
 100 -> global int bank.
 0 -> global int turn.
+-1 -> global int request.
 
 concurrent:
-	if (turn==0):
+	11 -> int counter.
+	if (counter>0):
+		if (turn!=1):
+			1 -> request.
+			<loop.
+		bank + 5 -> bank.
+		True -> done.
+		counter - 1 -> counter.
 		<loop.
-	bank + 5 -> bank.
-	1 -> done1.
-	1 -> turn.
 
 concurrent:
-	if (turn==1):
+	10 -> int counter.
+	if (counter>0):
+		if (turn!=0):
+			0 -> request.
+			<loop.
+		bank - 5 -> bank.
+		True -> done.
+		counter - 1 -> counter.
 		<loop.
-	bank - 20 -> bank.
-	1 -> done2.
-	0 -> turn.
 
-if (done1 == 0 || done2 == 0):
+if (True):
+	if (!done):
+		<loop.
+	request -> int a.
+	-1 -> request.
+	False -> done.
+	a -> turn.
 	<loop.

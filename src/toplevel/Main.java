@@ -88,10 +88,8 @@ public class Main {
 
                         System.out.println("-----MAIN Program:----------");
                         System.out.println(Program.fromOpList(main.getOps()).prettyPrint());
-
                         String withoutextension = the_file.getName().replace(".boog", "");
                         String bettername = withoutextension.substring(0, 1).toUpperCase() + withoutextension.substring(1);
-
                         String sproclcode = Assembler.assemble(coresassigned_good, bettername, main, divresult.globalVarCount());
                         System.out.println("-----Sprocl Code:---------------");
                         System.out.println(sproclcode);
