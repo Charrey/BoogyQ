@@ -13,19 +13,10 @@ abstract public class Type {
 	static final Type BQSTRING = new BQString();
 
 
-	/** Constructor for subclasses. */
-			private Type() {
-			}
-
-
 		/** Representation of the BoogyQ Boolean type. */
 		private static class Bool extends Type {
 			private Bool() {
 				super();
-			}
-
-			public int size() {
-				return 4; //TODO: Store all these things somewhere where all the information of the machine is.
 			}
 
 			@Override
@@ -37,10 +28,6 @@ abstract public class Type {
 		/** Representation of the BoogyQ Integer type. */
 		private static class Int extends Type {
 
-			public int size() {
-				return 4;
-			}
-
 			@Override
 			public java.lang.String toString() {
 				return "Integer";
@@ -49,10 +36,6 @@ abstract public class Type {
 
 		/** Representation of the BoogyQ Char type. */
 		private static class Char extends Type {
-
-			public int size() {
-				return 4;
-			}
 
 			@Override
 			public java.lang.String toString() {
@@ -67,14 +50,6 @@ abstract public class Type {
 		@Override
 		public String toString() {
 			return "String";
-		}
-
-		@Override
-			public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + Type.BQSTRING.hashCode();
-			return result;
 		}
 
 		@Override

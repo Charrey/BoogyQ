@@ -28,6 +28,12 @@ public class TypeChecker extends BoogyQBaseListener {
     private Map<String, Pair<Type, List<Type>>> functions;
     private int junklines;
 
+    /**
+     * Checks a BoogyQ Parse tree for any type errors.
+     * @param input The program.
+     * @param global A Map of global variables already declared.
+     * @return A list of type errors.
+     */
     public List<TypeException> check(ParseTree input, Map<String, Type> global) {
         errors = new LinkedList<>();
         types = new ParseTreeProperty<>();
@@ -42,7 +48,7 @@ public class TypeChecker extends BoogyQBaseListener {
         return errors;
     }
 
-    @Override
+    @Override @Deprecated
     public void exitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         switch(ctx.PRIMITIVE().getText()) {
             case "int":
@@ -60,7 +66,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitAndorexpr(BoogyQParser.AndorexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(BOOL) || !types.get(ctx.getChild(2)).equals(BOOL)) {
             errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
@@ -68,24 +74,24 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, BOOL);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         symbols.openScope();
         junklines++;
     }
 
-    @Override
+    @Override @Deprecated
     public void exitClosescope(BoogyQParser.ClosescopeContext ctx) {
         symbols.closeScope();
         junklines++;
     }
 
-    @Override
+    @Override @Deprecated
     public void exitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         types.put(ctx, symbols.get(ctx.ID().getText()));
     }
 
-    @Override
+    @Override @Deprecated
     public void exitTimesexpr(BoogyQParser.TimesexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
             errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
@@ -93,7 +99,7 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, INT);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitPowerexpr(BoogyQParser.PowerexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
             errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
@@ -101,7 +107,7 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, INT);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitFunctionvars(BoogyQParser.FunctionvarsContext ctx) {
         List<Type> types =  new LinkedList<>();
         List<String> identifiers = new LinkedList<>();
@@ -119,7 +125,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
         BoogyQParser.FunctionvarsContext a = ctx.functionvars();
         List<Type> types =  new LinkedList<>();
@@ -147,7 +153,7 @@ public class TypeChecker extends BoogyQBaseListener {
         functions.put(functionname, result);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitPlusexpr(BoogyQParser.PlusexprContext ctx) {
         if (ctx.PLUS()!=null) {
             if (types.get(ctx.getChild(0)).equals(INT)            && types.get(ctx.getChild(2)).equals(INT)) {
@@ -171,17 +177,17 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         types.put(ctx, INT);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitBoolexpr(BoogyQParser.BoolexprContext ctx) {
         types.put(ctx, BOOL);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitNotexpr(BoogyQParser.NotexprContext ctx) {
         if (!types.get(ctx.getChild(1)).equals(BOOL)) {
             errors.add(new TypeException("Operation ! not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
@@ -189,7 +195,7 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, BOOL);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitMinusexpr(BoogyQParser.MinusexprContext ctx) {
         if (!types.get(ctx.getChild(1)).equals(INT)) {
             errors.add(new TypeException("Operation - not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
@@ -197,12 +203,12 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, INT);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitFlowexpr(BoogyQParser.FlowexprContext ctx) {
         types.put(ctx, types.get(ctx.flow()));
     }
 
-    @Override
+    @Override @Deprecated
     public void exitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
         if (ctx.getChild(1) instanceof BoogyQParser.EqualityContext) {
             if (!types.get(ctx.getChild(0)).equals(types.get(ctx.getChild(2)))) {
@@ -220,15 +226,15 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, BOOL);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitArraydecl(BoogyQParser.ArraydeclContext ctx) {
         types.put(ctx, types.get(ctx.array()));
     }
 
-    @Override
+    @Override @Deprecated
     public void exitPresetarray(BoogyQParser.PresetarrayContext ctx) {
         int firstelemtype = ((TerminalNode) ctx.getChild(1)).getSymbol().getType();
-        Type arraytype = null;
+        Type arraytype;
         if (firstelemtype == BoogyQParser.ID) {   //ID
             arraytype = symbols.get(ctx.getChild(1).getText());
         } else if (firstelemtype == BoogyQParser.BOOL) { //BOOL
@@ -248,7 +254,7 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, new Type.Array(arraytype));
     }
 
-    @Override
+    @Override @Deprecated
     public void exitMultiarray(BoogyQParser.MultiarrayContext ctx) {
         int elemtype = ((TerminalNode) ctx.getChild(1)).getSymbol().getType();
         if (elemtype == BoogyQParser.ID) {   //ID
@@ -264,12 +270,12 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
         types.put(ctx, types.get(ctx.getChild(0)));
     }
 
-    @Override
+    @Override @Deprecated
     public void exitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         Type decltype = fromString(ctx.type().getText());
         symbols.add(ctx.ID().getText(), decltype);
@@ -279,12 +285,12 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitCharexpr(BoogyQParser.CharexprContext ctx) {
         types.put(ctx, CHAR);
     }
 
-    @Override
+    @Override @Deprecated
     public void exitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
         Type foundtype = symbols.get(ctx.ID().getText());
         types.put(ctx, foundtype);
@@ -293,7 +299,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx) {
         Pair<Type, List<Type>> res = functions.get(ctx.ID().getText());
         if (res==null) {
@@ -307,7 +313,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void exitAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         Pair<Type, List<Type>> res = functions.get(ctx.ID().getText());
 
@@ -328,6 +334,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
+    //TODO: Check whether this is commented out for a reason
     /*@Override
     public void enterTimesexpr(BoogyQParser.TimesexprContext ctx) {
         if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
@@ -336,7 +343,7 @@ public class TypeChecker extends BoogyQBaseListener {
         types.put(ctx, types.get(ctx.getChild(0)));
     }*/
 
-    @Override
+    @Override @Deprecated
     public void exitIfstat(BoogyQParser.IfstatContext ctx) {
         if (!types.get(ctx.expr()).equals(BOOL)) {
             errors.add(new TypeException("If-statement requires boolean condition.", ctx.getStart().getLine() - junklines));

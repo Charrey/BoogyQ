@@ -25,5 +25,10 @@ public interface SymbolTable<R> {
 	 */
 	boolean contains(String id);
 
+	/**
+	 * Gets the property of the identifier.
+	 * @param text The identifier.
+	 * @return The object.
+	 */
 	R get(String text);
 }

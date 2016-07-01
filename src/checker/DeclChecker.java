@@ -17,15 +17,19 @@ import java.util.Set;
 
 public class DeclChecker extends BoogyQBaseVisitor {
 
-    private BasicSymbolTable<Integer> decls = new BasicSymbolTable<>();
+    private BasicSymbolTable<Integer> decls;
     private Set<String> functions = new HashSet<>();
 
     private List<DeclException> errors;
     private int junklines;
 
 
-
-
+    /**
+     * Checks a ParseTree of BoogyQ for declaration use.
+     * @param input The Parse tree.
+     * @param global Strings that are global variables.
+     * @return A list of errors in this program.
+     */
     public List<DeclException> check(ParseTree input, Set<String> global) {
         decls = new BasicSymbolTable<>();
         junklines = 0;
@@ -33,12 +37,11 @@ public class DeclChecker extends BoogyQBaseVisitor {
         for (String i : global) {
             decls.add(i, 0);
         }
-
         input.accept(this);
         return errors;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitNumberexpr(BoogyQParser.NumberexprContext ctx) {
         BigInteger get = new BigInteger(ctx.NUMBER().getText());
         BigInteger intmax = new BigInteger(String.valueOf(Integer.MAX_VALUE));
@@ -48,7 +51,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
             errors.add(new DeclException("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
@@ -56,12 +59,12 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         visit(ctx.flow());
         if (!decls.add(ctx.ID().getText(), 0)) {
@@ -70,7 +73,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         if (!functions.contains(ctx.ID().getText())) {
             errors.add(new DeclException("Unknown function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
@@ -81,7 +84,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
             errors.add(new DeclException("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
@@ -90,7 +93,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     }
 
 
-    @Override
+    @Override @Deprecated
     public Object visitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
         visit(ctx.flow());
         if (!decls.contains(ctx.ID().getText())) {
@@ -100,7 +103,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     }
 
 
-    @Override
+    @Override @Deprecated
     public Object visitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
         decls.openScope();
         int size = functions.size();
@@ -108,7 +111,6 @@ public class DeclChecker extends BoogyQBaseVisitor {
         if (functions.size() == size) {
             errors.add(new DeclException("Duplicate function "+ ctx.ID().getText(), ctx.getStart().getLine() - junklines));
         }
-
         visit(ctx.functionvars());
         visit(ctx.openscope());
         for (BoogyQParser.StatementContext i : ctx.statement()) {
@@ -119,7 +121,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitFunctionvars(BoogyQParser.FunctionvarsContext ctx) {
         for (TerminalNode i : ctx.ID()) {
             decls.add(i.getText(), 0);
@@ -127,14 +129,14 @@ public class DeclChecker extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         decls.openScope();
         junklines++;
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         decls.closeScope();
         junklines++;

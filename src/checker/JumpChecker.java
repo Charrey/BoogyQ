@@ -14,6 +14,11 @@ public class JumpChecker extends BoogyQBaseVisitor {
     private LinkedList<JumpException> errors;
     private int junklines;
 
+    /**
+     * Checks a Parse Tree of BoogyQ for jump errors.
+     * @param input The parse tree.
+     * @return A list of jump errors.
+     */
     public List<JumpException> check(ParseTree input) {
         depth = 0;
         errors = new LinkedList<>();
@@ -22,21 +27,21 @@ public class JumpChecker extends BoogyQBaseVisitor {
         return errors;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         depth++;
         junklines++;
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         depth--;
         junklines++;
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitLoopstat(BoogyQParser.LoopstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {
@@ -47,12 +52,12 @@ public class JumpChecker extends BoogyQBaseVisitor {
 
 
 
-    @Override
+    @Override @Deprecated
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitBreakstat(BoogyQParser.BreakstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {

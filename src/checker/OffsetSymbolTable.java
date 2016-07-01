@@ -6,15 +6,15 @@ import java.util.*;
 
 public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
-    Stack<Integer> offsets = new Stack<>();
+    private Stack<Integer> offsets = new Stack<>();
 
     public static final int LOCAL_OFFSET_START = 1;
     public static final int GLOBAL_OFFSET_START = 1;
 
-    int currentoffset = LOCAL_OFFSET_START;
-    int globaloffset = GLOBAL_OFFSET_START;
+    private int currentoffset = LOCAL_OFFSET_START;
+    private int globaloffset = GLOBAL_OFFSET_START;
 
-    Set<String> global = new HashSet<>();
+    private Set<String> global = new HashSet<>();
 
     @Override
     public void openScope() {
@@ -34,8 +34,8 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
     }
 
     @Override
-    public Pair<Integer, Boolean> get(String id) {
-        return new Pair<>((Integer) super.get(id), global.contains(id));
+    public Integer get(String id) {
+        return super.get(id);
     }
 
     public boolean add(String id, boolean global) {
