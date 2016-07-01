@@ -29,19 +29,34 @@ public class Divider extends BoogyQBaseVisitor {
     public List<CompileException> exceptions;
     private static int junklines;
     private Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
-    private static ParseTreeProperty<String> concurrent_identifiers = new ParseTreeProperty<>();
-    private static int concurrentblockCounter = 0;
+    private static ParseTreeProperty<String> concurrent_identifiers;
+    private static int concurrentblockCounter;
     public static ParseTreeProperty<Flag> flags;
     private Flag flag;
 
     public static OffsetSymbolTable globalSymbolTable = new OffsetSymbolTable();
 
 
-    public static void init(){
+    private static void init(){
         junklines = 0;
         concurrent_identifiers = new ParseTreeProperty<>();
         concurrentblockCounter = 0;
     }
+
+    /**
+     * Creates a new Divider.
+     */
+    public Divider() {
+        init();
+    }
+
+    /**
+     * Generates a Tree of OpListWrappers from a program.
+     * @param globalDeclAllowed Whether declarations of global variables are allowed in this scope.
+     * @param parseTree The program.
+     * @param globalVars The global variables already present.
+     * @return A result of this generation.
+     */
     public DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars) {
         return this.generate(globalDeclAllowed, parseTree, globalVars, new ParseTreeProperty<>(), Flag.mainFlag());
     }
@@ -88,7 +103,7 @@ public class Divider extends BoogyQBaseVisitor {
     }
 
 
-    @Override
+    @Override @Deprecated
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
         Flag yourFlag = new Flag();
         flags.put(ctx, yourFlag);
@@ -106,7 +121,7 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
             if (globalDeclAllowed){
@@ -119,7 +134,7 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
             if (globalDeclAllowed){
@@ -133,14 +148,14 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
-    @Override
+    @Override @Deprecated
     public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         junklines++;
         return null;
     }
 
 
-    @Override
+    @Override @Deprecated
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         junklines++;
         return null;
