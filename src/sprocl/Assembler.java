@@ -49,14 +49,14 @@ public class Assembler {
             if (comma) {
             sproclCode.append(", ");
             }
-            sproclCode.append(PREFIX + core);
+            sproclCode.append(PREFIX).append(core);
             comma = true;
         }
         sproclCode.append("]");
 
 		Reg r_0 = new Reg("0");
 		Reg r_load = Generator.getInstance().r_load;
-		Reg r_standard = Generator.getInstance().r_standard0;
+		Reg r_standard = Generator.getInstance().r_standard;
 
 		for (int core : map.keySet()) {
 			boolean thisismain = false;
@@ -92,9 +92,9 @@ public class Assembler {
 										// Were added before the current one.
 
 				int totalprogsize = 0;
-				for (int i = 0; i < opListWrappers.size(); i++) {
-					totalprogsize += 10 + opListWrappers.get(i).getOps().size();
-				}
+                for (OpListWrapper opListWrapper : opListWrappers) {
+                    totalprogsize += 10 + opListWrapper.getOps().size();
+                }
 				totalprogsize += 5;
 
 				for (int i = 0; i < opListWrappers.size(); i++) {
@@ -173,16 +173,16 @@ public class Assembler {
 				"prog :: [Instruction]\n" +
 				"prog = [");
 		for(Instr instr: program.getInstr()) {
-			sproclCode.append("\n" + s8);
+			sproclCode.append("\n").append(s8);
 			if (instr.getLine() != 0) {
 				sproclCode.append(", ");
 			}
 			sproclCode.append(convertToSprocl((Op) instr));
 		}
 		if (program.getInstr().size()>0) {
-			sproclCode.append("\n" + s8 + ", EndProg");
+			sproclCode.append("\n").append(s8).append(", EndProg");
 		} else {
-			sproclCode.append("\n" + s8 + "EndProg");
+			sproclCode.append("\n").append(s8).append("EndProg");
 		}
 		sproclCode.append("\n" + s8 + "]");
 		return sproclCode.toString();
@@ -193,9 +193,6 @@ public class Assembler {
 		OpCode opCode = operation.getOpCode();
 		List<String> args = new ArrayList<>();
 		for (Operand arg: operation.getArgs()){
-			if (args == null) {
-                int a;
-            }
             args.add(arg.toString());
 		}
 		String sproclCode;

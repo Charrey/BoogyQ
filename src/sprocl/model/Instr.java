@@ -78,7 +78,4 @@ public abstract class Instr implements Iterable<Op> {
 		}
 		return true;
 	}
-
-	/** Label separator. */
-	private final static String LABEL_SEP = ": ";
 }

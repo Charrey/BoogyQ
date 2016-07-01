@@ -14,13 +14,11 @@ import java.util.Set;
 public class DividerResult {
 
 
-    private final OffsetSymbolTable symbolTable;
     private int globalVars;
-    Tree<OpListWrapper> threadTree;
-    List<CompileException> exceptions;
+    private Tree<OpListWrapper> threadTree;
+    private List<CompileException> exceptions;
 
-    public DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileException> exceptions, OffsetSymbolTable symbolTable, Map<String, Type> globalVars) {
-        this.symbolTable = symbolTable;
+    DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileException> exceptions, Map<String, Type> globalVars) {
         this.threadTree = concurrencyTree;
         this.exceptions = exceptions;
         Set<String> non_cp = new HashSet<>();
@@ -43,10 +41,6 @@ public class DividerResult {
 
     public boolean hasErrors() {
         return !exceptions.isEmpty();
-    }
-
-    public OffsetSymbolTable getSymbolTable() {
-        return symbolTable;
     }
 
     public int globalVarCount() {

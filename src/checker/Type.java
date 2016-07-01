@@ -4,31 +4,24 @@ package checker;
 /** Pascal data type. */
 abstract public class Type {
 	/** The singleton instance of the {@link Bool} type. */
-	public static final Type BOOL = new Bool();
+	static final Type BOOL = new Bool();
 	/** The singleton instance of the {@link Int} type. */
-	public static final Type INT = new Int();
+	static final Type INT = new Int();
 	/** The singleton instance of the {@link Char} type. */
-	public static final Type CHAR = new Char();
+	static final Type CHAR = new Char();
 	/** The singleton instance of the {@link String} type. */
-	public static final Type BQSTRING = new BQString();
+	static final Type BQSTRING = new BQString();
 
-
-	private final TypeKind kind;
 
 	/** Constructor for subclasses. */
-			protected Type(TypeKind kind) {
-				this.kind = kind;
+			private Type() {
 			}
 
-			/** Returns the kind of this type. */
-		public TypeKind getKind() {
-			return this.kind;
-		}
 
 		/** Representation of the BoogyQ Boolean type. */
-		static public class Bool extends Type {
+		private static class Bool extends Type {
 			private Bool() {
-				super(TypeKind.BOOL);
+				super();
 			}
 
 			public int size() {
@@ -42,10 +35,7 @@ abstract public class Type {
 		}
 
 		/** Representation of the BoogyQ Integer type. */
-		static public class Int extends Type {
-			private Int() {
-				super(TypeKind.INT);
-			}
+		private static class Int extends Type {
 
 			public int size() {
 				return 4;
@@ -58,10 +48,7 @@ abstract public class Type {
 		}
 
 		/** Representation of the BoogyQ Char type. */
-		static public class Char extends Type {
-			private Char() {
-				super(TypeKind.CHAR);
-			}
+		private static class Char extends Type {
 
 			public int size() {
 				return 4;
@@ -75,10 +62,7 @@ abstract public class Type {
 
 	/** Representation of the BoogyQ Char type. */
 
-	static public class BQString extends Type {
-		private BQString() {
-			super(TypeKind.STRING);
-		}
+	private static class BQString extends Type {
 
 		@Override
 		public String toString() {
@@ -95,28 +79,17 @@ abstract public class Type {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (!(obj instanceof BQString)) {
-				return false;
-			}
-			return true;
+			return this == obj || obj instanceof BQString;
 		}
 	}
 
 
 	/** Representation of BoogyQ Array types. */
-	static public class Array extends Type {
+	static class Array extends Type {
 		private final Type elemType;
 
-		public Array(Type elemType) {
-			super(TypeKind.ARRAY);
+		Array(Type elemType) {
 			this.elemType = elemType;
-		}
-		/** Returns the element bound of this array type. */
-		public Type getElemType() {
-			return this.elemType;
 		}
 
 		@Override
@@ -141,10 +114,7 @@ abstract public class Type {
 				return false;
 			}
 			Array other = (Array) obj;
-			if (!this.elemType.equals(other.elemType)) {
-				return false;
-			}
-			return true;
+			return this.elemType.equals(other.elemType);
 		}
 
 	}

@@ -22,9 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Hans on 27-6-2016.
- */
 public class Divider extends BoogyQBaseVisitor {
 
     private boolean globalDeclAllowed;
@@ -40,8 +37,6 @@ public class Divider extends BoogyQBaseVisitor {
     public static OffsetSymbolTable globalSymbolTable = new OffsetSymbolTable();
 
 
-    public static int globalVarscount = -1;
-
     public static void init(){
         junklines = 0;
         concurrent_identifiers = new ParseTreeProperty<>();
@@ -51,18 +46,15 @@ public class Divider extends BoogyQBaseVisitor {
         return this.generate(globalDeclAllowed, parseTree, globalVars, new ParseTreeProperty<>(), Flag.mainFlag());
     }
 
-    public DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars, ParseTreeProperty<Flag> flags, Flag mine){
+    private DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars, ParseTreeProperty<Flag> flags, Flag mine){
         this.flag = mine;
-        this.flags = flags;
+        Divider.flags = flags;
         this.globalDeclAllowed = globalDeclAllowed;
         this.globalVars = globalVars;
         this.exceptions = new LinkedList<>();
         threadTree = new Tree<>();
 
-        flags = new ParseTreeProperty<>();
-
         parseTree.accept(this);
-        globalVarscount = globalVars.size();
 
         DeclChecker declChecker = new DeclChecker();
 
@@ -73,12 +65,12 @@ public class Divider extends BoogyQBaseVisitor {
             exceptions.addAll(declChecker.check(parseTree, new HashSet<>()));
         }
         if (!exceptions.isEmpty()) {
-            return new DividerResult(threadTree, exceptions, null, globalVars);
+            return new DividerResult(threadTree, exceptions, globalVars);
         }
         TypeChecker typeChecker = new TypeChecker();
         exceptions.addAll(typeChecker.check(parseTree, globalVars));
         if (!exceptions.isEmpty()) {
-            return new DividerResult(threadTree, exceptions, null, globalVars);
+            return new DividerResult(threadTree, exceptions, globalVars);
         }
         try {
             GeneratorResult mainCode;
@@ -88,11 +80,11 @@ public class Divider extends BoogyQBaseVisitor {
                 mainCode = Generator.getInstance().generate(parseTree, flag);
             }
             threadTree.set(mainCode.getResult());
-            return new DividerResult(threadTree, exceptions, mainCode.getSymbolTable(), globalVars);
+            return new DividerResult(threadTree, exceptions, globalVars);
         } catch (RegisterException e) {
             exceptions.add(new CompileException(e.getMessage(), 0));
         }
-        return new DividerResult(threadTree, exceptions, null, globalVars);
+        return new DividerResult(threadTree, exceptions,  globalVars);
     }
 
 
@@ -152,9 +144,5 @@ public class Divider extends BoogyQBaseVisitor {
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         junklines++;
         return null;
-    }
-
-    public static ParseTreeProperty<String> getConcurrent_identifiers() {
-        return concurrent_identifiers;
     }
 }

@@ -2,9 +2,6 @@ package sprocl.model;
 
 import javax.swing.*;
 
-/**
- * Created by poesd_000 on 30/06/2016.
- */
 public class Flag extends Num {
 
     private boolean set = false;
@@ -20,14 +17,6 @@ public class Flag extends Num {
         } else {
             return "" + getValue();
         }
-    }
-
-    public int getFlag() {
-        if (!set) {
-            assert false;
-            System.err.println("UNCHECKED GETFLAG");
-        }
-        return getValue();
     }
 
     public void setFlag(int set) {

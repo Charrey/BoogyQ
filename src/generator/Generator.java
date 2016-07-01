@@ -4,8 +4,6 @@ import checker.*;
 import divider.Divider;
 import exceptions.generator.RegisterException;
 import javafx.util.Pair;
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.*;
@@ -13,7 +11,6 @@ import sprocl.model.*;
 import toplevel.OpListWrapper;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.*;
 
@@ -25,10 +22,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         return ourInstance;
     }
 
-
-
-    /** Association of statement nodes to labels. */
-    private ParseTreeProperty<Label> labels;
     /** The program being built. */
     /** Register count, used to generate fresh registers. */
     /** Association of expression and target nodes to registers. */
@@ -41,12 +34,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
                                                   //Atm we only have int, char and bool
                                                     // int = 0; char = A; bool = False;
 
-    public Reg r_standard0 = new Reg("1"); //We use this both as r_0 and r_standard, we put the value back to 0 everytime we have used this.
-    //private Reg r_arp = new Reg("r_arp");
+    public Reg r_standard = new Reg("1");
     public Reg r_load = new Reg("2");
 
-
-    private static BigInteger MAXINTVALUE = new BigInteger(String.valueOf(Integer.MAX_VALUE)); //TOOD: Check if we can do this better.
 
     private Stack<Integer> if_statements;
     private int if_statement_counter;
@@ -77,36 +67,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             regsListForTopNode.add(new Reg(String.valueOf(i)));
         }
         regsList.put(tree,regsListForTopNode);
-        labels = new ParseTreeProperty<>();
 
         List<Op> res = tree.accept(this);
         res = LoopBreakFixer.fix(res);
-        return new GeneratorResult(new OpListWrapper(res, mine), symbolTable, mine);
-    }
-
-    /**
-     * Looks up the label for a given parse tree node,
-     * creating it if none has been created before.
-     * The label is actually constructed from the entry node
-     * in the flow graph, as stored in the checker result.
-     */
-//    private Label label(ParserRuleContext node) {
-//        Label result = this.labels.get(node);
-//        if (result == null) {
-//            //ParserRuleContext entry = this.checkResult.getEntry(node);
-//            //result = createLabel(entry, "n");
-//            this.labels.put(node, result);
-//        }
-//        return result;
-//    }
-
-    /** Creates a label for a given parse tree node and prefix. */
-    private Label createLabel(ParserRuleContext node, String prefix) {
-        Token token = node.getStart();
-        int line = token.getLine();
-        int column = token.getCharPositionInLine();
-        String result = prefix + "_" + line + "_" + column;
-        return new Label(result);
+        return new GeneratorResult(new OpListWrapper(res, mine), symbolTable);
     }
 
     /////////////////////////////////////////////////////////////////////////////
@@ -156,10 +120,10 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         }
         symbolTable.closeScope();
 
-        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_standard));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_load));
-        operations.add(new Op(OpCode.computeXOR, r_standard0, r_load, r_standard0));
-        operations.add(new Op(OpCode.branchREL, r_standard0, new Num(statementoperations.size()+1)));
+        operations.add(new Op(OpCode.computeXOR, r_standard, r_load, r_standard));
+        operations.add(new Op(OpCode.branchREL, r_standard, new Num(statementoperations.size()+1)));
         operations.addAll(statementoperations);
 
         if_statements.pop();
@@ -183,8 +147,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         //symbolTable.add(concurrentBlockID, true);
         List<Op> operations = new ArrayList<>();
         operations.add(new Op(OpCode.loadCONST, Divider.flags.get(ctx), r_load));
-        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
-        operations.add(new Op(OpCode.writeINDA, r_standard0, r_load));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
+        operations.add(new Op(OpCode.writeINDA, r_standard, r_load));
         return operations;
     }
 
@@ -250,8 +214,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     public List<Op> visitBoolexpr(BoogyQParser.BoolexprContext ctx) {
         List<Op> operations = new ArrayList<>();
         if(ctx.BOOL().getText().equals("True")){
-            operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
+            operations.add(new Op(OpCode.push, r_standard));
                     } else {
             operations.add(new Op(OpCode.push, new Reg("0")));
         }
@@ -264,8 +228,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = new ArrayList<>();
         int number = Integer.parseInt(ctx.NUMBER().getText());
         if (number != 0) {
-            operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard0));
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.loadCONST, new Num(number), r_standard));
+            operations.add(new Op(OpCode.push, r_standard));
         } else {
             operations.add(new Op(OpCode.push, new Reg("0")));
         }
@@ -278,8 +242,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         String character = ctx.CHAR().getText().substring(1,2);
         try {
             int charValue = ByteBuffer.wrap(character.getBytes("UTF-32")).getInt();
-            operations.add(new Op(OpCode.loadCONST, new Num(charValue), r_standard0));
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.loadCONST, new Num(charValue), r_standard));
+            operations.add(new Op(OpCode.push, r_standard));
                         return operations;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -311,12 +275,12 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(rightexpr, exprRegList);
         operations.addAll(visit(rightexpr));
 
-        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_standard));
         operations.add(new Op(OpCode.pop, r_1));
         if (ctx.getChild(1).getText().equals("&&")){
-            operations.add(new Op(OpCode.computeAND, r_standard0, r_1, r_1));
+            operations.add(new Op(OpCode.computeAND, r_standard, r_1, r_1));
         } else {
-            operations.add(new Op(OpCode.computeOR, r_standard0, r_1, r_1));
+            operations.add(new Op(OpCode.computeOR, r_standard, r_1, r_1));
         }
                 operations.add(new Op(OpCode.push, r_1));
         return operations;
@@ -337,28 +301,28 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(rightexpr, exprRegList);
         operations.addAll(visit(rightexpr));
 
-        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_standard));
         operations.add(new Op(OpCode.pop, r_1));
 
         String comparator = ctx.getChild(1).getText();
         switch (comparator){
             case "==":
-                operations.add(new Op(OpCode.computeEQUAL,r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeEQUAL,r_1, r_standard, r_1));
                 break;
             case "!=":
-                operations.add(new Op(OpCode.computeNEQ, r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeNEQ, r_1, r_standard, r_1));
                 break;
             case "<":
-                operations.add(new Op(OpCode.computeLT, r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeLT, r_1, r_standard, r_1));
                 break;
             case "<=":
-                operations.add(new Op(OpCode.computeLTE, r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeLTE, r_1, r_standard, r_1));
                 break;
             case ">":
-                operations.add(new Op(OpCode.computeGT, r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeGT, r_1, r_standard, r_1));
                 break;
             case ">=":
-                operations.add(new Op(OpCode.computeGTE, r_1, r_standard0, r_1));
+                operations.add(new Op(OpCode.computeGTE, r_1, r_standard, r_1));
                 break;
         }
         operations.add(new Op(OpCode.push, r_1));
@@ -385,7 +349,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         Reg r_base = r_load;
         Reg r_temp1 = regsList.get(ctx).get(1);
         Reg r_temp2 = regsList.get(ctx).get(2);
-        Reg r_exponent = r_standard0;
+        Reg r_exponent = r_standard;
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_temp2));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_result));
         operations.add(new Op(OpCode.pop, r_exponent)); //exponent
@@ -456,30 +420,30 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         if (ctx.REACH()==null || !ctx.REACH().getText().equals("global")) {
             symbolTable.add(id, false);
             if (defaultValues.get(type).getValue() != 0) {
-                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
+                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard));
                 operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
-                operations.add(new Op(OpCode.storeINDA, r_standard0, r_load));
+                operations.add(new Op(OpCode.storeINDA, r_standard, r_load));
             } else {
                 operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
                 operations.add(new Op(OpCode.storeINDA, new Reg("0"), r_load));
             }
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.push, r_standard));
         } else {
             Divider.globalSymbolTable.add(id, true);
             symbolTable.add(id, true);
             if (defaultValues.get(type).getValue() != 0) {
-                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard0));
+                operations.add(new Op(OpCode.loadCONST, defaultValues.get(type), r_standard));
                 operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
-                operations.add(new Op(OpCode.writeINDA, r_standard0, r_load));
+                operations.add(new Op(OpCode.writeINDA, r_standard, r_load));
                 operations.add(new Op(OpCode.readINDA, r_load));
-                operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+                operations.add(new Op(OpCode.receive, r_standard));// wait till fully written
             } else {
                 operations.add(new Op(OpCode.loadCONST, new Num(symbolTable.get(id).getKey()), r_load));
                 operations.add(new Op(OpCode.writeINDA, new Reg("0"), r_load));
                 operations.add(new Op(OpCode.readINDA, r_load));
-                operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+                operations.add(new Op(OpCode.receive, r_standard));// wait till fully written
             }
-            operations.add(new Op(OpCode.push, r_standard0));
+            operations.add(new Op(OpCode.push, r_standard));
         }
         return operations;
     }
@@ -507,7 +471,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.loadCONST, new Num(offset), r_load));
             operations.add(new Op(OpCode.writeINDA, r_res, r_load));
             operations.add(new Op(OpCode.readINDA, r_load));
-            operations.add(new Op(OpCode.receive, r_standard0));// wait till fully written
+            operations.add(new Op(OpCode.receive, r_standard));// wait till fully written
         }
         return operations;
     }
@@ -566,9 +530,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(rightexpr, exprRegList);
         operations.addAll(visit(rightexpr));
 
-        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_standard));
         operations.add(new Op(OpCode.pop, r_1));
-        operations.add(new Op(OpCode.computeMUL, r_1, r_standard0, r_1));
+        operations.add(new Op(OpCode.computeMUL, r_1, r_standard, r_1));
                 operations.add(new Op(OpCode.push, r_1));
         return operations;
     }
@@ -588,12 +552,12 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         regsList.put(rightexpr, exprRegList);
         operations.addAll(visit(rightexpr));
 
-        operations.add(new Op(OpCode.pop, r_standard0));
+        operations.add(new Op(OpCode.pop, r_standard));
         operations.add(new Op(OpCode.pop, r_1));
         if (ctx.getChild(1).getText().equals("+")) {
-            operations.add(new Op(OpCode.computeADD, r_1, r_standard0, r_1));
+            operations.add(new Op(OpCode.computeADD, r_1, r_standard, r_1));
         } else {
-            operations.add(new Op(OpCode.computeSUB, r_1, r_standard0, r_1));
+            operations.add(new Op(OpCode.computeSUB, r_1, r_standard, r_1));
         }
                 operations.add(new Op(OpCode.push, r_1));
         return operations;
@@ -627,8 +591,8 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
         List<Op> operations = visit(leftexpr);
 
         operations.add(new Op(OpCode.pop, r_1));
-        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard0));
-        operations.add(new Op(OpCode.computeXOR, r_standard0, r_1, r_1));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
+        operations.add(new Op(OpCode.computeXOR, r_standard, r_1, r_1));
                 operations.add(new Op(OpCode.push, r_1));
         return operations;
     }

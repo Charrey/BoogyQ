@@ -6,17 +6,14 @@ import sprocl.model.OpCode;
 
 import java.util.List;
 
-/**
- * Created by jij on 25/06/2016.
- */
-public class LoopBreakFixer {
+class LoopBreakFixer {
 
 
-    public static List<Op> fix(List<Op> input) {
+    static List<Op> fix(List<Op> input) {
         return fixBreak(fixLoop(input));
     }
 
-    public static List<Op> fixBreak(List<Op> input) {
+    private static List<Op> fixBreak(List<Op> input) {
         for (int i = 0; i<input.size(); i++) {
             if (!input.get(i).getOpCode().equals(OpCode.jumpBREAK)) {
                 continue;
@@ -33,7 +30,9 @@ public class LoopBreakFixer {
         return input;
     }
 
-    public static List<Op> fixLoop(List<Op> input) {
+
+
+    private static List<Op> fixLoop(List<Op> input) {
         for (int i = 0; i<input.size(); i++) {
             if (!input.get(i).getOpCode().equals(OpCode.jumpLABEL)) {
                 continue;
