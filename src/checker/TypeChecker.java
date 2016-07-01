@@ -1,8 +1,7 @@
 package checker;
 
 
-import exceptions.CompileException;
-import exceptions.divider.TypeException;
+import exceptions.divider.TypeError;
 import javafx.util.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -15,6 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that checks type use of a BoogyQ program.
+ */
 public class TypeChecker extends BoogyQBaseListener {
 
     private static Type INT = Type.INT;
@@ -22,7 +24,7 @@ public class TypeChecker extends BoogyQBaseListener {
     private static Type CHAR = Type.CHAR;
     private static Type BQSTRING = Type.BQSTRING;
 
-    private LinkedList<TypeException> errors;
+    private LinkedList<TypeError> errors;
     private ParseTreeProperty<Type> types;
     private SymbolTable<Type> symbols;
     private Map<String, Pair<Type, List<Type>>> functions;
@@ -34,7 +36,7 @@ public class TypeChecker extends BoogyQBaseListener {
      * @param global A Map of global variables already declared.
      * @return A list of type errors.
      */
-    public List<TypeException> check(ParseTree input, Map<String, Type> global) {
+    public List<TypeError> check(ParseTree input, Map<String, Type> global) {
         errors = new LinkedList<>();
         types = new ParseTreeProperty<>();
         symbols = new BasicSymbolTable<>();
@@ -69,7 +71,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitAndorexpr(BoogyQParser.AndorexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(BOOL) || !types.get(ctx.getChild(2)).equals(BOOL)) {
-            errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
         }
         types.put(ctx, BOOL);
     }
@@ -94,7 +96,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitTimesexpr(BoogyQParser.TimesexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
-            errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
         }
         types.put(ctx, INT);
     }
@@ -102,7 +104,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitPowerexpr(BoogyQParser.PowerexprContext ctx) {
         if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
-            errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
         }
         types.put(ctx, INT);
     }
@@ -145,10 +147,10 @@ public class TypeChecker extends BoogyQBaseListener {
         Type lasttype = types.get(types.size() - 1);
         types.remove(types.get(types.size()-1));
 
-        Pair<Type, List<Type>> result = new Pair<Type, List<Type>>(lasttype, types);
+        Pair<Type, List<Type>> result = new Pair<>(lasttype, types);
         String functionname = ctx.ID().getText();
         if (functions.containsKey(functionname)) {
-            errors.add(new TypeException("Duplicate function " + functionname, ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Duplicate function " + functionname, ctx.getStart().getLine() - junklines));
         }
         functions.put(functionname, result);
     }
@@ -165,13 +167,13 @@ public class TypeChecker extends BoogyQBaseListener {
             } else if (types.get(ctx.getChild(0)).equals(BQSTRING) && types.get(ctx.getChild(2)).equals(BQSTRING)) {
                 types.put(ctx, BQSTRING);
             } else {
-                errors.add(new TypeException("Operation + not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Operation + not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
                 types.put(ctx, INT);
             }
 
         } else {
             if (!types.get(ctx.getChild(0)).equals(INT) || !types.get(ctx.getChild(2)).equals(INT)) {
-                errors.add(new TypeException("Operation - not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Operation - not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)), ctx.getStart().getLine() - junklines));
             }
             types.put(ctx, types.get(ctx.getChild(0)));
         }
@@ -190,7 +192,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitNotexpr(BoogyQParser.NotexprContext ctx) {
         if (!types.get(ctx.getChild(1)).equals(BOOL)) {
-            errors.add(new TypeException("Operation ! not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Operation ! not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
         }
         types.put(ctx, BOOL);
     }
@@ -198,7 +200,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitMinusexpr(BoogyQParser.MinusexprContext ctx) {
         if (!types.get(ctx.getChild(1)).equals(INT)) {
-            errors.add(new TypeException("Operation - not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Operation - not compatible with type " + types.get(ctx.getChild(1)), ctx.getStart().getLine() - junklines));
         }
         types.put(ctx, INT);
     }
@@ -212,7 +214,7 @@ public class TypeChecker extends BoogyQBaseListener {
     public void exitComparatorexpr(BoogyQParser.ComparatorexprContext ctx) {
         if (ctx.getChild(1) instanceof BoogyQParser.EqualityContext) {
             if (!types.get(ctx.getChild(0)).equals(types.get(ctx.getChild(2)))) {
-                errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)), ctx.getStart().getLine() - junklines));
             }
         } else if (ctx.getChild(1) instanceof BoogyQParser.InequalityContext) {
             if (types.get(ctx.getChild(0)).equals(INT) && types.get(ctx.getChild(2)).equals(INT)) {
@@ -220,7 +222,7 @@ public class TypeChecker extends BoogyQBaseListener {
             } else if (types.get(ctx.getChild(0)).equals(CHAR) && types.get(ctx.getChild(2)).equals(CHAR)) {
                 types.put(ctx, BOOL);
             } else {
-                errors.add(new TypeException("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Operation " + ctx.getChild(1).getText() + " not compatible with types " + types.get(ctx.expr(0)) + " and " + types.get(ctx.expr(1)), ctx.getStart().getLine() - junklines));
             }
         }
         types.put(ctx, BOOL);
@@ -248,7 +250,7 @@ public class TypeChecker extends BoogyQBaseListener {
         }
         for (int i = 0; i<ctx.getChildCount(); i++) {
             if (!ctx.getChild(i).getText().equals("[") && !ctx.getChild(i).getText().equals("]") && !ctx.getChild(i).getText().equals(",") &&  (  (TerminalNode)ctx.getChild(i)).getSymbol().getType() != firstelemtype) {
-                errors.add(new TypeException("Found inconsistency in explicit array declaration: " + ((TerminalNode)ctx.getChild(i)).getSymbol().getType() + " and " + firstelemtype, ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Found inconsistency in explicit array declaration: " + ((TerminalNode)ctx.getChild(i)).getSymbol().getType() + " and " + firstelemtype, ctx.getStart().getLine() - junklines));
             }
         }
         types.put(ctx, new Type.Array(arraytype));
@@ -281,7 +283,7 @@ public class TypeChecker extends BoogyQBaseListener {
         symbols.add(ctx.ID().getText(), decltype);
         types.put(ctx, decltype);
         if (!decltype.equals(types.get(ctx.flow()))) {
-            errors.add(new TypeException("Attempting to flow from type " + types.get(ctx.flow()) + " to type "+ decltype, ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Attempting to flow from type " + types.get(ctx.flow()) + " to type "+ decltype, ctx.getStart().getLine() - junklines));
         }
     }
 
@@ -295,7 +297,7 @@ public class TypeChecker extends BoogyQBaseListener {
         Type foundtype = symbols.get(ctx.ID().getText());
         types.put(ctx, foundtype);
         if (!foundtype.equals(types.get(ctx.flow()))) {
-            errors.add(new TypeException("Attempting to flow from type " + types.get(ctx.flow()) + " to type "+ foundtype, ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Attempting to flow from type " + types.get(ctx.flow()) + " to type "+ foundtype, ctx.getStart().getLine() - junklines));
         }
     }
 
@@ -303,11 +305,11 @@ public class TypeChecker extends BoogyQBaseListener {
     public void exitAssigngeneratorflow(BoogyQParser.AssigngeneratorflowContext ctx) {
         Pair<Type, List<Type>> res = functions.get(ctx.ID().getText());
         if (res==null) {
-            errors.add(new TypeException("Undefined generator function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Undefined generator function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
             types.put(ctx, INT);
         } else {
             if (res.getValue().size()!=0) {
-                errors.add(new TypeException("No arguments given to non-generator function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("No arguments given to non-generator function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
             }
             types.put(ctx, res.getKey());
         }
@@ -318,15 +320,15 @@ public class TypeChecker extends BoogyQBaseListener {
         Pair<Type, List<Type>> res = functions.get(ctx.ID().getText());
 
         if (res==null) {
-            errors.add(new TypeException("Undefined function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("Undefined function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
             types.put(ctx, types.get(ctx.flow().get(0)));
         } else {
             if (res.getValue().size()!=ctx.flow().size()) {
-                errors.add(new TypeException("Wrong number of arguments given to function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+                errors.add(new TypeError("Wrong number of arguments given to function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
             } else {
                 for (int i = 0; i<ctx.flow().size(); i++) {
                     if (!types.get(ctx.flow(i)).equals(res.getValue().get(i))) {
-                        errors.add(new TypeException(ctx.ID().getText() + " requires for argument " + i + " something of type " + res.getValue().get(i) + " but something was given of type " + types.get(ctx.getChild(i)), ctx.getStart().getLine() - junklines));
+                        errors.add(new TypeError(ctx.ID().getText() + " requires for argument " + i + " something of type " + res.getValue().get(i) + " but something was given of type " + types.get(ctx.getChild(i)), ctx.getStart().getLine() - junklines));
                     }
                 }
             }
@@ -346,7 +348,7 @@ public class TypeChecker extends BoogyQBaseListener {
     @Override @Deprecated
     public void exitIfstat(BoogyQParser.IfstatContext ctx) {
         if (!types.get(ctx.expr()).equals(BOOL)) {
-            errors.add(new TypeException("If-statement requires boolean condition.", ctx.getStart().getLine() - junklines));
+            errors.add(new TypeError("If-statement requires boolean condition.", ctx.getStart().getLine() - junklines));
         }
     }
 

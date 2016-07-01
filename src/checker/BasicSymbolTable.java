@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * Basic implementation of SymbolTable. Keeps track of variables and one property through scopes.
+ * @param <R> The type of the propoerty.
+ */
 public class BasicSymbolTable<R> implements SymbolTable {
 
     /**

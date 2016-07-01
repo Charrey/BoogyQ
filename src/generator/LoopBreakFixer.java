@@ -6,13 +6,26 @@ import sprocl.model.OpCode;
 
 import java.util.List;
 
+/**
+ * Class responsible for changing the arrow-notation of <loop. and <break. statements to Parse-friendly syntax.
+ */
 class LoopBreakFixer {
 
 
+    /**
+     * Rewrites any jumpBREAK and jumpLABEL to correct equivalents.
+     * @param input Unfixed list of operations.
+     * @return Fixed list of operations.
+     */
     static List<Op> fix(List<Op> input) {
         return fixBreak(fixLoop(input));
     }
 
+    /**
+     * Rewrites any jumpBREAK to correct equivalents.
+     * @param input Unfixed list of operations
+     * @return Fixed list of operations.
+     */
     private static List<Op> fixBreak(List<Op> input) {
         for (int i = 0; i<input.size(); i++) {
             if (!input.get(i).getOpCode().equals(OpCode.jumpBREAK)) {
@@ -31,7 +44,11 @@ class LoopBreakFixer {
     }
 
 
-
+    /**
+     * Rewrites any jumpLABEL to correct equivalents.
+     * @param input Unfixed list of operations
+     * @return Fixed list of operations.
+     */
     private static List<Op> fixLoop(List<Op> input) {
         for (int i = 0; i<input.size(); i++) {
             if (!input.get(i).getOpCode().equals(OpCode.jumpLABEL)) {

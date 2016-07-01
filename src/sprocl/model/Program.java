@@ -2,17 +2,9 @@ package sprocl.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import sprocl.model.Num.NumKind;
-import sprocl.model.Operand.Type;
-import sprocl.FormatException;
-
-/** ILOC program.
+/** Program.
  * @author Arend Rensink
  */
 public class Program {
@@ -23,10 +15,7 @@ public class Program {
 	 * This is the flattened list of instructions.
 	 */
 	private final List<Op> opList;
-	/** Mapping from labels defined in the program to corresponding
-	 * index locations.
-	 */
-	private final Map<Label, Integer> labelMap;
+
 	/** (Partial) mapping from symbolic constants used in the program
 	 * to corresponding numeric values. */
 	//private final Map<Num, Integer> symbMap;
@@ -35,11 +24,10 @@ public class Program {
 	public Program() {
 		this.instrList = new ArrayList<>();
 		this.opList = new ArrayList<>();
-		this.labelMap = new LinkedHashMap<>();
-		//this.symbMap = new LinkedHashMap<>();
 	}
 
 	/** Adds an instruction to the instruction list of this program.
+	 * @param instr The instruction to be added.
 	 * @throws IllegalArgumentException if the instruction has a known label 
 	 */
 	public void addInstr(Instr instr) {
@@ -51,96 +39,18 @@ public class Program {
 		}
 	}
 
-	/** Returns the current list of instructions of this program. */
+	/** Returns the current list of instructions of this program.
+	 * @return The current list of instructions of this program.
+	 **/
 	public List<Instr> getInstr() {
 		return Collections.unmodifiableList(this.instrList);
 	}
 
-	/** Returns the operation at a given line number. */
-	public Op getOpAt(int line) {
-		return this.opList.get(line);
-	}
-
-	/** Returns the size of the program, in number of operations. */
+	/** Returns the size of the program, in number of operations.
+	 * @return The size of the program, in number of operations.
+	 **/
 	public int size() {
 		return this.opList.size();
-	}
-
-	/**
-	 * Returns the location at which a given label is defined, if any.
-	 * @return the location of an instruction with the label, or {@code -1}
-	 * if the label is undefined
-	 */
-	public int getLine(Label label) {
-		Integer result = this.labelMap.get(label);
-		return result == null ? -1 : result;
-	}
-
-	/**
-	 * Checks for internal consistency, in particular whether
-	 * all used labels are defined.
-	 */
-	public void check() throws FormatException {
-		List<String> messages = new ArrayList<>();
-		for (Instr instr : getInstr()) {
-			for (Op op : instr) {
-				messages.addAll(checkOpnds(op.getLine(), op.getArgs()));
-			}
-		}
-		if (!messages.isEmpty()) {
-			throw new FormatException(messages);
-		}
-	}
-
-	private List<String> checkOpnds(int loc, List<Operand> opnds) {
-		List<String> result = new ArrayList<>();
-		for (Operand opnd : opnds) {
-			if (opnd instanceof Label) {
-				if (getLine((Label) opnd) < 0) {
-					result.add(String.format("Line %d: Undefined label '%s'",
-							loc, opnd));
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Returns a mapping from registers to line numbers
-	 * in which they appear.
-	 */
-	public Map<String, Set<Integer>> getRegLines() {
-		Map<String, Set<Integer>> result = new LinkedHashMap<>();
-		for (Op op : this.opList) {
-			for (Operand opnd : op.getArgs()) {
-				if (opnd.getType() == Type.REG) {
-					Set<Integer> ops = result.get(((Reg) opnd).getName());
-					if (ops == null) {
-						result.put(((Reg) opnd).getName(),
-								ops = new LinkedHashSet<>());
-					}
-					ops.add(op.getLine());
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Returns a mapping from (symbolic) variables to line numbers
-	 * in which they appear.
-	 */
-	public Map<String, Set<Integer>> getSymbLines() {
-		Map<String, Set<Integer>> result = new LinkedHashMap<>();
-		for (Op op : this.opList) {
-			for (Operand opnd : op.getArgs()) {
-				if (!(opnd instanceof Num)) {
-					continue;
-				}
-				continue;
-			}
-		}
-		return result;
 	}
 
 	/** Returns a line-by-line printout of this program. */
@@ -155,11 +65,6 @@ public class Program {
 	}
 
 	@Override
-	public int hashCode() {
-		return this.instrList.hashCode();
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -168,24 +73,16 @@ public class Program {
 			return false;
 		}
 		Program other = (Program) obj;
-		if (!this.instrList.equals(other.instrList)) {
-			return false;
-		}
-		return true;
+		return this.instrList.equals(other.instrList);
 	}
 
 
 
 	/** Returns a string consisting of this program in a nice layout.
+	 * @return That String.
 	 */
 	public String prettyPrint() {
 		StringBuilder result = new StringBuilder();
-		// first print the symbolic declaration map
-		int idSize = 0;
-		if (idSize > 0) {
-			result.append('\n');
-		}
-		// then print the instructions
 		int labelSize = 0;
 		int sourceSize = 0;
 		int targetSize = 0;
@@ -203,6 +100,11 @@ public class Program {
 		return result.toString();
 	}
 
+	/**
+	 * Creates a program given a list of operations.
+	 * @param input The list of operations.
+	 * @return The created program.
+	 */
 	public static Program fromOpList(List<Op> input) {
 		Program res = new Program();
 		for (Op op : input) {
@@ -210,5 +112,4 @@ public class Program {
 		}
 		return res;
 	}
-
 }

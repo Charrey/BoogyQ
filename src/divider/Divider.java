@@ -4,12 +4,11 @@ import checker.DeclChecker;
 import checker.OffsetSymbolTable;
 import checker.Type;
 import checker.TypeChecker;
-import exceptions.CompileException;
-import exceptions.divider.ReachException;
+import exceptions.CompileError;
+import exceptions.divider.ReachError;
 import exceptions.generator.RegisterException;
 import sprocl.model.Flag;
 import generator.Generator;
-import generator.GeneratorResult;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.BoogyQBaseVisitor;
@@ -22,11 +21,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that builds an Oplist-tree from a BoogyQ parse tree based on a divide-and-conquer- mechanism.
+ */
 public class Divider extends BoogyQBaseVisitor {
 
     private boolean globalDeclAllowed;
     private Map<String, Type> globalVars;
-    public List<CompileException> exceptions;
+    public List<CompileError> exceptions;
     private static int junklines;
     private Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
     private static ParseTreeProperty<String> concurrent_identifiers;
@@ -34,6 +36,9 @@ public class Divider extends BoogyQBaseVisitor {
     public static ParseTreeProperty<Flag> flags;
     private Flag flag;
 
+    /**
+     * Symboltable used solely for global variables.
+     */
     public static OffsetSymbolTable globalSymbolTable = new OffsetSymbolTable();
 
 
@@ -88,16 +93,16 @@ public class Divider extends BoogyQBaseVisitor {
             return new DividerResult(threadTree, exceptions, globalVars);
         }
         try {
-            GeneratorResult mainCode;
+            OpListWrapper mainCode;
             if (!globalDeclAllowed) {
                 mainCode = Generator.getInstance().generate(parseTree, flag);
             } else {
                 mainCode = Generator.getInstance().generate(parseTree, flag);
             }
-            threadTree.set(mainCode.getResult());
+            threadTree.set(mainCode);
             return new DividerResult(threadTree, exceptions, globalVars);
         } catch (RegisterException e) {
-            exceptions.add(new CompileException(e.getMessage(), 0));
+            exceptions.add(new CompileError(e.getMessage(), 0));
         }
         return new DividerResult(threadTree, exceptions,  globalVars);
     }
@@ -128,7 +133,7 @@ public class Divider extends BoogyQBaseVisitor {
                 globalVars.put(ctx.ID().getText(), TypeChecker.fromString(ctx.PRIMITIVE().getText()));
                 globalSymbolTable.add(ctx.ID().getText(), true);
             } else {
-                exceptions.add(new ReachException(ctx.getStart().getLine() - junklines));
+                exceptions.add(new ReachError(ctx.getStart().getLine() - junklines));
             }
         }
         return null;
@@ -141,7 +146,7 @@ public class Divider extends BoogyQBaseVisitor {
                 globalVars.put(ctx.ID().getText(), TypeChecker.fromString(ctx.type().getText()));
                 globalSymbolTable.add(ctx.ID().getText(), true);
             } else {
-                exceptions.add(new ReachException(ctx.getStart().getLine() - junklines));
+                exceptions.add(new ReachError(ctx.getStart().getLine() - junklines));
             }
         }
         visit(ctx.flow());

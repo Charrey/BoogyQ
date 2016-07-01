@@ -1,13 +1,9 @@
 package checker;
 
-import exceptions.CompileException;
-import exceptions.divider.DeclException;
+import exceptions.divider.DeclError;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.*;
-import sprocl.model.Op;
-import toplevel.Tree;
 
 import java.math.BigInteger;
 import java.util.HashSet;
@@ -15,12 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Class that checks declaration use in BoogyQ.
+ */
 public class DeclChecker extends BoogyQBaseVisitor {
 
     private BasicSymbolTable<Integer> decls;
     private Set<String> functions = new HashSet<>();
 
-    private List<DeclException> errors;
+    private List<DeclError> errors;
     private int junklines;
 
 
@@ -30,7 +29,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
      * @param global Strings that are global variables.
      * @return A list of errors in this program.
      */
-    public List<DeclException> check(ParseTree input, Set<String> global) {
+    public List<DeclError> check(ParseTree input, Set<String> global) {
         decls = new BasicSymbolTable<>();
         junklines = 0;
         errors = new LinkedList<>();
@@ -46,7 +45,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         BigInteger get = new BigInteger(ctx.NUMBER().getText());
         BigInteger intmax = new BigInteger(String.valueOf(Integer.MAX_VALUE));
         if (get.compareTo(intmax)==1) {
-            errors.add(new DeclException("Integer overflow", ctx.getStart().getLine() - junklines));
+            errors.add(new DeclError("Integer overflow", ctx.getStart().getLine() - junklines));
         }
         return null;
     }
@@ -54,7 +53,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     @Override @Deprecated
     public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add(new DeclException("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
+            errors.add(new DeclError("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
         }
         return null;
     }
@@ -68,7 +67,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         visit(ctx.flow());
         if (!decls.add(ctx.ID().getText(), 0)) {
-            errors.add(new DeclException("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
+            errors.add(new DeclError("Duplicate declaration of \"" + ctx.ID().getText() + "\"", ctx.getStart().getLine() - junklines));
         }
         return null;
     }
@@ -76,7 +75,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     @Override @Deprecated
     public Object visitAssignfunctionflow(BoogyQParser.AssignfunctionflowContext ctx) {
         if (!functions.contains(ctx.ID().getText())) {
-            errors.add(new DeclException("Unknown function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+            errors.add(new DeclError("Unknown function " + ctx.ID().getText(), ctx.getStart().getLine() - junklines));
         }
         for (BoogyQParser.FlowContext i : ctx.flow()) {
             visit(i);
@@ -87,7 +86,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     @Override @Deprecated
     public Object visitIdenexpr(BoogyQParser.IdenexprContext ctx) {
         if (!decls.contains(ctx.ID().getText())) {
-            errors.add(new DeclException("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
+            errors.add(new DeclError("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
         }
         return null;
     }
@@ -97,7 +96,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
     public Object visitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx) {
         visit(ctx.flow());
         if (!decls.contains(ctx.ID().getText())) {
-            errors.add(new DeclException("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
+            errors.add(new DeclError("Unknown variable " + ctx.ID().getText(), ctx.getStart().getLine()-junklines));
         }
         return null;
     }
@@ -109,7 +108,7 @@ public class DeclChecker extends BoogyQBaseVisitor {
         int size = functions.size();
         functions.add(ctx.ID().getText());
         if (functions.size() == size) {
-            errors.add(new DeclException("Duplicate function "+ ctx.ID().getText(), ctx.getStart().getLine() - junklines));
+            errors.add(new DeclError("Duplicate function "+ ctx.ID().getText(), ctx.getStart().getLine() - junklines));
         }
         visit(ctx.functionvars());
         visit(ctx.openscope());

@@ -1,17 +1,19 @@
 package checker;
 
-import exceptions.divider.JumpException;
+import exceptions.divider.JumpError;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import parser.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class that checks jump use in BoogyQ.
+ */
 public class JumpChecker extends BoogyQBaseVisitor {
 
     private int depth;
-    private LinkedList<JumpException> errors;
+    private LinkedList<JumpError> errors;
     private int junklines;
 
     /**
@@ -19,7 +21,7 @@ public class JumpChecker extends BoogyQBaseVisitor {
      * @param input The parse tree.
      * @return A list of jump errors.
      */
-    public List<JumpException> check(ParseTree input) {
+    public List<JumpError> check(ParseTree input) {
         depth = 0;
         errors = new LinkedList<>();
         junklines = 0;
@@ -45,7 +47,7 @@ public class JumpChecker extends BoogyQBaseVisitor {
     public Object visitLoopstat(BoogyQParser.LoopstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {
-            errors.add(new JumpException("Invalid loop statement!", ctx.getStart().getLine() - junklines));
+            errors.add(new JumpError("Invalid loop statement!", ctx.getStart().getLine() - junklines));
         }
         return null;
     }
@@ -61,7 +63,7 @@ public class JumpChecker extends BoogyQBaseVisitor {
     public Object visitBreakstat(BoogyQParser.BreakstatContext ctx) {
         int get = Integer.parseInt(ctx.NUMBER().getText());
         if (get < 0 || get >= depth) {
-            errors.add(new JumpException("Invalid break statement!", ctx.getStart().getLine() - junklines));
+            errors.add(new JumpError("Invalid break statement!", ctx.getStart().getLine() - junklines));
         }
         return null;
     }

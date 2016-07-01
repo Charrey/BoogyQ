@@ -1,18 +1,13 @@
 package sprocl.model;
 
-import static sprocl.model.OpClaz.COMMENT;
 import static sprocl.model.OpClaz.CONTROL;
 import static sprocl.model.OpClaz.NORMAL;
-import static sprocl.model.Operand.Type.LABEL;
 import static sprocl.model.Operand.Type.NUM;
 import static sprocl.model.Operand.Type.REG;
-import static sprocl.model.Operand.Type.STR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Code defining the type of a (non-control flow) operation.
@@ -95,69 +90,77 @@ public enum OpCode {
 	private final List<Operand.Type> sig;
 
 
-	private OpCode(int sourceCount, Operand.Type... sig) {
+	/**
+	 * Creates a new OpCode with Normal class.
+	 * @param sourceCount The number of source operands.
+	 * @param sig Typelist of operands.
+	 */
+	OpCode(int sourceCount, Operand.Type... sig) {
 		this(NORMAL, sourceCount, sig);
 	}
 
-	private OpCode(OpClaz claz, int sourceCount, Operand.Type... sig) {
+	/**
+	 * Creates a new OpCode.
+	 * @param claz The class of the OpCode (Normal or Comment)
+	 * @param sourceCount The number of source operands.
+	 * @param sig Typelist of operands.
+	 */
+	OpCode(OpClaz claz, int sourceCount, Operand.Type... sig) {
 		this.claz = claz;
 		this.sourceSig = new ArrayList<>(sourceCount);
-		for (int i = 0; i < sourceCount; i++) {
-			this.sourceSig.add(sig[i]);
-		}
+		this.sourceSig.addAll(Arrays.asList(sig).subList(0, sourceCount));
 		this.targetSig = new ArrayList<>(sig.length - sourceCount);
-		for (int i = sourceCount; i < sig.length; i++) {
-			this.targetSig.add(sig[i]);
-		}
+		this.targetSig.addAll(Arrays.asList(sig).subList(sourceCount, sig.length));
 		this.sig = new ArrayList<>(Arrays.asList(sig));
 	}
 
-	/** Returns the class of this opcode (normal or control flow). */
+	/** Returns the class of this opcode (normal or control flow).
+	 * @return That class.
+	 **/
 	public OpClaz getClaz() {
 		return this.claz;
 	}
 
-	/** Returns the number of operands. */
+	/** Returns the number of operands.
+	 * @return That number.
+	 **/
 	public int getSigSize() {
 		return getSourceCount() + getTargetCount();
 	}
 
-	/** Returns the list of expected operand types. */
+	/** Returns the list of expected operand types.
+	 * @return That list.
+	 **/
 	public List<Operand.Type> getSig() {
 		return this.sig;
 	}
 
-	/** Returns the number of source operands. */
+	/** Returns the number of source operands.
+	 * @return That number.
+	 **/
 	public int getSourceCount() {
 		return getSourceSig().size();
 	}
 
-	/** Returns the list of expected source operand types. */
+	/** Returns the list of expected source operand types.
+	 * @return The list.
+	 **/
 	public List<Operand.Type> getSourceSig() {
 		return this.sourceSig;
 	}
 
-	/** Returns the number of target operands. */
+	/** Returns the number of target operands.
+	 * @return The number of target operands.
+	 **/
 	public int getTargetCount() {
 		return getTargetSig().size();
 	}
 
-	/** Returns the list of expected target operand types. */
+	/** Returns the list of expected target operand types.
+	 * @return That list.
+	 **/
 	public List<Operand.Type> getTargetSig() {
 		return this.targetSig;
 	}
 
-	/** Returns the {@link OpCode} for a given string, if any. */
-	public static OpCode parse(String code) {
-		return codeMap.get(code);
-	}
-
-	private static final Map<String, OpCode> codeMap = new HashMap<>();
-	static {
-		for (OpCode op : values()) {
-			if (op.getClaz() != OpClaz.COMMENT) {
-				codeMap.put(op.name(), op);
-			}
-		}
-	}
 }

@@ -3,27 +3,23 @@ package sprocl.model;
 import java.util.Iterator;
 
 /**
- * ILOC instruction
+ * Instruction for a Program.
  * @author Arend Rensink
  */
 public abstract class Instr implements Iterable<Op> {
 	/** The line number of this instruction. */
 	private int line = -1;
-	/** The label of this instruction. */
-	private Label label;
 	/** The program in which this instruction occurs. */
 	private Program prog;
-	/** Returns the number of operations in this instruction. */
+	/** Returns the number of operations in this instruction.
+	 * @return The number of operations in this instruction.
+	 **/
 	public abstract int size();
 
 	/** Returns an iterator over the operations in this instruction. */
 	@Override
 	public abstract Iterator<Op> iterator();
 
-	/** Indicates if the line number of this instruction has been set. */
-	boolean hasLine() {
-		return getLine() >= 0;
-	}
 
 	/** Returns the line number of this instruction.
 	 * @return the line number; {@code -1} if the line number has not been set.
@@ -39,6 +35,7 @@ public abstract class Instr implements Iterable<Op> {
 	}
 
 	/** Sets the program in which this instruction occurs.
+	 * @param prog The program to be set.
 	 */
 	void setProgram(Program prog) {
 		assert this.prog == null & prog != null;
@@ -55,27 +52,4 @@ public abstract class Instr implements Iterable<Op> {
 	 */
 	abstract public String prettyPrint(int labelSize, int sourceSize,
 			int targetSize);
-
-	@Override
-	public int hashCode() {
-		return (this.label == null) ? 0 : this.label.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof Instr)) {
-			return false;
-		}
-		Instr other = (Instr) obj;
-		if (this.label == null) {
-			if (other.label != null) {
-				return false;
-			}
-		} else if (!this.label.equals(other.label)) {
-			return false;
-		}
-		return true;
-	}
 }

@@ -1,14 +1,9 @@
 package toplevel;
 
-import checker.DeclChecker;
-import checker.JumpChecker;
-import checker.TypeChecker;
 import divider.Divider;
 import divider.DividerResult;
-import exceptions.CompileException;
-import exceptions.generator.RegisterException;
+import exceptions.CompileError;
 import exceptions.parser.ParseException;
-import generator.Generator;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -25,23 +20,23 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * Created by poesd_000 on 20/06/2016.
+ * Used as I/O class to be used by the user.
  */
 public class Main {
 
     private static Scanner scanner = new Scanner(System.in);
     private static List<String> parseerrors = new LinkedList<>();
-
     private static BoogyQParser parser;
 
+    /**
+     * Allows the user to compile a .boog program in a user friendly way.
+     * @param args - not used.
+     */
     public static void main(String[] args) {
         System.out.println("Reading files...");
         File dir = new File("src/toplevel/.");
-        File [] files = dir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".boog");
-            }
+        File [] files = dir.listFiles((dir1, name) -> {
+            return name.endsWith(".boog");
         });
         if (files.length==0) {
             System.out.println("No files found!");
@@ -55,7 +50,7 @@ public class Main {
 
             File the_file = getFile(files);
             while (!exit) {
-                byte[] encoded = new byte[0];
+                byte[] encoded;
                 try {
                     encoded = Files.readAllBytes(Paths.get(the_file.getAbsolutePath()));
                     String program = new String(encoded, Charset.defaultCharset());
@@ -73,8 +68,8 @@ public class Main {
 
                     DividerResult divresult = new Divider().generate(true, parsed, new HashMap<>());
                     if (divresult.hasErrors()) {
-                        for (CompileException err : divresult.getErrors()) {
-                            System.out.println(err);
+                        for (CompileError err : divresult.getErrors()) {
+                            System.out.println(err.getLineNumber() + " - " + err.getMessage());
                         }
                         System.out.println("Could not compile, program had errors.");
                     } else {
@@ -173,7 +168,6 @@ public class Main {
     private static void writeToFile(String input, String filename) throws IOException {
         PrintWriter out = null;
         try {
-            new File(filename).createNewFile();
             out = new PrintWriter(filename);
             out.write(input);
         }

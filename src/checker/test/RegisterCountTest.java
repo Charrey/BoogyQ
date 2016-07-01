@@ -4,8 +4,7 @@ import checker.DeclChecker;
 import checker.JumpChecker;
 import checker.RegisterCounter;
 import checker.TypeChecker;
-import exceptions.CompileException;
-import exceptions.divider.DeclException;
+import exceptions.CompileError;
 import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -59,22 +58,19 @@ public class RegisterCountTest {
         BoogyQParser parser = new BoogyQParser(tokens);
         BoogyQParser.ProgramContext tree = parser.program();
         
-        List<CompileException> errors = new LinkedList<>();
-        if (!haserrors) {
-            errors.addAll(new DeclChecker().check(tree, new HashSet<>()));
-            if (!errors.isEmpty()) {
-                haserrors = true;
-                for (CompileException error : errors) {
-                    System.out.println(error);
-                }
+        List<CompileError> errors = new LinkedList<>();
+        errors.addAll(new DeclChecker().check(tree, new HashSet<>()));
+        if (!errors.isEmpty()) {
+            haserrors = true;
+            for (CompileError error : errors) {
+                System.out.println(error);
             }
         }
-
         if (!haserrors) {
             errors.addAll(new JumpChecker().check(tree));
             if (!errors.isEmpty()) {
                 haserrors = true;
-                for (CompileException error : errors) {
+                for (CompileError error : errors) {
                     System.out.println(error);
                 }
             }
@@ -84,7 +80,7 @@ public class RegisterCountTest {
             errors.addAll(new TypeChecker().check(tree, new HashMap<>()));
             if (!errors.isEmpty()) {
                 haserrors = true;
-                for (CompileException error : errors) {
+                for (CompileError error : errors) {
                     System.out.println(error);
                 }
             }

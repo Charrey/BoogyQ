@@ -4,11 +4,17 @@ package sprocl.model;
 abstract public class Operand {
 	private final Type type;
 
+	/**
+	 * Creates a new Operand.
+	 * @param type Type of this operand.
+	 */
 	Operand(Type type) {
 		this.type = type;
 	}
 
-	/** Returns the type of this operand. */
+	/** Returns the type of this operand.
+	 * @return That type.
+	 **/
 	public Type getType() {
 		return this.type;
 	}
@@ -19,8 +25,6 @@ abstract public class Operand {
 		REG,
 		/** Numeric operand; class {@link Num} or Symb. */
 		NUM,
-		/** Label operand; class {@link Label}. */
-		LABEL,
 		/** Literal string operand; class {@link Str}. */
 		STR
 	}

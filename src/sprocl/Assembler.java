@@ -8,7 +8,9 @@ import sprocl.model.*;
 import toplevel.OpListWrapper;
 
 
-/** Assembler for the ILOC language. */
+/**
+ * Assembler for the SprocL language.
+ */
 public class Assembler {
 
 	private static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
@@ -21,10 +23,16 @@ public class Assembler {
 	}
 
 
-
+    /**
+     * Creates a Sprocl program.
+     * @param map A map which denotes what Operation lists are assigned to what core.
+     * @param progname The name of the program.
+     * @param main The list of operations that is the main program.
+     * @param globalVarCount The number of global variables.
+     * @return The SprocL program.
+     */
     public static String assemble(Map<Integer, Set<OpListWrapper>> map, String progname, OpListWrapper main, int globalVarCount) {
         StringBuilder sproclCode = new StringBuilder();
-
 		flagcount = OffsetSymbolTable.GLOBAL_OFFSET_START + globalVarCount;
 		for (Set<OpListWrapper> i : map.values()) {
 			for (OpListWrapper p : i) {
@@ -73,8 +81,6 @@ public class Assembler {
 
 			if (!thisismain) {
 				List<OpListWrapper> opListWrappers = new LinkedList<>(map.get(core));
-
-
 				List<List<Op>> concurrentBlocksOps = new ArrayList<>();
 				List<Op> concurrentBlockOps;
 				for (OpListWrapper wrap : opListWrappers) {
@@ -89,13 +95,13 @@ public class Assembler {
 				}
 
 				int blockcodebefore = 0; //A simple counter to keep track how many concurrentblock operations
-										// Were added before the current one.
-
+										// were added before the current one.
 				int totalprogsize = 0;
                 for (OpListWrapper opListWrapper : opListWrappers) {
                     totalprogsize += 10 + opListWrapper.getOps().size();
                 }
 				totalprogsize += 5;
+                //TODO: check for core sharing
 
 				for (int i = 0; i < opListWrappers.size(); i++) {
 					OpListWrapper wrap = opListWrappers.get(i);
@@ -114,8 +120,6 @@ public class Assembler {
 				for (List<Op> ops: concurrentBlocksOps){
 					percore.addAll(ops);
 				}
-
-
 			} else {
 				percore.addAll(main.getOps());
 				percore.add(new Op(OpCode.loadCONST, new Num(-1), r_standard));
@@ -133,8 +137,7 @@ public class Assembler {
 						percore.add(new Op(OpCode.writeINDA, r_standard, r_load));
 					}
 				}
-				// Vijf extra instructies, anders is er de kans dat de write niet helemaal is uitgevoerd voordat het programma
-				//getermineerd wordt. (Want de recieve duurt 5 instructies).
+				//Instruction to ensure the value has been written.
 				percore.add(new Op(OpCode.readDIRA, new Num(1)));
 				percore.add(new Op(OpCode.receive, r_0));
 			}
@@ -157,7 +160,13 @@ public class Assembler {
         return sproclCode.toString();
     }
 
-	public static String assemble(Program program, String progname){
+    /**
+     * Creates a single-core non-concurrent SprockL program.
+     * @param program The Program to convert to SprockL.
+     * @param progname The name of the program.
+     * @return The SprockL code.
+     *//*
+    public static String assemble(Program program, String progname){
 		StringBuilder sproclCode = new StringBuilder();
 		sproclCode.append("module "+progname+" where\n" +
 				"\n" +
@@ -186,10 +195,15 @@ public class Assembler {
 		}
 		sproclCode.append("\n" + s8 + "]");
 		return sproclCode.toString();
-	}
+	}*/
 
 
-	private static String convertToSprocl(Op operation){
+    /**
+     * Creates a SprocL operation from an Op-object.
+     * @param operation The operation.
+     * @return The SprocL instruction.
+     */
+    private static String convertToSprocl(Op operation){
 		OpCode opCode = operation.getOpCode();
 		List<String> args = new ArrayList<>();
 		for (Operand arg: operation.getArgs()){
@@ -232,7 +246,6 @@ public class Assembler {
 			case computeOR:
 				sproclCode = ("Compute Or " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;
-			//TODO: The bitshifts
 			case computeXOR:
 				sproclCode = ("Compute Xor " + args.get(0) + " " + args.get(1) + " " + args.get(2));
 				break;

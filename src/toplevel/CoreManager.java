@@ -4,12 +4,23 @@ import sprocl.model.Op;
 
 import java.util.*;
 
+/**
+ * Singleton responsible for any Core-related jobs.
+ */
 public enum CoreManager {
     instance;
 
+    /**
+     * The number of cores the machine has.
+     */
     public static final int CORE_AMOUNT = 4;
 
-    //toplevel ONLY. No recursion.
+
+    /**
+     * Assign cores to a Tree of Lists of Operations, in a fair way.
+     * @param input The Tree of Lists of Operations.
+     * @return A map, assigning each List of Operations to a specific core.
+     */
     public Map<OpListWrapper, Integer> assignCores(Tree<OpListWrapper> input) {
         int maincore = CORE_AMOUNT-1;
         List<Set<OpListWrapper>> levels = input.getLevels();

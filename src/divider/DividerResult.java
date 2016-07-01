@@ -1,25 +1,26 @@
 package divider;
 
-import checker.OffsetSymbolTable;
 import checker.Type;
-import exceptions.CompileException;
+import exceptions.CompileError;
 import toplevel.OpListWrapper;
 import toplevel.Tree;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Wrapper for useful output of the Divider's <code>generate</code> method.
+ */
 public class DividerResult {
 
 
     private int globalVars;
     private Tree<OpListWrapper> threadTree;
-    private List<CompileException> exceptions;
+    private List<CompileError> exceptions;
 
-    DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileException> exceptions, Map<String, Type> globalVars) {
+    DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileError> exceptions, Map<String, Type> globalVars) {
         this.threadTree = concurrencyTree;
         this.exceptions = exceptions;
         Set<String> non_cp = globalVars.keySet().stream().filter(i -> !i.startsWith("_")).collect(Collectors.toSet());
@@ -35,7 +36,7 @@ public class DividerResult {
         return threadTree;
     }
 
-    public List<CompileException> getErrors() {
+    public List<CompileError> getErrors() {
         return exceptions;
     }
 

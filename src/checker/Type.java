@@ -1,7 +1,7 @@
 package checker;
 
 
-/** Pascal data type. */
+/** BoogyQ data type. */
 abstract public class Type {
 	/** The singleton instance of the {@link Bool} type. */
 	static final Type BOOL = new Bool();

@@ -7,17 +7,26 @@ import java.util.regex.Pattern;
 
 import exceptions.parser.ParseException;
 
+/**
+ * Class responsible for fixing several issues with code before parsing.
+ */
 public final class PreProcessor {
 
-
-    //static String test1 = "\r\nif (a>b):\r\n\t5 -> a.\r\n\tif (a>b):\r\n\t\t6 -> b.\r\n5 -> a.";
-    static String test1 = "int[3][400] a.\nint b.\nchar c.\nchar[100][30] weirdsudoku.";
-
-
+    /**
+     * @param input The input BoogyQ program.
+     * @return A BoogyQ program with fixed OPENSCOPE and CLOSESCOPE, fixed loop statements and fixed array declarations.
+     * @throws ParseException Thrown when indenting is wrong.
+     */
       public static String process(String input) throws ParseException {
         return betterDeclarations(removeTabs(fixLoops(input)));
     }
 
+    /**
+     * Removes Tabs and replaces them with "OPENSCOPE" whenever a scope is opened and "CLOSESCOPE" whenever a scope is closed.
+     * @param input The input BoogyQ program.
+     * @return A BoogyQ program with fixed OPENSCOPE and CLOSESCOPE.
+     * @throws ParseException Thrown when indenting is wrong.
+     */
     public static String removeTabs(String input) throws ParseException {
         input = input.replaceAll("\r", "");
         String[] splitted = (input + "\n ").split("\n");
@@ -50,6 +59,12 @@ public final class PreProcessor {
         return result.substring(0, result.length()-3);
     }
 
+    /**
+     * Replaces arrow-notation of loops- and breaks to alternate, grammar-friendly notations.
+     * @param input The input BoogyQ program.
+     * @return A BoogyQ program with arrow-notation of loop- and break to alternate, grammar-friendly notation.
+     * @throws ParseException Thrown when indenting is wrong.
+     */
     public static String fixLoops(String input) throws ParseException {
         String[] splitted = input.replaceAll("\r","").split("\n");
         for (int i = 0; i<splitted.length; i++) {
@@ -90,7 +105,13 @@ public final class PreProcessor {
         return res.substring(0, res.length()-1);
     }
 
-    public static String betterDeclarations(String input) throws ParseException {
+    /**
+     * Replaces alternate array-declaration to alternate, grammar-friendly notations.
+     * @param input The input BoogyQ program.
+     * @return A BoogyQ program with only one form of array notation.
+     * @throws ParseException Thrown when indenting is wrong.
+     */
+    private static String betterDeclarations(String input) throws ParseException {
         String[] splitted = input.split("\n");
         String res = "";
         for (int i = 0; i<splitted.length; i++) {

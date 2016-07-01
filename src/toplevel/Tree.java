@@ -1,6 +1,5 @@
 package toplevel;
 
-import sprocl.model.Program;
 
 import java.util.*;
 
@@ -93,7 +92,7 @@ public class Tree<T> {
             List<Set<T>> get = child.getLevels();
             for (int i = 0;i<get.size(); i++) {
                 if (i+1>=res.size()) {
-                    res.add(new HashSet<T>());
+                    res.add(new HashSet<>());
                 }
                 res.get(i+1).addAll(get.get(i));
             }

@@ -4,6 +4,9 @@ import javafx.util.Pair;
 
 import java.util.*;
 
+/**
+ * SymbolTable that keeps track of an offset for each variable.
+ */
 public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
 
     private Stack<Integer> offsets = new Stack<>();

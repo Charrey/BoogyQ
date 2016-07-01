@@ -8,13 +8,11 @@ public enum OpClaz {
 	/** A normal (non-control) operation. */
 	NORMAL("=>"),
 	/** A control operation, i.e., one that changes the PC. */
-	CONTROL("->"),
-	/** Special operation type holding a comment. */
-	COMMENT("");
+	CONTROL("->");
 
 	private final String arrow;
 
-	private OpClaz(String arrow) {
+	OpClaz(String arrow) {
 		this.arrow = arrow;
 	}
 

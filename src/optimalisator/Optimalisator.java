@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Optimalisator {
 
-
+    //TODO
     public static List<Op> PushPopFix(List<Op> input) {
         for (int i = 0; i < input.size() - 1; i++) {
             if (input.get(i).getOpCode().equals(OpCode.push) && input.get(i+1).getOpCode().equals(OpCode.pop)) {

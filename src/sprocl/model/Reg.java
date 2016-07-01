@@ -6,14 +6,18 @@ package sprocl.model;
 public class Reg extends Operand {
 	private final String name;
 
-	/** Constructs an operand with a given name. */
+	/** Constructs an register with a given name.
+	 * @param name Name of the register.
+	 **/
 	public Reg(String name) {
 		super(Type.REG);
 		assert name != null && name.length() >= 1 : "Register names must be non-empty strings";
 		this.name = name;
 	}
 
-	/** Returns the name of this register. */
+	/** Returns the name of this register.
+	 * @return That name.
+	 **/
 	public String getName() {
 		return this.name;
 	}
@@ -21,11 +25,6 @@ public class Reg extends Operand {
 	@Override
 	public String toString() {
 		return this.name;
-	}
-
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
 	}
 
 	@Override
@@ -37,9 +36,6 @@ public class Reg extends Operand {
 			return false;
 		}
 		Reg other = (Reg) obj;
-		if (!getName().equals(other.getName())) {
-			return false;
-		}
-		return true;
+		return getName().equals(other.getName());
 	}
 }

@@ -4,6 +4,9 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import parser.*;
 
+/**
+ * Class used to determine register use of a parse tree.
+ */
 public class RegisterCounter extends BoogyQBaseVisitor<Integer> {
 
     /**
