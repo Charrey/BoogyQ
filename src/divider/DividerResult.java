@@ -16,10 +16,25 @@ import java.util.stream.Collectors;
 public class DividerResult {
 
 
+    /**
+     * Global Variables gathered.
+     */
     private int globalVars;
+    /**
+     * Tree of OpListWrappers.
+     */
     private Tree<OpListWrapper> threadTree;
+    /**
+     * Exceptions gathered.
+     */
     private List<CompileError> exceptions;
 
+    /**
+     * Creates a new DividerResult.
+     * @param concurrencyTree Tree of OpListWrappers.
+     * @param exceptions Exceptions gathered.
+     * @param globalVars Global variables gathered.
+     */
     DividerResult(Tree<OpListWrapper> concurrencyTree, List<CompileError> exceptions, Map<String, Type> globalVars) {
         this.threadTree = concurrencyTree;
         this.exceptions = exceptions;
@@ -36,6 +51,10 @@ public class DividerResult {
         return threadTree;
     }
 
+    /**
+     * Returns the errors gathered while performing the Divide.generate().
+     * @return The list of errors.
+     */
     public List<CompileError> getErrors() {
         return exceptions;
     }

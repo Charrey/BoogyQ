@@ -5,7 +5,13 @@ package exceptions;
  */
 public class CompileError {
 
+    /**
+     * The message given with this error.
+     */
     private String message;
+    /**
+     * Line at which this error happened.
+     */
     private int linenumber;
 
     /**

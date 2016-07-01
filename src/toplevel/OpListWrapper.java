@@ -11,7 +11,13 @@ import java.util.List;
  */
 public class OpListWrapper {
 
+    /**
+     * List of operations being wrapped.
+     */
     private final List<Op> ops;
+    /**
+     * Flag assigned to this list of operations.
+     */
     private Flag memLocation;
 
     /**

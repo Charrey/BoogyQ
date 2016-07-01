@@ -44,7 +44,6 @@ abstract public class Type {
 		}
 
 	/** Representation of the BoogyQ Char type. */
-
 	private static class BQString extends Type {
 
 		@Override
@@ -63,6 +62,10 @@ abstract public class Type {
 	static class Array extends Type {
 		private final Type elemType;
 
+		/**
+		 * Creates a new array.
+		 * @param elemType Type contained by this array.
+		 */
 		Array(Type elemType) {
 			this.elemType = elemType;
 		}
@@ -70,14 +73,6 @@ abstract public class Type {
 		@Override
 		public String toString() {
 			return "Array of " + this.elemType;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + this.elemType.hashCode();
-			return result;
 		}
 
 		@Override

@@ -5,7 +5,13 @@ package sprocl.model;
  */
 public class Flag extends Num {
 
+    /**
+     * Boolean remembering whether the value was manually set.
+     */
     private boolean set = false;
+    /**
+     * Flag to be given to the Main Thread, as data filler.
+     */
     private static Flag mainFlag = new Flag();
 
     /**

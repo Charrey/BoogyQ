@@ -3,39 +3,79 @@ package toplevel;
 
 import java.util.*;
 
+/**
+ * Class used to store Tree datatypes.
+ * @param <T> Type to be stored in this tree.
+ */
 public class Tree<T> {
 
+    /**
+     * Data stored in this tree.
+     */
     private T data;
+    /**
+     * Child trees of this tree.
+     */
     private List<Tree<T>> children = new LinkedList<>();
+    /**
+     * Parent tree of this tree.
+     */
     private Tree parent;
 
+    /**
+     * Creates a new Tree, and sets its data.
+     * @param data Data in the tree.
+     */
     public Tree(T data) {
         this.data = data;
     }
 
+    /**
+     * Creates a new Tree.
+     */
     public Tree() {
         this.data = null;
     }
 
+    /**
+     * Set the parent of a tree.
+     * @param parent The new parent.
+     */
     private void setParent(Tree parent) {
         this.parent = parent;
     }
 
+    /**
+     * Returns the parent of this tree.
+     * @return The parent.
+     */
     public Tree<T> getParent() {
         return parent;
     }
 
+    /**
+     * Adds a tree as child of this tree.
+     * @param child The new child.
+     */
     public void addChild(Tree child) {
         children.add(child);
         child.setParent(this);
     }
 
+    /**
+     * Adds a new tree as child of this tree.
+     * @param child Data in the new tree.
+     */
     public void addChild(T child) {
         Tree<T> newchild = new Tree<>(child);
         children.add(newchild);
         newchild.setParent(this);
     }
 
+    /**
+     * Adds a collection of children to this tree.
+     * @param children The collection.
+     */
     public void addChildren(Collection<Tree<T>> children) {
         this.children.addAll(children);
         for (Tree<T> i : children) {
@@ -43,18 +83,35 @@ public class Tree<T> {
         }
     }
 
+    /**
+     * Returns the child at the specified index.
+     * @param index The index.
+     * @return The child tree at that index.
+     */
     public Tree<T> getChild(int index) {
         return children.get(index);
     }
 
+    /**
+     * Returns all child trees.
+     * @return The trees.
+     */
     public List<Tree<T>> getChildren() {
         return children;
     }
 
+    /**
+     * Set the data in this tree to a new value.
+     * @param newvalue The new value.
+     */
     public void set(T newvalue) {
         data = newvalue;
     }
 
+    /**
+     * Returns a set of all Datas in this tree.
+     * @return That set.
+     */
     public Set<T> toSet() {
         Set<T> res;
         if (children.isEmpty()) {
@@ -70,6 +127,10 @@ public class Tree<T> {
         return res;
     }
 
+    /**
+     * Returns a set of all Datas of this tree's child trees.
+     * @return That set.
+     */
     public Set<T> toSetChildren() {
         Set<T> res;
         if (children.isEmpty()) {
@@ -83,6 +144,10 @@ public class Tree<T> {
         return res;
     }
 
+    /**
+     * Returns all Datas in this tree sorted by depth in this tree.
+     * @return A list of Datasets, where the index of the list denotes the depth.
+     */
     public List<Set<T>> getLevels() {
         Set<T> thisset = new HashSet<>();
         thisset.add(this.data);
@@ -100,6 +165,11 @@ public class Tree<T> {
         return res;
     }
 
+    /**
+     * Attempts to find a tree inside this tree with the specified data.
+     * @param query The data to find.
+     * @return The tree containing that data.
+     */
     public Tree find(T query) {
         if (query.equals(data)) {
             return this;
@@ -120,10 +190,18 @@ public class Tree<T> {
         return "(" + data.toString()+ ", " + children.toString() + ")";
     }
 
+    /**
+     * Returns the data of this tree.
+     * @return The data.
+     */
     public T get() {
         return data;
     }
 
+    /**
+     * Returns the total size of this tree.
+     * @return The total size.
+     */
     public int size() {
         int res = 1;
         for (Tree<T> child : children) {

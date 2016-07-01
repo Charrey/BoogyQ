@@ -19,15 +19,42 @@ import java.util.Map;
  */
 public class TypeChecker extends BoogyQBaseListener {
 
+    /**
+     * Int type.
+     */
     private static Type INT = Type.INT;
+    /**
+     * Bool type.
+     */
     private static Type BOOL = Type.BOOL;
+    /**
+     * Char type.
+     */
     private static Type CHAR = Type.CHAR;
+    /**
+     * String type.
+     */
     private static Type BQSTRING = Type.BQSTRING;
 
+    /**
+     * List of all type errors found.
+     */
     private LinkedList<TypeError> errors;
+    /**
+     * parseTreeProperty saving the type of each node.
+     */
     private ParseTreeProperty<Type> types;
+    /**
+     * SymbolTable keeping track of types through scopes.
+     */
     private SymbolTable<Type> symbols;
+    /**
+     * Map that keeps track of function types.
+     */
     private Map<String, Pair<Type, List<Type>>> functions;
+    /**
+     * How much the program line in preprocessed code differs from the un-preprocessed code.
+     */
     private int junklines;
 
     /**
@@ -147,7 +174,7 @@ public class TypeChecker extends BoogyQBaseListener {
         Type lasttype = types.get(types.size() - 1);
         types.remove(types.get(types.size()-1));
 
-        Pair<Type, List<Type>> result = new Pair<>(lasttype, types);
+        Pair<Type, List<Type>> result = new Pair<Type, List<Type>>(lasttype, types);
         String functionname = ctx.ID().getText();
         if (functions.containsKey(functionname)) {
             errors.add(new TypeError("Duplicate function " + functionname, ctx.getStart().getLine() - junklines));

@@ -13,12 +13,29 @@ import toplevel.OpListWrapper;
  */
 public class Assembler {
 
-	private static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
-	private static String s8 = s4+s4;
-	private static final String PREFIX = "core";
+    /**
+     * Four consecutive spaces.
+     */
+    private static String s4 = "    "; 	//We need to use 4 spaces instead of a tab.
+    /**
+     * Eight consecutive spaces.
+     */
+    private static String s8 = s4+s4;
+    /**
+     * Part of the string used to name "program" objects in Haskell.
+     */
+    private static final String PREFIX = "core";
 
-	private static int flagcount = -1000;
-	private static int requestFlag() {
+    /**
+     * Counter used to guarantee uniqueness of flag memory locations.
+     */
+    private static int flagcount = -1000;
+
+    /**
+     * Returns a unique memory location for a flag.
+     * @return A unique memory location.
+     */
+    private static int requestFlag() {
 		return flagcount++;
 	}
 

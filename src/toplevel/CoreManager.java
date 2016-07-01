@@ -42,6 +42,11 @@ public enum CoreManager {
         return res;
     }
 
+    /**
+     * Inverts a map from OpListWrapper to Integer.
+     * @param input A Map from OpListWrapper to Integer.
+     * @return A reversed map from Integer to Set of OpListWrapper.
+     */
     public static Map<Integer, Set<OpListWrapper>> invert(Map<OpListWrapper, Integer> input) {
         Map<Integer, Set<OpListWrapper>> res = new HashMap<>();
         for (Map.Entry<OpListWrapper, Integer> i : input.entrySet()) {

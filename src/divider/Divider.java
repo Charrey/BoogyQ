@@ -26,14 +26,41 @@ import java.util.Map;
  */
 public class Divider extends BoogyQBaseVisitor {
 
+    /**
+     * Whether global declarations are allowed.
+     */
     private boolean globalDeclAllowed;
+    /**
+     * Map containing all global variables.
+     */
     private Map<String, Type> globalVars;
+    /**
+     * List of errors gathered during the Divider process.
+     */
     public List<CompileError> exceptions;
+    /**
+     * Offset with with the preprocessed text differs with the origininal text.
+     */
     private static int junklines;
-    private Tree<OpListWrapper> threadTree; //A tree with the hierarchies of threads.
+    /**
+     * A tree with the hierarchies of threads.
+     */
+    private Tree<OpListWrapper> threadTree;
+    /**
+     * ParseTreeProperty that saves the names of enclosing blocks, especially concurrentstat-nodes.
+     */
     private static ParseTreeProperty<String> concurrent_identifiers;
+    /**
+     * Counter used to guarantee uniqueness of concurrent identifiers.
+     */
     private static int concurrentblockCounter;
+    /**
+     * ParseTreeProperty that saves flags per node, especially concurrentstat-nodes.
+     */
     public static ParseTreeProperty<Flag> flags;
+    /**
+     * Flag assigned to the block of code being currently examined.
+     */
     private Flag flag;
 
     /**
@@ -42,6 +69,9 @@ public class Divider extends BoogyQBaseVisitor {
     public static OffsetSymbolTable globalSymbolTable = new OffsetSymbolTable();
 
 
+    /**
+     * Initializes the Divider.
+     */
     private static void init(){
         junklines = 0;
         concurrent_identifiers = new ParseTreeProperty<>();
@@ -66,6 +96,15 @@ public class Divider extends BoogyQBaseVisitor {
         return this.generate(globalDeclAllowed, parseTree, globalVars, new ParseTreeProperty<>(), Flag.mainFlag());
     }
 
+    /**
+     * Generates a Tree of OpListWrappers from a program.
+     * @param globalDeclAllowed Whether declarations of global variables are allowed in this scope.
+     * @param parseTree The program.
+     * @param globalVars The global variables already present.
+     * @param flags ParseTreeProperty containing flags for certain subtrees.
+     * @param mine Current flag.
+     * @return A result of this generation.
+     */
     private DividerResult generate(boolean globalDeclAllowed, ParseTree parseTree, Map<String, Type> globalVars, ParseTreeProperty<Flag> flags, Flag mine){
         this.flag = mine;
         Divider.flags = flags;
@@ -108,6 +147,11 @@ public class Divider extends BoogyQBaseVisitor {
     }
 
 
+    /**
+     * Disguises the concurrentstat as a program and runs it recursively through the divider.
+     * @param ctx Current node.
+     * @return Nothing.
+     */
     @Override @Deprecated
     public Object visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
         Flag yourFlag = new Flag();
@@ -126,6 +170,11 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
+    /**
+     * If the declared variable is global, places it inside the appropiate data containers.
+     * @param ctx Current node.
+     * @return Nothing.
+     */
     @Override @Deprecated
     public Object visitDeclexpr(BoogyQParser.DeclexprContext ctx) {
         if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
@@ -139,6 +188,11 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
+    /**
+     * If the declared variable is global, places it inside the appropiate data containers.
+     * @param ctx Current node.
+     * @return Nothing.
+     */
     @Override @Deprecated
     public Object visitDeclstandardflow(BoogyQParser.DeclstandardflowContext ctx) {
         if(ctx.REACH()!=null && ctx.REACH().getText().equals("global")){
@@ -153,13 +207,22 @@ public class Divider extends BoogyQBaseVisitor {
         return null;
     }
 
+    /**
+     * Increment "junklines" to ensure correct line numbers given with errors.
+     * @param ctx Current node.
+     * @return Nothing.
+     */
     @Override @Deprecated
     public Object visitOpenscope(BoogyQParser.OpenscopeContext ctx) {
         junklines++;
         return null;
     }
 
-
+    /**
+     * Increment "junklines" to ensure correct line numbers given with errors.
+     * @param ctx Current node.
+     * @return Nothing.
+     */
     @Override @Deprecated
     public Object visitClosescope(BoogyQParser.ClosescopeContext ctx) {
         junklines++;

@@ -1,5 +1,8 @@
 package exceptions.generator;
 
+/**
+ * Exception used when something goes wrong related to registers.
+ */
 public class RegisterException extends Exception {
 
     /**

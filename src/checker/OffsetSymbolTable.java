@@ -55,8 +55,6 @@ public class OffsetSymbolTable extends BasicSymbolTable<Integer> {
             } else {
                 currentoffset++;
             }
-        } else {
-            //throw new IllegalArgumentException("WTF HAPPENED???");
         }
         return res;
 
