@@ -2,6 +2,8 @@ False -> global bool done.
 100 -> global int bank.
 0 -> global int turn.
 -1 -> global int request.
+False -> global bool done1.
+False -> global bool done2.
 
 
 concurrent:
@@ -11,9 +13,11 @@ concurrent:
 			1 -> request.
 			<loop.
 		bank + 5 -> bank.
+		-1 -> turn.
 		True -> done.
 		counter - 1 -> counter.
 		<loop.
+	True -> done1.
 
 concurrent:
 	10 -> int counter.
@@ -22,11 +26,13 @@ concurrent:
 			0 -> request.
 			<loop.
 		bank - 5 -> bank.
+		-1 -> turn.
 		True -> done.
 		counter - 1 -> counter.
 		<loop.
+	True -> done2.
 
-if (True):
+if (!done1 || !done2):
 	if (!done):
 		<loop.
 	request -> int a.

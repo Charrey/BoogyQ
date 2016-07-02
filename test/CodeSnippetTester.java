@@ -135,10 +135,10 @@ public class CodeSnippetTester {
 
     @Test
     public void testATM() throws IOException {
-        String filename = "test/algorithms/fib.boog";
+        String filename = "test/algorithms/atm.boog";
         List<String> result = getResult(filename);
-        String expectedMem = "[0,55,0,0,0,0,0,0,0,0,0,0,0,0,10,0]";
-        String actualMem = getLocalMem(result.get(0));
+        String expectedMem = "[0,0,105,1,-1,1,1,-1,-1,0,0,0,0,0,0,0]";
+        String actualMem = result.get(4);
         assertEquals(expectedMem, actualMem);
     }
 
@@ -146,12 +146,10 @@ public class CodeSnippetTester {
     public void testPeterson() throws IOException {
         String filename = "test/algorithms/peterson.boog";
         List<String> result = getResult(filename);
-        String expectedGlobalMem = "[0,0,0,0,100,-1,-1,0]";
+        String expectedGlobalMem = "[0,1,1,0,100,-1,-1,0,0,-1,0,0,0,0,0,0]";
         String actualGlobalMem = result.get(4);
         assertEquals(expectedGlobalMem, actualGlobalMem);
     }
-    
-    
 
     public static List<String> getResult(String Filename) throws IOException {
         File the_file = new File(Filename);
