@@ -509,9 +509,6 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.storeINDA, r_res, r_load));
         } else {
             operations.add(new Op(OpCode.writeINDA, r_res, r_load));
-            //TODO: Check if we need those.
-            //operations.add(new Op(OpCode.readINDA, r_load));
-            //operations.add(new Op(OpCode.receive, r_res));
         }
 
         return operations;

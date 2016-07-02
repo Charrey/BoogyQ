@@ -149,7 +149,7 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer> {
     }
 
     /**
-     * Returns how many registers a (//TODO) needs.
+     * Returns how many registers an Exprflow needs.
      * @param ctx This node.
      * @return The correct amount.
      */

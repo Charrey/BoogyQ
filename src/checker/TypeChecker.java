@@ -369,15 +369,6 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
-    //TODO: Check whether this is commented out for a reason
-    /*@Override
-    public void enterTimesexpr(BoogyQParser.TimesexprContext ctx) {
-        if (types.get(ctx.getChild(0)).equals(INT) || types.get(ctx.getChild(2)).equals(INT)) {
-            errors.add(ctx.getStart().getLine() - junklines + "-Operation * not compatible with types " + types.get(ctx.getChild(0)) + " and " + types.get(ctx.getChild(2)));
-        }
-        types.put(ctx, types.get(ctx.getChild(0)));
-    }*/
-
     @Override @Deprecated
     public void exitIfstat(BoogyQParser.IfstatContext ctx) {
         if (!types.get(ctx.expr()).equals(BOOL)) {

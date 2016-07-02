@@ -37,6 +37,7 @@ public class TypeCheckerTest {
         System.out.println(checker.check(parse("function (char a -> int b) square:\n\ta -> b.\n5 => square -> char a."), new HashMap<>()));
         System.out.println(checker.check(parse("!!!!!1 -> char a."), new HashMap<>()));
         System.out.println(checker.check(parse("-True -> char a."), new HashMap<>()));
+        System.out.println(checker.check(parse("True*3."), new HashMap<>()));
 
 
     }
