@@ -199,6 +199,7 @@ public class Main {
         Lexer lexer = new BoogyQLexer(stream);
         TokenStream tokens = new CommonTokenStream(lexer);
         parser = new BoogyQParser(tokens);
+        parser.removeErrorListeners();
         parser.addErrorListener(new ANTLRErrorListener() {
             @Override
             public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {

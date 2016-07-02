@@ -154,7 +154,7 @@ public class RegisterCounter extends BoogyQBaseVisitor<Integer> {
      * @return The correct amount.
      */
     @Override @Deprecated
-    public Integer visitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
+    public Integer visitExprflow(BoogyQParser.ExprflowContext ctx) {
         regcount.put(ctx, Math.max(1, visit(ctx.expr())));
         return regcount.get(ctx);
     }

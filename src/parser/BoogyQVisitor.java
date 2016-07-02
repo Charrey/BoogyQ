@@ -105,12 +105,12 @@ public interface BoogyQVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignstandardflow(BoogyQParser.AssignstandardflowContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ignoreme}
+	 * Visit a parse tree produced by the {@code exprflow}
 	 * labeled alternative in {@link BoogyQParser#flow}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIgnoreme(BoogyQParser.IgnoremeContext ctx);
+	T visitExprflow(BoogyQParser.ExprflowContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code declstandardflow}
 	 * labeled alternative in {@link BoogyQParser#flow}.

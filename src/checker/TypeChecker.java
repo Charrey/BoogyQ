@@ -306,7 +306,7 @@ public class TypeChecker extends BoogyQBaseListener {
     }
 
     @Override @Deprecated
-    public void exitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
+    public void exitExprflow(BoogyQParser.ExprflowContext ctx) {
         types.put(ctx, types.get(ctx.getChild(0)));
     }
 

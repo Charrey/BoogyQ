@@ -20,12 +20,12 @@ flow    : flow PLACEOPR ID              #assignstandardflow
 
         | PIPEOPR ID                    #assigngeneratorflow // Voor functies zonder argumenten
         | flow (',' flow)* PIPEOPR ID   #assignfunctionflow
-        | expr                          #ignoreme;
+        | expr                          #exprflow;
 
 
 expr    : BOOL                          #boolexpr
         | ID                            #idenexpr
-        | REACH? PRIMITIVE ID           #declexpr //TODO: Find a different name for reach.
+        | REACH? PRIMITIVE ID           #declexpr
         | CHAR                          #charexpr
         | NUMBER                        #numberexpr
         | array                         #arraydecl

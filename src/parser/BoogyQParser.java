@@ -912,22 +912,22 @@ public class BoogyQParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class IgnoremeContext extends FlowContext {
+	public static class ExprflowContext extends FlowContext {
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public IgnoremeContext(FlowContext ctx) { copyFrom(ctx); }
+		public ExprflowContext(FlowContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).enterIgnoreme(this);
+			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).enterExprflow(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).exitIgnoreme(this);
+			if ( listener instanceof BoogyQListener ) ((BoogyQListener)listener).exitExprflow(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof BoogyQVisitor ) return ((BoogyQVisitor<? extends T>)visitor).visitIgnoreme(this);
+			if ( visitor instanceof BoogyQVisitor ) return ((BoogyQVisitor<? extends T>)visitor).visitExprflow(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1017,7 +1017,7 @@ public class BoogyQParser extends Parser {
 			case MINUS:
 			case NEGATION:
 				{
-				_localctx = new IgnoremeContext(_localctx);
+				_localctx = new ExprflowContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(152);

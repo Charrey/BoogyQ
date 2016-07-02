@@ -1,0 +1,32 @@
+bool a.
+True -> bool b.
+
+bool c -> bool d -> bool e -> bool f -> bool g -> bool h -> bool i -> bool j.
+bool k -> bool l -> bool m.
+
+if(a || a):
+	True -> c.
+if(a && a):
+	True -> d.
+if(!a):
+	True -> e.
+if(b || b):
+	True -> f.
+if(b && b):
+	True -> g.
+if(!b):
+	True -> h.
+if(a || b):
+	True -> i.
+if(a && b):
+	True -> j.
+if(a == b):
+	True -> k.
+if(a != b):
+	True -> l.
+if(!a ==b):
+	True -> m.
+if(a):
+	True -> a.
+if(b):
+	True -> b.

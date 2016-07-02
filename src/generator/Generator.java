@@ -629,7 +629,7 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
      * @return List of operations.
      */
     @Override @Deprecated
-    public List<Op> visitIgnoreme(BoogyQParser.IgnoremeContext ctx) {
+    public List<Op> visitExprflow(BoogyQParser.ExprflowContext ctx) {
         List<Reg> flowRegList = regsList.get(ctx);
         regsList.put(ctx.expr(), flowRegList);
         Reg r_res =  regsList.get(ctx).get(regsList.get(ctx).size()-1);
