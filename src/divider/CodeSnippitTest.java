@@ -81,6 +81,33 @@ public class CodeSnippitTest {
         assertEquals(expectedMem, actualMem);
     }
 
+    @Test
+    public void test7(){
+        String filename = "";
+        List<String> result = getResult("");
+        String expectedMem = "[0,2,5,1,1,0,0,0,0,0,0,0,0,2,1,5]";
+        String actualMem = getLocalMem(result.get(1));
+        assertEquals(expectedMem, actualMem);
+    }
+
+    @Test
+    public void test9(){
+        String filename = "";
+        List<String> result = getResult("");
+        String expectedMem = "[0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,1]";
+        String actualMem = getLocalMem(result.get(1));
+        assertEquals(expectedMem, actualMem);
+    }
+
+    @Test
+    public void test17(){
+        String filename = "";
+        List<String> result = getResult("");
+        String expectedMem = "[0,1,1,1,1,1,1,1,0,0,0,0,0,3,9765625,1]";
+        String actualMem = getLocalMem(result.get(1));
+        assertEquals(expectedMem, actualMem);
+    }
+
 
     private List<String> getResult(String fileName){
         return null;
