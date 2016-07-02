@@ -1,4 +1,4 @@
-package toplevel.test;
+package specific;
 
 import org.junit.Test;
 import sprocl.model.Op;

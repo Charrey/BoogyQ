@@ -1,0 +1,7 @@
+3 -> int a
+^&* -> char c.
+(int a)) -> int d.
+5 -> notatype e.
+5 + -> int f.
+((5)+((3)) ^ (&&)) -> int g.
+(3) || True -> bool h.

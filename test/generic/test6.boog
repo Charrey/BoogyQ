@@ -1,0 +1,30 @@
+char a.
+'b' -> char b.
+
+bool e -> bool f -> bool g -> bool h -> bool i -> bool j -> bool k -> bool l -> bool m -> bool n.
+bool o -> bool p -> bool q.
+
+if(a > a):
+	True -> e.
+if(a < a):
+	True -> f.
+if(a != a):
+	True -> g.
+if(a >= a):
+	True -> h.
+if(a <= a):
+	True -> i.
+if(a == a):
+	True -> j.
+if(b > a):
+	True -> k.
+if(b < a):
+	True -> l.
+if(b != a):
+	True -> m.
+if(b >= a):
+	True -> n.
+if(b <= a):
+	True -> o.
+if(b == a):
+	True -> p.

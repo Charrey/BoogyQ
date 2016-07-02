@@ -1,0 +1,4 @@
+5 -> int a -> int b.
+(True -> bool c) -> bool d.
+('a' -> char e) -> char f -> char g.
+(f -> g) -> char h.

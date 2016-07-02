@@ -1,9 +1,11 @@
-package preprocessor.test;
+package specific;
 
 import exceptions.parser.ParseException;
 import org.junit.Test;
 import preprocessor.PreProcessor;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TestPreProcessor {
 

@@ -1,0 +1,31 @@
+function (int a, int b -> int c) add:
+	a + b -> c
+
+function (int a -> int b) square:
+	a * a -> b
+
+function (int a, int b -> boolean b) divides:
+	b % a = 0 -> b
+
+function (int a -> boolean b) isprime:
+	2 -> runner;
+	True -> b;
+	if (runner < a):
+		if (runner,a => divides):
+			False -> b;
+		runner + 1 -> runner;
+		loop;
+
+function (int a -> boolean b) isPrimeQuick:
+	True -> done;
+	if (done):
+		False -> done;
+		2 -> runner;
+		True -> b;
+		if (runner < a):
+			if (runner,a => divides):
+				False -> b;
+			<-	loop;
+			runner + 1 -> runner;
+			loop;
+		

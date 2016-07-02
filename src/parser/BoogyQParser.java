@@ -1,4 +1,4 @@
-// Generated from C:/Users/Administrator/IdeaProjects/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
+// Generated from C:/Users/Gebruiker/IdeaProjects/Paradigms/Paradigmes2/BoogyQ/src\BoogyQ.g4 by ANTLR 4.5.1
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -1567,7 +1567,7 @@ public class BoogyQParser extends Parser {
 						setState(203);
 						match(HAT);
 						setState(204);
-						expr(6);
+						expr(5);
 						}
 						break;
 					case 2:
@@ -2218,7 +2218,7 @@ public class BoogyQParser extends Parser {
 		"\u00ca\u00bc\3\2\2\2\u00ca\u00bd\3\2\2\2\u00ca\u00bf\3\2\2\2\u00ca\u00c3"+
 		"\3\2\2\2\u00ca\u00c4\3\2\2\2\u00ca\u00c5\3\2\2\2\u00ca\u00c6\3\2\2\2\u00cb"+
 		"\u00e1\3\2\2\2\u00cc\u00cd\f\7\2\2\u00cd\u00ce\7\36\2\2\u00ce\u00e0\5"+
-		"\16\b\b\u00cf\u00d0\f\6\2\2\u00d0\u00d1\t\2\2\2\u00d1\u00e0\5\16\b\7\u00d2"+
+		"\16\b\7\u00cf\u00d0\f\6\2\2\u00d0\u00d1\t\2\2\2\u00d1\u00e0\5\16\b\7\u00d2"+
 		"\u00d3\f\5\2\2\u00d3\u00d4\t\3\2\2\u00d4\u00e0\5\16\b\6\u00d5\u00d8\f"+
 		"\4\2\2\u00d6\u00d9\5\20\t\2\u00d7\u00d9\5\22\n\2\u00d8\u00d6\3\2\2\2\u00d8"+
 		"\u00d7\3\2\2\2\u00d9\u00da\3\2\2\2\u00da\u00db\5\16\b\5\u00db\u00e0\3"+

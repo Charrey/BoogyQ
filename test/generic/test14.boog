@@ -1,0 +1,24 @@
+int result.		//Should be 2 in the end.
+int result2.	//Should be 5 in the end.
+True -> bool a.
+True -> bool b.
+bool c.
+bool d.
+
+if(a && b)
+	result + 1 -> result.
+	if(a || b):
+		result + 1 -> result.
+		if(c || d):		
+		result + 1 -> result.	//This shouldn't be reached.
+
+if(result == 2 == (4-2)):
+	result2 + 1 -> result2.
+	if(result < 10):	
+		result2 + 1 -> result2.
+		if(result >= 0)
+		result2 + 1 -> result2.
+		if(!c):
+	result2 + 1 -> result2.
+		if(result2 != 0):
+			result2 + 1 -> result2.

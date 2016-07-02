@@ -1,0 +1,22 @@
+//We shouldn'te be able to use variables which aren't declared
+function (int a, int b -> int c) fa1:
+	a + b + d -> c.
+function (bool a, int b -> int c) fa2:
+	a && (b + d) -> c.
+	
+//Type errors
+function (int a -> int b) fc1:
+	a || False -> b.
+function (bool a, int b -> int c) fc2:
+	a && b -> c.
+
+//Can we access variables defined after the function? We shouldn't be able to.
+function getSomeVar( -> int var):
+	somevar -> var.
+int somevar.
+
+//We shouldn't be able to redeclare functions
+function (int a, int b -> int c) fa1:
+	a + b + d -> c.
+function (int a -> int c) fa1:
+	a + b -> c.

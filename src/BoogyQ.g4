@@ -33,7 +33,7 @@ expr    : BOOL                          #boolexpr
 
         | NEGATION expr                 #notexpr
         | MINUS expr                    #minusexpr
-        | expr HAT expr                 #powerexpr
+        | <assoc = right> expr HAT expr #powerexpr
         | expr (TIMES|DIVIDE) expr      #timesexpr
         | expr (PLUS|MINUS) expr        #plusexpr
 
@@ -73,7 +73,7 @@ DEL: '.';
 LPAR   : '(';
 RPAR   : ')';
 COLON : ':' ;
-TAB: '\t';
+TAB: '\t' -> skip;
 NEWLINE: '\n';
 WS : ' ' -> skip;
 

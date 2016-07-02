@@ -1,4 +1,4 @@
-package checker.test;
+package specific;
 
 import checker.TypeChecker;
 import exceptions.parser.ParseException;
@@ -6,12 +6,12 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Before;
 import org.junit.Test;
-import parser.*;
+import parser.BoogyQLexer;
+import parser.BoogyQParser;
 import preprocessor.PreProcessor;
 
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**

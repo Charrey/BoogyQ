@@ -1,0 +1,4 @@
+
+//A function without a return value
+function (int a) fb1:
+	5 -> a.

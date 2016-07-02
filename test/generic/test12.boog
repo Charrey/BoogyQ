@@ -1,0 +1,31 @@
+0 -> global int turn.
+-1 -> global int request.
+False -> global bool done.
+False -> global int c1done.
+False -> global int c2done.
+
+
+concurrent:
+	if (turn != 0):
+		0 -> request.	//0 is the threadnumber
+		<loop.
+	//do something
+	True -> c1done.
+	True -> done.
+
+concurrent:
+	if (turn != 1):
+		1  -> request.	//1 is the threadnumber.
+		<loop.
+	//do something
+	True -> c2done.
+	True -> done.
+
+if (!c1done || !c2done):
+	if (!done):
+		<loop.
+	request -> int a.
+	-1 -> request.
+	False -> done.
+	a -> turn.
+	<loop.	

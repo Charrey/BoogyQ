@@ -1,0 +1,63 @@
+int a.
+1 -> int b.
+
+True -> bool c.
+False -> bool d.
+
+bool e -> bool f -> bool g -> bool h -> bool i -> bool j -> bool k -> bool l -> bool m -> bool n.
+bool o -> bool p -> bool q -> bool r -> bool s -> bool t -> bool u -> bool v -> bool w -> bool x.
+bool y -> bool z -> bool aa.
+
+
+if(a > a):
+	True -> e.
+if(a < a):
+	True -> f.
+if(a != a):
+	True -> g.
+if(a >= a):
+	True -> h.
+if(a <= a):
+	True -> i.
+if(a == a):
+	True -> j.
+	
+if(b > a):
+	True -> k.
+if(b < a):
+	True -> l.
+if(b != a):
+	True -> m.
+if(b >= a):
+	True -> n.
+if(b <= a):
+	True -> o.
+if(b == a):
+	True -> p.
+	
+if(c || c):
+	True -> q.
+if(c && c):
+	True -> r.
+if(!c):
+	True -> s.
+if(d || d):
+	True -> t.
+if(d && d):
+	True -> u.
+if(!d):
+	True -> v.
+if(c || d):
+	True -> w.
+if(c && d):
+	True -> x.
+if(c == d):
+	True -> y.
+if(c != d):
+	True -> z.
+if(!c ==d):
+	True -> aa.
+
+	
+
+	
