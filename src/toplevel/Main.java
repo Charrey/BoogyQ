@@ -31,7 +31,7 @@ public class Main {
     /**
      * List of strings the parser writes to when encountering parse errors.
      */
-    private static List<String> parseerrors = new LinkedList<>();
+    static List<String> parseerrors = new LinkedList<>();
     /**
      * Parser used to parse code from a file.
      */
@@ -176,7 +176,7 @@ public class Main {
      * @param filename The file name.
      * @throws IOException Thrown when no such write can be done.
      */
-    private static void writeToFile(String input, String filename) throws IOException {
+    static void writeToFile(String input, String filename) throws IOException {
         PrintWriter out = null;
         try {
             out = new PrintWriter(filename);
@@ -194,7 +194,7 @@ public class Main {
      * @param text The given program.
      * @return A parse tree representing that program.
      */
-    private static ParseTree parse(String text) {
+    static ParseTree parse(String text) {
         CharStream stream = new ANTLRInputStream(text);
         Lexer lexer = new BoogyQLexer(stream);
         TokenStream tokens = new CommonTokenStream(lexer);
