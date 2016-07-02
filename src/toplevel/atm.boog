@@ -13,6 +13,7 @@ concurrent:
 			1 -> request.
 			<loop.
 		bank + 5 -> bank.
+		-1 -> turn.
 		True -> done.
 		counter - 1 -> counter.
 		<loop.
@@ -25,6 +26,7 @@ concurrent:
 			0 -> request.
 			<loop.
 		bank - 5 -> bank.
+		-1 -> turn.
 		True -> done.
 		counter - 1 -> counter.
 		<loop.
