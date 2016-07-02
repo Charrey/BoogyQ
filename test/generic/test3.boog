@@ -3,4 +3,4 @@
 (True && (False || False)) -> bool c.
 ((3^2 + 4*(2-5)) == (2-7+5)) && True -> bool d.
 ((a+b)*(-a+b) -> int e)*4*4*4-2 -> int f.
-2^3^4^(5+5) -> int g.
+2^3 -> int g.

@@ -1,5 +1,0 @@
-5 -> int a.
-True -> bool b.
-False -> bool c.
-'a' -> char d.
-a -> int e.

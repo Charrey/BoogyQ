@@ -1,9 +1,0 @@
-10 -> int a.
-5 -> int b.
-if (a!=b):
-	if (True):
-		if (a>b):
-			a-b -> a.
-		<-  break.
-		b-a -> b.
-	<loop.

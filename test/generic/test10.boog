@@ -1,31 +1,32 @@
-function (int a, int b -> int c) add:
-	a + b -> c
-
 function (int a -> int b) square:
-	a * a -> b
+	a * a -> b.
 
-function (int a, int b -> boolean b) divides:
-	b % a = 0 -> b
+function (int a, int b -> bool c) divides:
+	(a > b) -> c.
 
-function (int a -> boolean b) isprime:
-	2 -> runner;
-	True -> b;
+function (int a -> bool b) isprime:
+	int runner.
+	bool done.
+	2 -> runner.
+	True -> b.
 	if (runner < a):
-		if (runner,a => divides):
-			False -> b;
-		runner + 1 -> runner;
-		loop;
+		if ((runner, a => divides)):
+			False -> b.
+		runner + 1 -> runner.
+		<loop.
 
-function (int a -> boolean b) isPrimeQuick:
-	True -> done;
+function (int a -> bool b) isPrimeQuick:
+	int runner.
+	bool done.
+	True -> done.
 	if (done):
-		False -> done;
-		2 -> runner;
-		True -> b;
+		False -> done.
+		2 -> runner.
+		True -> b.
 		if (runner < a):
-			if (runner,a => divides):
-				False -> b;
-			<-	loop;
-			runner + 1 -> runner;
-			loop;
-		
+			if ((runner,a => divides)):
+				False -> b.
+			<-	loop.
+			runner + 1 -> runner.
+			<loop.
+

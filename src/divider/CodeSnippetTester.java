@@ -1,14 +1,13 @@
-package toplevel;
+package divider;
 
-import divider.Divider;
-import divider.DividerResult;
-import exceptions.CompileError;
 import exceptions.parser.ParseException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 import preprocessor.PreProcessor;
 import sprocl.Assembler;
-import sprocl.model.Program;
+import toplevel.CoreManager;
+import toplevel.Main;
+import toplevel.OpListWrapper;
 
 import java.io.BufferedReader;
 import java.io.File;

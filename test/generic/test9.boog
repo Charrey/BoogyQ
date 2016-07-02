@@ -1,22 +1,14 @@
-int a.
-bool c.
-if(True):
-	if(a <= 10):
-	<-	loop.
-	a + 1 -> a.
-	if(!bool c):
-	    if(a <= 20):
-    <-	    loop.
-	True -> c.
+5 ->int a.
+0 ->int b.
 
-int b.
-bool d.
-if(True):
-	if(b <= 10):
-	<-	break.
+if (b < a):
 	b + 1 -> b.
-	if(!bool d):
-	    if(b <= 20):
-    <-	    break.
-	True -> d.
-	
+	<loop.
+
+5 -> int c.
+10 -> int d.
+if (True):
+	d - 1 -> d.
+	if (d == 0):
+	<-	break.
+	<loop.

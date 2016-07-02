@@ -5,9 +5,12 @@ import HardwareTypes
 import Sprockell
 import System
 import Simulation
-prog :: [Instruction]
-prog = [
-        Load (ImmValue (10)) 1
+
+main :: IO()
+main = sysTest [core3]
+
+core3 :: [Instruction]
+core3 = [ Load (ImmValue (10)) 1
         , Push 1
         , Pop 3
         , Load (ImmValue (1)) 2
@@ -25,9 +28,13 @@ prog = [
         , Pop 3
         , Load (ImmValue (4)) 2
         , Store 3 (IndAddr 2)
-        , Load (DirAddr 2) 2
+        , Load (ImmValue (5)) 2
+        , Store 0 (IndAddr 2)
+        , Load (ImmValue (2)) 2
+        , Load (IndAddr 2) 2
         , Push 2
-        , Load (DirAddr 1) 2
+        , Load (ImmValue (1)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 1
         , Pop 3
@@ -36,8 +43,9 @@ prog = [
         , Pop 1
         , Load (ImmValue (1)) 2
         , Compute Xor 1 2 1
-        , Branch 1 (Rel 39)
-        , Load (DirAddr 2) 2
+        , Branch 1 (Rel (45))
+        , Load (ImmValue (2)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Load (ImmValue (1)) 1
         , Push 1
@@ -48,9 +56,11 @@ prog = [
         , Pop 4
         , Load (ImmValue (2)) 2
         , Store 4 (IndAddr 2)
-        , Load (DirAddr 3) 2
+        , Load (ImmValue (3)) 2
+        , Load (IndAddr 2) 2
         , Push 2
-        , Load (DirAddr 4) 2
+        , Load (ImmValue (4)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 1
         , Pop 3
@@ -59,23 +69,27 @@ prog = [
         , Pop 4
         , Load (ImmValue (4)) 2
         , Store 4 (IndAddr 2)
-        , Load (DirAddr 4) 2
+        , Load (ImmValue (4)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 3
         , Load (ImmValue (5)) 2
         , Store 3 (IndAddr 2)
-        , Load (DirAddr 3) 2
+        , Load (ImmValue (3)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 3
         , Load (ImmValue (4)) 2
         , Store 3 (IndAddr 2)
-        , Load (DirAddr 5) 2
+        , Load (ImmValue (5)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 3
         , Load (ImmValue (3)) 2
         , Store 3 (IndAddr 2)
-        , Jump (Rel (-49))
-        , Load (DirAddr 3) 2
+        , Jump (Rel (-57))
+        , Load (ImmValue (3)) 2
+        , Load (IndAddr 2) 2
         , Push 2
         , Pop 3
         , Load (ImmValue (1)) 2
@@ -96,5 +110,8 @@ prog = [
         , Pop 3
         , Load (ImmValue (5)) 2
         , Store 3 (IndAddr 2)
+        , Load (ImmValue (-1)) 1
+        , ReadInstr (DirAddr 1)
+        , Receive 0
         , EndProg
         ]
