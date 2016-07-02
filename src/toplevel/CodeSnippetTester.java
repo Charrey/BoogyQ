@@ -29,92 +29,88 @@ public class CodeSnippetTester {
 
     private static List<String> parseerrors = Main.parseerrors;
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(getResult("src/toplevel/gcd.boog"));
-    }
-
     private String getLocalMem(String input) {
-        return input.split("localMem = ")[1];
+        return input.split("localMem = ")[1].split("}")[0];
     }
 
     @Test
     public void test1() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test1.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,5,1,0,97,5,0,0,0,0,0,0,0,0,0,5]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test2() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test2.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,5,5,1,1,97,97,97,97,0,0,0,0,0,0,97]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test3() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test3.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,14,-11,0,0,-75,-4802,8,0,0,0,0,5,-11,3,8]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test5() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test5.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,0,1,0,1,1,1,1,1,1,1,1,1,0,0,0]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test19() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test19.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,0,1,0,1,1,1,1,1,1,1,0,1,1,1,1]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test6() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test6.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,65,98,0,98,98,1,1,1,1,98,1,1,0,65,0]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test7() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test7.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,2,5,1,1,0,0,0,0,0,0,0,0,2,1,5]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test9() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test9.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,1]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
     @Test
     public void test17() throws IOException {
-        String filename = "";
-        List<String> result = getResult("");
+        String filename = "src/toplevel/test17.boog";
+        List<String> result = getResult(filename);
         String expectedMem = "[0,1,1,1,1,1,1,1,0,0,0,0,0,3,9765625,1]";
-        String actualMem = getLocalMem(result.get(1));
+        String actualMem = getLocalMem(result.get(0));
         assertEquals(expectedMem, actualMem);
     }
 
