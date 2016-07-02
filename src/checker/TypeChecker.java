@@ -154,8 +154,14 @@ public class TypeChecker extends BoogyQBaseListener {
         }
     }
 
+    @Override
+    public void enterFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
+        symbols.openScope();
+    }
+
     @Override @Deprecated
     public void exitFunctiondecl(BoogyQParser.FunctiondeclContext ctx) {
+        symbols.closeScope();
         BoogyQParser.FunctionvarsContext a = ctx.functionvars();
         List<Type> types =  new LinkedList<>();
         List<String> identifiers = new LinkedList<>();

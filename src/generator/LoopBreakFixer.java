@@ -7,7 +7,7 @@ import sprocl.model.OpCode;
 import java.util.List;
 
 /**
- * Class responsible for changing the arrow-notation of <loop. and <break. statements to Parse-friendly syntax.
+ * Class responsible for changing the arrow-notation of loop and break statements to Parse-friendly syntax.
  */
 class LoopBreakFixer {
 

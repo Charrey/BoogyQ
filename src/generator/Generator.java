@@ -201,6 +201,14 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
     @Override @Deprecated
     public List<Op> visitConcurrentstat(BoogyQParser.ConcurrentstatContext ctx) {
         List<Op> operations = new ArrayList<>();
+        //TODO: CHECK THIS
+        operations.add(new Op(OpCode.readDIRA, Divider.flags.get(ctx)));
+        operations.add(new Op(OpCode.receive, r_standard));
+        operations.add(new Op(OpCode.computeEQUAL, r_standard, new Reg("0"), r_standard));
+        operations.add(new Op(OpCode.loadCONST, new Num(1), r_load));
+        operations.add(new Op(OpCode.computeXOR, r_standard, r_load, r_standard));
+        operations.add(new Op(OpCode.branchREL, r_standard, new Num(-5)));
+
         operations.add(new Op(OpCode.loadCONST, Divider.flags.get(ctx), r_load));
         operations.add(new Op(OpCode.loadCONST, new Num(1), r_standard));
         operations.add(new Op(OpCode.writeINDA, r_standard, r_load));
@@ -501,8 +509,9 @@ public class Generator extends BoogyQBaseVisitor<List<Op>> {
             operations.add(new Op(OpCode.storeINDA, r_res, r_load));
         } else {
             operations.add(new Op(OpCode.writeINDA, r_res, r_load));
-            operations.add(new Op(OpCode.readINDA, r_load));
-            operations.add(new Op(OpCode.receive, r_res));
+            //TODO: Check if we need those.
+            //operations.add(new Op(OpCode.readINDA, r_load));
+            //operations.add(new Op(OpCode.receive, r_res));
         }
 
         return operations;
