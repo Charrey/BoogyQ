@@ -16,7 +16,7 @@ concurrent:
 		True -> done.
 		counter - 1 -> counter.
 		<loop.
-	False -> done1.
+	True -> done1.
 
 concurrent:
 	10 -> int counter.

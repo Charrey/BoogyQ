@@ -34,7 +34,6 @@ public class CodeSnippetTester {
         return input.split("localMem = ")[1].split("}")[0];
     }
 
-
     @Test
     public void test1() throws IOException {
         String filename = "test/generic/test1.boog";
@@ -145,11 +144,11 @@ public class CodeSnippetTester {
 
     @Test
     public void testPeterson() throws IOException {
-        String filename = "test/algorithms/fib.boog";
+        String filename = "test/algorithms/peterson.boog";
         List<String> result = getResult(filename);
-        String expectedMem = "[0,55,0,0,0,0,0,0,0,0,0,0,0,0,10,0]";
-        String actualMem = getLocalMem(result.get(0));
-        assertEquals(expectedMem, actualMem);
+        String expectedGlobalMem = "[0,0,0,0,100,-1,-1,0]";
+        String actualGlobalMem = result.get(4);
+        assertEquals(expectedGlobalMem, actualGlobalMem);
     }
     
     
