@@ -10,7 +10,7 @@ if(a && b):
 	if(a || b):
 		result + 1 -> result.
 		if(c || d):
-			result + 1 -> result.//This shouldn't be reached.
+			result + 1 -> result.//This shouldnt be reached.
 
 if(result == (4-2)):
 	result2 + 1 -> result2.
